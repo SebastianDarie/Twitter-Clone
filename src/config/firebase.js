@@ -5,7 +5,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyDDksUvm-Q8pfcoIZRdBACtkGvdDEINRIo',
   authDomain: 'twitter-clone-c0b2e.firebaseapp.com',
   databaseURL: 'https://twitter-clone-c0b2e.firebaseio.com',

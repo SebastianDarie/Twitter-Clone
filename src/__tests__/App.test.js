@@ -3,5 +3,5 @@ import App from '../App'
 
 it('renders title', () => {
   render(<App />)
-  expect(screen.getByText(/twitter clone/i)).toBeInTheDocument()
+  expect(screen.getByText(/join twitter today/i)).toBeInTheDocument()
 })

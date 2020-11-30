@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faComment,
   faSearch,
   faUserFriends,
 } from '@fortawesome/free-solid-svg-icons'
+import { closeModal, openModal } from '../actions/modalActions'
 import {
   BlackOut,
   MainContainer,
@@ -19,12 +21,33 @@ import {
 } from './SignUp'
 import AuthBtn from '../components/common/AuthBtn.jsx'
 import SignUpModal from '../components/layout/SignUpModal.jsx'
+import TwitterBtn from '../components/common/TwitterBtn.jsx'
 
 const SignUp = () => {
+  const dispatch = useDispatch()
+  const modalState = useSelector((state) => state.modal)
+  const modal = useRef()
+  const dimmedScreen = useRef()
+
+  const outsideClickHandler = (e) => {
+    if (modalState.open) {
+      if (e.target !== modal.current && e.target === dimmedScreen.current) {
+        dispatch(closeModal(modal.current.id))
+      }
+    }
+  }
+
+  const signupClickHandler = () => {
+    dispatch(openModal(modal.current.id))
+  }
+
   return (
-    <MainContainer>
-      <BlackOut></BlackOut>
-      <SignUpModal />
+    <MainContainer onClick={outsideClickHandler}>
+      <BlackOut
+        ref={dimmedScreen}
+        style={{ display: modalState.open ? '' : 'none' }}
+      />
+      <SignUpModal reference={modal} modalState={modalState} />
       <LeftScreen>
         <TwitterLogo />
         <ContentContainer>
@@ -48,7 +71,7 @@ const SignUp = () => {
           <SmallLogo />
           <HeaderText>See what's happening in the world right now</HeaderText>
           <SmallText>Join Twitter today.</SmallText>
-          <AuthBtn auth='signup' text='Sign up' />
+          <TwitterBtn text='Sign up' clickHandler={signupClickHandler} />
           <AuthBtn auth='login' text='Log in' />
         </ContentContainer>
       </RightScreen>

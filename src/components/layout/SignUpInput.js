@@ -50,7 +50,11 @@ export const ModalInputDiv = styled.div`
   font-size: 19px;
 `
 
-export const ModalInput = styled.input`
+export const ModalInput = styled.input.attrs({
+  name: 'name',
+  type: 'text',
+  placeholder: 'John Doe',
+})`
   background-color: rgba(0, 0, 0, 0);
   border-radius: 0px;
   border-width: 0px;
@@ -67,11 +71,13 @@ export const ModalInput = styled.input`
 `
 
 export const EmailInput = styled(ModalInput).attrs({
+  name: 'email',
   type: 'email',
   placeholder: 'test@gmail.com',
 })``
 
 export const PasswordInput = styled(ModalInput).attrs({
+  name: 'password',
   type: 'password',
   placeholder: '123456',
 })``

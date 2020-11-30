@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { SmallLogo } from '../../pages/SignUp'
 
-export const ModalContainer = styled.div`
+export const ModalContainer = styled.form`
   background-color: rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;

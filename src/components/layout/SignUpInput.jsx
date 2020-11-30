@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import {
   ModalInput,
   ModalInputContainer,
@@ -9,7 +11,18 @@ import {
   PasswordInput,
 } from './SignUpInput'
 
-const SignUpInput = ({ type }) => {
+const SignUpInput = React.forwardRef(({ type }, ref) => {
+  const password = useRef()
+
+  const showPassword = () => {
+    console.log(password)
+    // if (password.current.type === 'password') {
+    //   password.current.type = 'text'
+    // } else {
+    //   password.current.type = 'password'
+    // }
+  }
+
   return (
     <ModalInputContainer>
       <ModalLabel>
@@ -20,11 +33,22 @@ const SignUpInput = ({ type }) => {
           <div>
             <ModalInputDiv>
               {type === 'Name' ? (
-                <ModalInput />
+                <ModalInput ref={ref} />
               ) : type === 'Email' ? (
-                <EmailInput />
+                <EmailInput ref={ref} />
               ) : (
-                <PasswordInput />
+                <>
+                  <PasswordInput passwordRef={password} ref={ref} />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    style={{
+                      marginBottom: 15,
+                      marginRight: 10,
+                      cursor: 'pointer',
+                    }}
+                    onClick={showPassword}
+                  />
+                </>
               )}
             </ModalInputDiv>
           </div>
@@ -32,6 +56,6 @@ const SignUpInput = ({ type }) => {
       </ModalLabel>
     </ModalInputContainer>
   )
-}
+})
 
 export default SignUpInput

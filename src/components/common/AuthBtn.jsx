@@ -1,14 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { LoginBtn, SignupBtn, TextDiv } from './AuthBtn'
+import { LoginBtn } from './AuthBtn'
+import { TextDiv } from './GlobalStyles'
 
 const AuthBtn = ({ auth, text }) => {
   return (
     <TextDiv>
-      <Link
-        to={`/${auth}`}
-        component={auth === 'signup' ? SignupBtn : LoginBtn}
-      >
+      <Link to={`/${auth}`} component={LoginBtn}>
         {text}
       </Link>
     </TextDiv>
