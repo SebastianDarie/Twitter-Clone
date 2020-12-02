@@ -1,13 +1,16 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { getFirebase, firebaseReducer } from 'react-redux-firebase'
-import { getFirestore, firestoreReducer, reduxFirestore } from 'redux-firestore'
-import { firebaseConfig } from './config/firebase'
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
 
+import alertReducer from './reducers/alertReducer'
+import authReducer from './reducers/authReducer'
 import modalReducer from './reducers/modalReducer'
 
 const rootReducer = combineReducers({
+  alert: alertReducer,
+  auth: authReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   modal: modalReducer,
@@ -15,15 +18,10 @@ const rootReducer = combineReducers({
 
 const initialState = {}
 
-const middlewares = [thunk.withExtraArgument({ getFirebase, getFirestore })]
-
 const store = createStore(
   rootReducer,
   initialState,
-  composeWithDevTools(
-    applyMiddleware(...middlewares),
-    reduxFirestore(firebaseConfig)
-  )
+  composeWithDevTools(applyMiddleware(thunk))
 )
 
 export default store

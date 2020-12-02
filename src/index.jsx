@@ -12,6 +12,11 @@ import reportWebVitals from './reportWebVitals'
 const rrfConfig = {
   userProfile: 'users',
   userFirestoreForProfile: true,
+  attachAuthIsReady: true,
+  enableRedirectHandling: false,
+  resetBeforeLogin: false,
+  presence: 'presence',
+  sessions: 'sessions',
 }
 
 const rrfProps = {

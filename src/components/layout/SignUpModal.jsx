@@ -1,7 +1,11 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import { v4 as uuidv4 } from 'uuid'
+import { signUp } from '../../actions/authActions'
 import {
+  BtnContainer,
   ModalContainer,
   ModalContent,
   ModalForm,
@@ -13,12 +17,22 @@ import {
 } from './SignUpModal'
 import SignUpInput from './SignUpInput.jsx'
 import TwitterBtn from '../common/TwitterBtn.jsx'
+import { closeModal } from '../../actions/modalActions'
 
 const SignUpModal = ({ reference, modalState }) => {
+  useFirestoreConnect(['users'])
+  const dispatch = useDispatch()
+  // const user = useSelector((state) => state.firebase.profile)
+  // const users = useSelector((state) => state.firestore.ordered.users)
+  // const auth = useSelector((state) => state.firebase.auth)
+
   const { register, handleSubmit, errors } = useForm()
 
+  const firebase = useFirebase()
+
   const createUser = (data) => {
-    console.log(data)
+    dispatch(signUp(data, { firebase }))
+    dispatch(closeModal(reference.current.id))
   }
 
   return (
@@ -102,7 +116,9 @@ const SignUpModal = ({ reference, modalState }) => {
           {errors.password && errors.password.message}
         </ModalForm>
       </ModalContent>
-      <TwitterBtn text='Create New' type='submit' />
+      <BtnContainer>
+        <TwitterBtn text='Create New' type='submit' />
+      </BtnContainer>
     </ModalContainer>
   )
 }

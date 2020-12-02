@@ -76,3 +76,7 @@ export const ModalTitle = styled.div`
   margin-bottom: 15px;
   margin-top: 15px;
 `
+
+export const BtnContainer = styled.div`
+  width: 20%;
+`

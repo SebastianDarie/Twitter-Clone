@@ -1,0 +1,6 @@
+export const SIGN_UP_SUCCESS = 'SIGN_UP'
+export const LOG_IN_SUCCESS = 'LOG_IN'
+export const SIGN_UP_ERROR = 'SIGN_UP_ERROR'
+export const LOG_IN_ERROR = 'LOG_IN_ERROR'
+export const SIGN_OUT = 'SIGN_OUT'
+export const SIGN_OUT_ERROR = 'SIGN_OUT_ERROR'
