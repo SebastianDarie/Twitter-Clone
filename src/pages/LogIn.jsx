@@ -11,9 +11,10 @@ import {
   Header,
   LinkContainer,
   LinkDiv,
+  LoginLogo,
   SVGContainer,
 } from './LogIn.js'
-import { MainContainer, SmallLogo } from './SignUp.js'
+import { MainContainer } from './SignUp.js'
 import { ModalForm } from '../components/layout/SignUpModal'
 import SignUpInput from '../components/layout/SignUpInput.jsx'
 import TwitterBtn from '../components/common/TwitterBtn.jsx'
@@ -32,7 +33,7 @@ const LogIn = () => {
     <MainContainer>
       <FormContainer onSubmit={handleSubmit(submitHandler)}>
         <SVGContainer>
-          <SmallLogo style={{ height: '39px' }} />
+          <LoginLogo />
         </SVGContainer>
         <Header>Log in to Twitter</Header>
         <ModalForm>

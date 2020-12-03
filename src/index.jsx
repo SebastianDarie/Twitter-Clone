@@ -6,6 +6,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import firebase from './config/firebase'
 import store from './store'
+import ReduxToastr from 'react-redux-toastr'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
@@ -33,6 +34,17 @@ ReactDOM.render(
         <Router>
           <App />
         </Router>
+        <ReduxToastr
+          timeOut={3500}
+          newestOnTop={false}
+          preventDuplicates
+          position='top-right'
+          getState={(state) => state.toastr}
+          progressBar
+          transitionIn='fadeIn'
+          transitionOut='fadeOut'
+          closeOnToastrClick
+        />
       </ReactReduxFirebaseProvider>
     </Provider>
   </React.StrictMode>,

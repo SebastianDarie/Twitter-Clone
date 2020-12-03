@@ -39,13 +39,6 @@ export const TwitterLogo = styled(Logo)`
   z-index: 0;
 `
 
-export const SmallLogo = styled(Logo)`
-  align-self: start;
-  height: 2.75rem;
-  color: rgba(29, 161, 242, 1);
-  fill: currentColor;
-`
-
 export const IconContainer = styled.div`
   display: flex;
   flex-direction: row;

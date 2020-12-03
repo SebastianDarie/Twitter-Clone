@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import composeRefs from '@seznam/compose-react-refs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -12,15 +13,18 @@ import {
 } from './SignUpInput'
 
 const SignUpInput = React.forwardRef(({ type }, ref) => {
+  const [changeIcon, setChangeIcon] = useState(false)
+
   const password = useRef()
 
   const showPassword = () => {
-    console.log(password)
-    // if (password.current.type === 'password') {
-    //   password.current.type = 'text'
-    // } else {
-    //   password.current.type = 'password'
-    // }
+    if (password.current.type === 'password') {
+      password.current.type = 'text'
+      setChangeIcon(true)
+    } else {
+      password.current.type = 'password'
+      setChangeIcon(false)
+    }
   }
 
   return (
@@ -38,9 +42,9 @@ const SignUpInput = React.forwardRef(({ type }, ref) => {
                 <EmailInput ref={ref} />
               ) : (
                 <>
-                  <PasswordInput passwordRef={password} ref={ref} />
+                  <PasswordInput ref={composeRefs(ref, password)} />
                   <FontAwesomeIcon
-                    icon={faEye}
+                    icon={!changeIcon ? faEye : faEyeSlash}
                     style={{
                       marginBottom: 15,
                       marginRight: 10,

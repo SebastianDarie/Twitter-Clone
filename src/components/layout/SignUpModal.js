@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SmallLogo } from '../../pages/SignUp'
+import { SmallLogo } from '../common/GlobalStyles'
 
 export const ModalContainer = styled.form`
   background-color: rgba(255, 255, 255, 1);

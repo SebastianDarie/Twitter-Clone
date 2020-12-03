@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components'
+import { ReactComponent as Logo } from '../../assets/img/twitter.svg'
 
 const GlobalStyles = createGlobalStyle`
     *,
@@ -68,6 +69,31 @@ export const TextDiv = styled.div`
   text-align: center;
   max-width: 100%;
   width: 100%;
+`
+
+export const SmallLogo = styled(Logo)`
+  align-self: start;
+  height: 2.75rem;
+  color: rgba(29, 161, 242, 1);
+  fill: currentColor;
+`
+
+export const HoverDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0);
+  color: ${(props) => (props.selected ? 'rgb(29,161,242)' : 'rgb(15, 20, 25)')};
+  border-radius: 999px;
+  max-width: min-content;
+  padding: 10px;
+  transition-property: background-color, box-shadow;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+    color: rgba(29, 161, 242, 1);
+  }
 `
 
 export default GlobalStyles

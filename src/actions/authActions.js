@@ -1,3 +1,5 @@
+import { actions as toastrActions } from 'react-redux-toastr'
+import { MODAL_CLOSE } from '../constants/modalConstants'
 import {
   LOG_IN_SUCCESS,
   LOG_IN_ERROR,
@@ -7,7 +9,9 @@ import {
   SIGN_OUT_ERROR,
 } from '../constants/authConstants'
 
-export const signUp = (credentials, { firebase }) => async (dispatch) => {
+export const signUp = (credentials, modalId, { firebase }) => async (
+  dispatch
+) => {
   try {
     const userSnapshot = await firebase
       .firestore()
@@ -17,6 +21,18 @@ export const signUp = (credentials, { firebase }) => async (dispatch) => {
 
     if (userSnapshot.docs.length !== 0) {
       dispatch({ type: SIGN_UP_ERROR, payload: 'Name already exists!' })
+      dispatch(
+        toastrActions.add({
+          type: 'error',
+          title: 'Auth Error',
+          position: 'top-right',
+          message: 'Name already exists!',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
     } else {
       const newUser = await firebase
         .auth()
@@ -44,9 +60,34 @@ export const signUp = (credentials, { firebase }) => async (dispatch) => {
         type: SIGN_UP_SUCCESS,
         payload: 'Account successfully created!',
       })
+      dispatch(
+        toastrActions.add({
+          type: 'success',
+          title: 'Success',
+          position: 'top-right',
+          message: 'Account successfully created!',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
+      dispatch({ type: MODAL_CLOSE, payload: { id: modalId, open: false } })
     }
   } catch (err) {
     dispatch({ type: SIGN_UP_ERROR, payload: err.message })
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Auth Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
   }
 }
 

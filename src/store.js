@@ -3,17 +3,19 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { firebaseReducer } from 'react-redux-firebase'
 import { firestoreReducer } from 'redux-firestore'
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
-import alertReducer from './reducers/alertReducer'
 import authReducer from './reducers/authReducer'
 import modalReducer from './reducers/modalReducer'
+import selectedReducer from './reducers/selectedReducer'
 
 const rootReducer = combineReducers({
-  alert: alertReducer,
   auth: authReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   modal: modalReducer,
+  selected: selectedReducer,
+  toastr: toastrReducer,
 })
 
 const initialState = {}

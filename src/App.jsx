@@ -1,15 +1,20 @@
 import { Switch, Route } from 'react-router-dom'
 import GlobalStyles from './components/common/GlobalStyles'
-//import Alert from './components/common/Alert'
 import AuthIsLoaded from './components/containers/AuthIsLoaded'
-import LogIn from './pages/LogIn'
+import LogIn from './pages/LogIn.jsx'
 import SignUp from './pages/SignUp.jsx'
+import Home from './pages/Home'
+
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 function App() {
   return (
     <AuthIsLoaded>
       <GlobalStyles />
       <Switch>
+        <Route exact path='/home'>
+          <Home />
+        </Route>
         <Route exact path='/login'>
           <LogIn />
         </Route>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { SmallLogo } from '../components/common/GlobalStyles'
 
 export const MainContainer = styled.div`
   display: flex;
@@ -26,6 +27,10 @@ export const FormContainer = styled.form`
 export const SVGContainer = styled.div`
   display: flex;
   align-items: center;
+`
+
+export const LoginLogo = styled(SmallLogo)`
+  height: 39px;
 `
 
 export const Header = styled.h1`
