@@ -10,10 +10,15 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
     }
 
+    ::-webkit-scrollbar{
+      display: none;
+    }
+
     body{
         font-family: 'Roboto', sans-serif;
         height: 100vh;
         width: 100%;
+        overflow: hidden;
     }
 `
 

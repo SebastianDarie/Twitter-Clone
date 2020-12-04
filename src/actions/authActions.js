@@ -101,15 +101,51 @@ export const logIn = (credentials, { firebase }) => async (dispatch) => {
 
     if (userSnapshot.docs.length === 0) {
       dispatch({ type: LOG_IN_ERROR, payload: 'Email does not exist.' })
+      dispatch(
+        toastrActions.add({
+          type: 'error',
+          title: 'Auth Error',
+          position: 'top-right',
+          message: 'Email does not exist.',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
     } else {
       await firebase
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
 
       dispatch({ type: LOG_IN_SUCCESS, payload: 'Successfully logged in!' })
+      dispatch(
+        toastrActions.add({
+          type: 'success',
+          title: 'Success',
+          position: 'top-right',
+          message: 'Successfully logged in!',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
     }
   } catch (err) {
     dispatch({ type: LOG_IN_ERROR, payload: err.message })
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Auth Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
   }
 }
 
@@ -117,7 +153,31 @@ export const logOut = ({ firebase }) => async (dispatch) => {
   try {
     await firebase.auth().signOut()
     dispatch({ type: SIGN_OUT, payload: 'Logged out!' })
+    dispatch(
+      toastrActions.add({
+        type: 'success',
+        title: 'Success',
+        position: 'top-right',
+        message: 'Logged out!',
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
   } catch (err) {
     dispatch({ type: SIGN_OUT_ERROR, payload: err.message })
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Auth Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
   }
 }
