@@ -101,4 +101,10 @@ export const HoverDiv = styled.div`
   }
 `
 
+export const ModalForm = styled.div`
+  margin-left: 30px;
+  margin-right: 30px;
+  width: 100%;
+`
+
 export default GlobalStyles

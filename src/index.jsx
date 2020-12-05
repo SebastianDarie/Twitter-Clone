@@ -12,7 +12,7 @@ import reportWebVitals from './reportWebVitals'
 
 const rrfConfig = {
   userProfile: 'users',
-  userFirestoreForProfile: true,
+  useFirestoreForProfile: true,
   attachAuthIsReady: true,
   enableRedirectHandling: false,
   resetBeforeLogin: false,

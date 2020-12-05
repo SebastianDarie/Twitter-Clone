@@ -20,7 +20,7 @@ import {
   SmallText,
 } from './SignUp'
 import AuthBtn from '../components/common/AuthBtn.jsx'
-import SignUpModal from '../components/layout/SignUpModal.jsx'
+import SignUpModal from '../components/containers/SignUpModal.jsx'
 import TwitterBtn from '../components/common/TwitterBtn.jsx'
 
 const SignUp = () => {

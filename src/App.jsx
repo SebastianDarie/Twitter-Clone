@@ -1,23 +1,28 @@
-import { Switch, Route } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import GlobalStyles from './components/common/GlobalStyles'
 import AuthIsLoaded from './components/containers/AuthIsLoaded'
+import PrivateRoute from './components/containers/PrivateRoute'
 import LogIn from './pages/LogIn.jsx'
 import SignUp from './pages/SignUp.jsx'
-import Home from './pages/Home'
+import Home from './pages/Home.jsx'
 
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 function App() {
+  const auth = useSelector((state) => state.firebase.auth)
   return (
     <AuthIsLoaded>
       <GlobalStyles />
       <Switch>
-        <Route exact path='/home'>
+        <PrivateRoute exact path='/home'>
           <Home />
-        </Route>
-        <Route exact path='/login'>
-          <LogIn />
-        </Route>
+        </PrivateRoute>
+        <Route
+          exact
+          path='/login'
+          render={() => (!auth ? <LogIn /> : <Redirect to='/home' />)}
+        />
         <Route path='/'>
           <SignUp />
         </Route>

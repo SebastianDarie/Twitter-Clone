@@ -15,7 +15,7 @@ import {
 } from './FooterProfile'
 
 const FooterProfile = () => {
-  const auth = useSelector((state) => state.firebase.auth)
+  const profile = useSelector((state) => state.firebase.profile)
   return (
     <SideProfile>
       <div>
@@ -23,15 +23,15 @@ const FooterProfile = () => {
           <div>
             <ProfileLogoContainer>
               <div>
-                <Image src={auth.photoURL} />
+                <Image src={profile.photoURL} />
               </div>
               <InvisibleDiv />
             </ProfileLogoContainer>
           </div>
           <div style={{ flexShrink: 1, marginRight: 10 }}>
             <ProfileHeaderContainer>
-              <ProfileHigh>{auth.displayName}</ProfileHigh>
-              <ProfileLow>&#64;{auth.displayName}</ProfileLow>
+              <ProfileHigh>{profile.name}</ProfileHigh>
+              <ProfileLow>&#64;{profile.username}</ProfileLow>
             </ProfileHeaderContainer>
           </div>
           <DotContainer>

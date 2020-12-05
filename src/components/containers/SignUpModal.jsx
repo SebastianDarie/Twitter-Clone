@@ -4,18 +4,18 @@ import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { v4 as uuidv4 } from 'uuid'
 import { signUp } from '../../actions/authActions'
+import { ModalForm } from '../common/GlobalStyles'
 import {
   BtnContainer,
   ModalContainer,
   ModalContent,
-  ModalForm,
   ModalHeader,
   ModalLogo,
   ModalPadding,
   ModalTitle,
   WhiteSpace,
 } from './SignUpModal'
-import SignUpInput from './SignUpInput.jsx'
+import SignUpInput from '../layout/SignUpInput.jsx'
 import TwitterBtn from '../common/TwitterBtn.jsx'
 
 const SignUpModal = ({ reference, modalState }) => {
@@ -47,11 +47,30 @@ const SignUpModal = ({ reference, modalState }) => {
         <ModalForm>
           <ModalTitle>Create your account</ModalTitle>
           <SignUpInput
-            type='Name'
+            type='Username'
             ref={register({
               required: (
                 <span style={{ color: 'red' }}>
                   Bro I ain't got time to frick with u!
+                </span>
+              ),
+              maxLength: {
+                value: 15,
+                message: (
+                  <span style={{ color: 'red' }}>
+                    Username must be maximum 15 characters!
+                  </span>
+                ),
+              },
+            })}
+          />
+          {errors.username && errors.username.message}
+          <SignUpInput
+            type='Name'
+            ref={register({
+              required: (
+                <span style={{ color: 'red' }}>
+                  Make sure it's your real name!
                 </span>
               ),
               maxLength: {

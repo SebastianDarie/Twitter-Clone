@@ -51,7 +51,9 @@ export const signUp = (credentials, modalId, { firebase }) => async (
       await firebase.firestore().collection('users').doc(newUser.user.uid).set({
         joined: new Date(),
         name: credentials.name,
+        username: credentials.username,
         email: credentials.email,
+        photoURL: url,
         followers: 0,
         following: 0,
       })

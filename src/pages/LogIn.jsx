@@ -15,7 +15,7 @@ import {
   SVGContainer,
 } from './LogIn.js'
 import { MainContainer } from './SignUp.js'
-import { ModalForm } from '../components/layout/SignUpModal'
+import { ModalForm } from '../components/common/GlobalStyles'
 import SignUpInput from '../components/layout/SignUpInput.jsx'
 import TwitterBtn from '../components/common/TwitterBtn.jsx'
 

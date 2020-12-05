@@ -10,6 +10,7 @@ import {
   ModalLabel,
   EmailInput,
   PasswordInput,
+  UsernameInput,
 } from './SignUpInput'
 
 const SignUpInput = React.forwardRef(({ type }, ref) => {
@@ -36,7 +37,9 @@ const SignUpInput = React.forwardRef(({ type }, ref) => {
           </ModalInputPlaceholder>
           <div>
             <ModalInputDiv>
-              {type === 'Name' ? (
+              {type === 'Username' ? (
+                <UsernameInput ref={ref} />
+              ) : type === 'Name' ? (
                 <ModalInput ref={ref} />
               ) : type === 'Email' ? (
                 <EmailInput ref={ref} />

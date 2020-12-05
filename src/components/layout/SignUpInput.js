@@ -70,6 +70,12 @@ export const ModalInput = styled.input.attrs({
   width: 100%;
 `
 
+export const UsernameInput = styled(ModalInput).attrs({
+  name: 'username',
+  type: 'text',
+  placeholder: 'Cool Name',
+})``
+
 export const EmailInput = styled(ModalInput).attrs({
   name: 'email',
   type: 'email',

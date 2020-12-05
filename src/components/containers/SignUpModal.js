@@ -55,17 +55,10 @@ export const ModalContent = styled.div`
   flex-shrink: 1;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
   height: 400px;
   max-height: 400px;
   max-width: 600px;
-  width: 100%;
-  overflow: auto;
-`
-
-export const ModalForm = styled.div`
-  margin-left: 30px;
-  margin-right: 30px;
   width: 100%;
 `
 
