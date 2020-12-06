@@ -39,16 +39,3 @@ export const BottomContainer = styled.div`
   border-bottom-width: 1px;
   outline-style: none;
 `
-
-export const TextContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: rgb(15, 20, 25);
-  font-size: 19px;
-  font-weight: 800;
-  line-height: 1.3125;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-`

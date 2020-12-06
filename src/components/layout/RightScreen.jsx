@@ -1,12 +1,13 @@
 import React from 'react'
 import SearchBar from '../common/SearchBar.jsx'
+import FollowSection from '../containers/FollowSection.jsx'
+import { TextContainer } from '../common/GlobalStyles'
 import {
   BottomContainer,
   ElementContainer,
   HeightDiv,
   PaddingDiv,
   RightScreenContainer,
-  TextContainer,
   TransparentDiv,
   TrendsContainer,
 } from './RightScreen'
@@ -36,6 +37,7 @@ const RightScreen = () => {
                     </div>
                   </div>
                 </TrendsContainer>
+                <FollowSection />
               </PaddingDiv>
             </div>
           </div>

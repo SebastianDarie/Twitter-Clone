@@ -54,8 +54,10 @@ export const signUp = (credentials, modalId, { firebase }) => async (
         username: credentials.username,
         email: credentials.email,
         photoURL: url,
-        followers: 0,
-        following: 0,
+        followers: [],
+        following: [],
+        likes: [],
+        tweets: 0,
       })
 
       dispatch({
