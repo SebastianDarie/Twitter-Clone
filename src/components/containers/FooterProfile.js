@@ -56,6 +56,6 @@ export const ProfileLow = styled.div`
 export const DotContainer = styled.div`
   display: flex;
   flex-grow: 1;
+  justify-content: flex-end;
   align-items: flex-end;
-  margin-left: 10px;
 `

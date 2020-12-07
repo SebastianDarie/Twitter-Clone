@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ProfileImage } from '../common/GlobalStyles'
 import {
   FollowBtn,
   FollowBtnContainer,
@@ -7,7 +8,6 @@ import {
   InnerDiv,
   LowerName,
   LowerText,
-  ProfileImage,
   ProfileImageDiv,
   ProfileInfo,
   ProfileInfoContainer,

@@ -1,7 +1,7 @@
 import { SELECT_LINK } from '../constants/selectedConstants'
 
 const initialState = {
-  id: 'first',
+  el: null,
   selected: false,
 }
 
@@ -10,7 +10,7 @@ const selectedReducer = (state = initialState, action) => {
     case SELECT_LINK:
       return {
         ...state,
-        id: action.payload.id,
+        el: action.payload.el,
         selected: action.payload.selected,
       }
 

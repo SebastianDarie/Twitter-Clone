@@ -120,4 +120,14 @@ export const TextContainer = styled.div`
   padding-right: 15px;
 `
 
+export const ProfileImage = styled.img.attrs((props) => ({
+  src: props.imageURL,
+  alt: 'profile',
+}))`
+  border-radius: 999px;
+  height: 49px;
+  width: 49px;
+  overflow: hidden;
+`
+
 export default GlobalStyles

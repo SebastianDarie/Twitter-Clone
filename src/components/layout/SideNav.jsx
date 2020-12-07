@@ -17,6 +17,7 @@ import {
 } from './SideNav'
 import TwitterBtn from '../common/TwitterBtn.jsx'
 import FooterProfile from '../containers/FooterProfile.jsx'
+import ProfileModal from './ProfileModal.jsx'
 
 const SideNav = () => {
   return (
@@ -43,6 +44,7 @@ const SideNav = () => {
                 <TwitterBtn text='Tweet' type='button' />
               </ButtonDiv>
             </SideLink>
+            <ProfileModal />
             <FooterProfile />
           </NestedDiv>
         </SideContent>

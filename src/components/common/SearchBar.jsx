@@ -25,7 +25,6 @@ const SearchBar = () => {
                     <SearchIconDiv>
                       <FontAwesomeIcon
                         icon={faSearch}
-                        color='rgb(91,112,131)'
                         size='sm'
                         style={{
                           height: '1.25em',

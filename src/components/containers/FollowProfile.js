@@ -43,20 +43,6 @@ export const ImageLink = styled(Link).attrs({
   width: 100%;
   transition-property: background-color, box-shadow;
   transition-duration: 0.2s;
-
-  &:hover {
-    background-color: rgba(29, 161, 242, 0.1);
-  }
-`
-
-export const ProfileImage = styled.img.attrs((props) => ({
-  src: props.imageURL,
-  alt: 'profile',
-}))`
-  border-radius: 999px;
-  height: 39px;
-  width: 39px;
-  overflow: hidden;
 `
 
 export const ProfileName = styled.div`

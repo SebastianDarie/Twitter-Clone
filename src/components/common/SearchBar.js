@@ -46,11 +46,21 @@ export const FormDiv = styled.div`
   flex-shrink: 1;
   flex-direction: column;
   justify-content: center;
+
+  &:focus-within {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(29, 161, 242, 1);
+  }
 `
 
 export const ElementsContainer = styled.div`
+  color: rgb(91, 112, 131);
   display: flex;
   flex-direction: row;
+
+  &:focus-within {
+    color: rgba(29, 161, 242, 1);
+  }
 `
 
 export const SearchIconDiv = styled.div`

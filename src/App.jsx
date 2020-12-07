@@ -23,9 +23,11 @@ function App() {
           path='/login'
           render={() => (!auth ? <LogIn /> : <Redirect to='/home' />)}
         />
-        <Route path='/'>
-          <SignUp />
-        </Route>
+        <Route
+          exact
+          path='/'
+          render={() => (!auth ? <SignUp /> : <Redirect to='/home' />)}
+        ></Route>
       </Switch>
     </AuthIsLoaded>
   )

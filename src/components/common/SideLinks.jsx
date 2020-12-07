@@ -23,7 +23,8 @@ const SideLinks = () => {
   const selected = useSelector((state) => state.selected)
 
   const selectHandler = (e) => {
-    dispatch(selectLink(e.currentTarget.id, true))
+    const arr = e.currentTarget.href.match(/\b(\w+)\b/g)
+    dispatch(selectLink(arr[arr.length - 1], true))
   }
 
   return (
@@ -36,7 +37,7 @@ const SideLinks = () => {
           onClick={selectHandler}
         >
           <HoverDiv
-            selected={selected.id === 'first' ? true : selected.selected}
+            selected={selected.el === 'home' ? selected.selected : false}
           >
             <FontAwesomeIcon size='lg' icon={faHome} />
             <IconText>Home</IconText>
@@ -45,12 +46,14 @@ const SideLinks = () => {
       </LinkContainer>
       <LinkContainer>
         <Link
-          to='/home'
+          to='/explore'
           style={{ textDecoration: 'none' }}
           id={uuidv4()}
           onClick={selectHandler}
         >
-          <HoverDiv selected={selected.selected}>
+          <HoverDiv
+            selected={selected.el === 'explore' ? selected.selected : false}
+          >
             <FontAwesomeIcon size='lg' icon={faHashtag} />
             <IconText>Explore</IconText>
           </HoverDiv>
@@ -61,40 +64,73 @@ const SideLinks = () => {
           to='/notifications'
           style={{ textDecoration: 'none' }}
           id={uuidv4()}
+          onClick={selectHandler}
         >
-          <HoverDiv>
+          <HoverDiv
+            selected={
+              selected.el === 'notifications' ? selected.selected : false
+            }
+          >
             <FontAwesomeIcon size='lg' icon={faBell} />
             <IconText>Notifications</IconText>
           </HoverDiv>
         </Link>
       </LinkContainer>
       <LinkContainer>
-        <Link to='/messages' style={{ textDecoration: 'none' }} id={uuidv4()}>
-          <HoverDiv>
+        <Link
+          to='/messages'
+          style={{ textDecoration: 'none' }}
+          id={uuidv4()}
+          onClick={selectHandler}
+        >
+          <HoverDiv
+            selected={selected.el === 'messages' ? selected.selected : false}
+          >
             <FontAwesomeIcon size='lg' icon={faEnvelope} />
             <IconText>Messages</IconText>
           </HoverDiv>
         </Link>
       </LinkContainer>
       <LinkContainer>
-        <Link to='/bookmarks' style={{ textDecoration: 'none' }} id={uuidv4()}>
-          <HoverDiv>
+        <Link
+          to='/bookmarks'
+          style={{ textDecoration: 'none' }}
+          id={uuidv4()}
+          onClick={selectHandler}
+        >
+          <HoverDiv
+            selected={selected.el === 'bookmarks' ? selected.selected : false}
+          >
             <FontAwesomeIcon size='lg' icon={faBookmark} />
             <IconText>Bookmarks</IconText>
           </HoverDiv>
         </Link>
       </LinkContainer>
       <LinkContainer>
-        <Link to='/lists' style={{ textDecoration: 'none' }} id={uuidv4()}>
-          <HoverDiv>
+        <Link
+          to='/lists'
+          style={{ textDecoration: 'none' }}
+          id={uuidv4()}
+          onClick={selectHandler}
+        >
+          <HoverDiv
+            selected={selected.el === 'lists' ? selected.selected : false}
+          >
             <FontAwesomeIcon size='lg' icon={faList} />
             <IconText>Lists</IconText>
           </HoverDiv>
         </Link>
       </LinkContainer>
       <LinkContainer>
-        <Link to='/profile' style={{ textDecoration: 'none' }} id={uuidv4()}>
-          <HoverDiv>
+        <Link
+          to='/profile'
+          style={{ textDecoration: 'none' }}
+          id={uuidv4()}
+          onClick={selectHandler}
+        >
+          <HoverDiv
+            selected={selected.el === 'profile' ? selected.selected : false}
+          >
             <FontAwesomeIcon size='lg' icon={faUser} />
             <IconText>Profile</IconText>
           </HoverDiv>
