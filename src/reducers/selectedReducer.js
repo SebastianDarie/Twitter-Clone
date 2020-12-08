@@ -1,8 +1,7 @@
 import { SELECT_LINK } from '../constants/selectedConstants'
 
 const initialState = {
-  el: null,
-  selected: false,
+  el: 'home',
 }
 
 const selectedReducer = (state = initialState, action) => {
@@ -11,7 +10,6 @@ const selectedReducer = (state = initialState, action) => {
       return {
         ...state,
         el: action.payload.el,
-        selected: action.payload.selected,
       }
 
     default:

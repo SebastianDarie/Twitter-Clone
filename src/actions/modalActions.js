@@ -1,15 +1,15 @@
 import { MODAL_CLOSE, MODAL_OPEN } from '../constants/modalConstants'
 
-export const openModal = (id) => (dispatch) => {
+export const openModal = (el) => (dispatch) => {
   dispatch({
     type: MODAL_OPEN,
-    payload: { id, open: true },
+    payload: el,
   })
 }
 
-export const closeModal = (id) => (dispatch) => {
+export const closeModal = (el) => (dispatch) => {
   dispatch({
     type: MODAL_CLOSE,
-    payload: { id, open: false },
+    payload: el,
   })
 }

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const ModalPositioner = styled.div`
   position: fixed;
   bottom: 79px;
+  display: ${(props) => (props.modalState.open ? '' : 'none')};
 `
 
 export const FlexDiv = styled.div`
@@ -47,11 +48,50 @@ export const ProfilePicContainer = styled.div`
   display: flex;
   flex-basis: 49px;
   flex-grow: 0;
-  margin-right: 10px;
 `
 
 export const NestedImgDiv = styled.div`
   border-radius: 999px;
   height: 49px;
   width: 100%;
+`
+
+export const ProfileInfo = styled.div`
+  display: flex;
+  flex-basis: 0px;
+  flex-grow: 1;
+  justify-content: center;
+  width: 100%;
+`
+
+export const FlexRowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+export const LogoutBtn = styled.button`
+  background-color: rgba(255, 255, 255, 1);
+  border: none;
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: rgb(247, 249, 250);
+  }
+`
+
+export const LogoutText = styled.div`
+  color: rgb(15, 20, 25);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3125;
 `

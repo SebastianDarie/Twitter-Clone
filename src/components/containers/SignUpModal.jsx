@@ -2,7 +2,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import { v4 as uuidv4 } from 'uuid'
 import { signUp } from '../../actions/authActions'
 import { ModalForm } from '../common/GlobalStyles'
 import {
@@ -26,14 +25,13 @@ const SignUpModal = ({ reference, modalState }) => {
   const firebase = useFirebase()
 
   const createUser = (data) => {
-    dispatch(signUp(data, reference.current.id, { firebase }))
+    dispatch(signUp(data, { firebase }))
   }
 
   return (
     <ModalContainer
       ref={reference}
-      id={uuidv4()}
-      style={{ display: modalState.open ? '' : 'none' }}
+      modalState={modalState}
       onSubmit={handleSubmit(createUser)}
     >
       <ModalHeader>

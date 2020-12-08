@@ -1,34 +1,51 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faCaretUp, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { ProfileImage } from '../common/GlobalStyles'
 import {
   ColorDiv,
   EdgesDiv,
   FlexDiv,
+  FlexRowDiv,
+  LogoutBtn,
+  LogoutText,
   ModalContent,
   ModalPositioner,
   NestedImgDiv,
+  ProfileInfo,
   ProfilePicContainer,
   TopDiv,
 } from './ProfileModal'
+import {
+  ProfileHeaderContainer,
+  ProfileHigh,
+  ProfileLow,
+} from '../containers/FooterProfile'
 
-const ProfileModal = () => {
+const ProfileModal = ({
+  image,
+  name,
+  username,
+  logoutHandler,
+  modalState,
+  reference,
+}) => {
   return (
-    <ModalPositioner>
+    <ModalPositioner modalState={modalState} ref={reference}>
       <FlexDiv>
         <div>
           <div>
             <ColorDiv>
               <FontAwesomeIcon
-                icon={faCaretDown}
+                icon={faCaretUp}
                 size='lg'
                 style={{
                   color: 'rgb(255,255,255)',
-                  filter: 'drop-shadow(rgb(196, 207, 214) 1px -1px 1px)',
+                  filter: 'drop-shadow(rgb(196, 207, 214)) 1px -1px 1px',
+                  transform: 'rotate(180deg)',
                   position: 'absolute',
                   left: '17.5px',
-                  bottom: '-13px',
+                  bottom: '-14px',
                   width: '24px',
                 }}
               />
@@ -37,10 +54,30 @@ const ProfileModal = () => {
                   <TopDiv>
                     <ProfilePicContainer>
                       <NestedImgDiv>
-                        <ProfileImage imageURL='https://firebasestorage.googleapis.com/v0/b/twitter-clone-c0b2e.appspot.com/o/profile%20pics%2Fdefault_profile_400x400.png?alt=media&token=2a456bdd-ea91-45f2-86a1-3099daf63292' />
+                        <ProfileImage imageURL={image} />
                       </NestedImgDiv>
                     </ProfilePicContainer>
+                    <ProfileInfo>
+                      <FlexRowDiv>
+                        <ProfileHeaderContainer>
+                          <ProfileHigh>{name}</ProfileHigh>
+                          <ProfileLow>&#64;{username}</ProfileLow>
+                        </ProfileHeaderContainer>
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          style={{
+                            color: 'rgba(29,161,242,1)',
+                            height: '1.25em',
+                            marginLeft: '10px',
+                            maxWidth: '100%',
+                          }}
+                        />
+                      </FlexRowDiv>
+                    </ProfileInfo>
                   </TopDiv>
+                  <LogoutBtn onClick={logoutHandler}>
+                    <LogoutText>Log out @{username}</LogoutText>
+                  </LogoutBtn>
                 </EdgesDiv>
               </ModalContent>
             </ColorDiv>

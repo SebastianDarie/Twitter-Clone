@@ -9,9 +9,7 @@ import {
   SIGN_OUT_ERROR,
 } from '../constants/authConstants'
 
-export const signUp = (credentials, modalId, { firebase }) => async (
-  dispatch
-) => {
+export const signUp = (credentials, { firebase }) => async (dispatch) => {
   try {
     const userSnapshot = await firebase
       .firestore()
@@ -76,7 +74,7 @@ export const signUp = (credentials, modalId, { firebase }) => async (
           },
         })
       )
-      dispatch({ type: MODAL_CLOSE, payload: { id: modalId, open: false } })
+      dispatch({ type: MODAL_CLOSE })
     }
   } catch (err) {
     dispatch({ type: SIGN_UP_ERROR, payload: err.message })
@@ -169,6 +167,7 @@ export const logOut = ({ firebase }) => async (dispatch) => {
         },
       })
     )
+    dispatch({ type: MODAL_CLOSE })
   } catch (err) {
     dispatch({ type: SIGN_OUT_ERROR, payload: err.message })
     dispatch(

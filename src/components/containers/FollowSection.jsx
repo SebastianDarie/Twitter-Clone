@@ -13,7 +13,7 @@ const FollowSection = () => {
   useFirestoreConnect([{ collection: 'users' }])
   const users = useSelector((state) => state.firestore.ordered.users)
   const currUser = useSelector((state) => state.firebase.profile)
-  console.log(users, currUser)
+  //console.log(users, currUser)
   // if (users && users.length > 0) {
   //   let array = []
   //   for (let i = 0; i < users.length; i++) {

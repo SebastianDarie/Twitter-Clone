@@ -32,21 +32,18 @@ const SignUp = () => {
   const outsideClickHandler = (e) => {
     if (modalState.open) {
       if (e.target !== modal.current && e.target === dimmedScreen.current) {
-        dispatch(closeModal(modal.current.id))
+        dispatch(closeModal(modal.current))
       }
     }
   }
 
   const signupClickHandler = () => {
-    dispatch(openModal(modal.current.id))
+    dispatch(openModal(modal.current))
   }
 
   return (
     <MainContainer onClick={outsideClickHandler}>
-      <BlackOut
-        ref={dimmedScreen}
-        style={{ display: modalState.open ? '' : 'none' }}
-      />
+      <BlackOut ref={dimmedScreen} modalState={modalState} />
       <SignUpModal reference={modal} modalState={modalState} />
       <LeftScreen>
         <TwitterLogo />

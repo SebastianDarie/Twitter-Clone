@@ -9,6 +9,7 @@ export const MainContainer = styled.div`
 `
 
 export const BlackOut = styled.div`
+  display: ${(props) => (props.modalState.open ? '' : 'none')};
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { isEmpty } from 'react-redux-firebase'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import GlobalStyles from './components/common/GlobalStyles'
 import AuthIsLoaded from './components/containers/AuthIsLoaded'
@@ -21,12 +22,11 @@ function App() {
         <Route
           exact
           path='/login'
-          render={() => (!auth ? <LogIn /> : <Redirect to='/home' />)}
+          render={() => (isEmpty(auth) ? <LogIn /> : <Redirect to='/home' />)}
         />
         <Route
-          exact
           path='/'
-          render={() => (!auth ? <SignUp /> : <Redirect to='/home' />)}
+          render={() => (isEmpty(auth) ? <SignUp /> : <Redirect to='/home' />)}
         ></Route>
       </Switch>
     </AuthIsLoaded>
