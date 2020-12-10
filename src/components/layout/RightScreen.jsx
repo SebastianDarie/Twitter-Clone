@@ -16,6 +16,7 @@ const RightScreen = () => {
   return (
     <RightScreenContainer>
       <HeightDiv>
+        <div style={{ marginTop: 0 }}></div>
         <ElementContainer>
           <div>
             <div>

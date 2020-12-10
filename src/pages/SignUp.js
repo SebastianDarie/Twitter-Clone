@@ -8,17 +8,6 @@ export const MainContainer = styled.div`
   font-weight: 700;
 `
 
-export const BlackOut = styled.div`
-  display: ${(props) => (props.modalState.open ? '' : 'none')};
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 2;
-`
-
 export const LeftScreen = styled.div`
   background-color: rgb(122, 204, 254);
   display: flex;

@@ -7,9 +7,8 @@ import {
   faUserFriends,
 } from '@fortawesome/free-solid-svg-icons'
 import { closeModal, openModal } from '../actions/modalActions'
-import { SmallLogo } from '../components/common/GlobalStyles'
+import { BlackOut, SmallLogo } from '../components/common/GlobalStyles'
 import {
-  BlackOut,
   MainContainer,
   LeftScreen,
   TwitterLogo,

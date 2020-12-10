@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useFirebase } from 'react-redux-firebase'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../actions/authActions'
+import { openModal } from '../actions/modalActions'
 import {
   BlueLink,
   BreakPoint,
@@ -48,7 +49,9 @@ const LogIn = () => {
           <LinkDiv>
             <BlueLink to='/'>Forgot Password?</BlueLink>
             <BreakPoint>&#8901;</BreakPoint>
-            <BlueLink to='/'>Sign up for Twitter</BlueLink>
+            <BlueLink to='/' onClick={() => dispatch(openModal('signup'))}>
+              Sign up for Twitter
+            </BlueLink>
           </LinkDiv>
         </LinkContainer>
       </FormContainer>

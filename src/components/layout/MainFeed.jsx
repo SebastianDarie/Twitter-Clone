@@ -1,18 +1,20 @@
 import React from 'react'
-import { MainContainer, MainDiv } from './MainFeed'
+import { GrowDiv, MainContainer, MainDiv, MainFlexer } from './MainFeed'
+import TweetFeed from '../containers/TweetFeed.jsx'
 import RightScreen from './RightScreen.jsx'
 
 const MainFeed = () => {
   return (
-    <main>
+    <MainFlexer>
       <MainDiv>
-        <div>
+        <GrowDiv>
           <MainContainer>
+            <TweetFeed />
             <RightScreen />
           </MainContainer>
-        </div>
+        </GrowDiv>
       </MainDiv>
-    </main>
+    </MainFlexer>
   )
 }
 
