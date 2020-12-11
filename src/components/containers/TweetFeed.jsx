@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import {
   FeedLineBreak,
   MainHeaderContainer,
@@ -7,16 +8,12 @@ import {
   PointerHeight,
   PointerPadding,
   PointerText,
-  TweetFormContainer,
-  TweetFormContent,
-  TweetFormImageContainer,
-  TweetFormPadding,
-  TweetFormRow,
-  TweetFormSidePadding,
-  TweetFormTopLine,
 } from './TweetFeed'
+import TweetForm from '../common/TweetForm.jsx'
 
 const TweetFeed = () => {
+  const profile = useSelector((state) => state.firebase.profile)
+
   return (
     <MainTweetContainer>
       <div>
@@ -31,23 +28,7 @@ const TweetFeed = () => {
             </PointerHeight>
           </PointerHeader>
         </MainHeaderContainer>
-        <TweetFormContainer>
-          <TweetFormPadding>
-            <TweetFormTopLine />
-            <TweetFormContent>
-              <div>
-                <div>
-                  <TweetFormSidePadding>
-                    <TweetFormRow>
-                      <TweetFormImageContainer></TweetFormImageContainer>
-                    </TweetFormRow>
-                  </TweetFormSidePadding>
-                </div>
-              </div>
-              <div></div>
-            </TweetFormContent>
-          </TweetFormPadding>
-        </TweetFormContainer>
+        <TweetForm profile={profile} />
         <FeedLineBreak />
       </div>
     </MainTweetContainer>

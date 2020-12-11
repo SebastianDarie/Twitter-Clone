@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components'
+import { Link } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/img/twitter.svg'
 
 const GlobalStyles = createGlobalStyle`
@@ -12,6 +13,31 @@ const GlobalStyles = createGlobalStyle`
 
     ::-webkit-scrollbar{
       display: none;
+    }
+
+    textarea::-webkit-input-placeholder {
+      color: #5B7083;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea:-moz-placeholder { 
+      color: #5B7083;  
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea::-moz-placeholder {  
+      color: #5B7083;  
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea:-ms-input-placeholder {
+      color: #5B7083;  
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea::placeholder {
+      color: #5B7083;  
+      font-family: 'Roboto', sans-serif;
     }
 
     body{
@@ -118,6 +144,26 @@ export const TextContainer = styled.div`
   padding-bottom: 10px;
   padding-left: 15px;
   padding-right: 15px;
+`
+
+export const ProfileImageDiv = styled.div`
+  display: flex;
+  flex-basis: 49px;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  max-width: 49px;
+`
+
+export const ImageLink = styled(Link).attrs({
+  to: (props) => props.path,
+})`
+  border-radius: 999px;
+  height: 49px;
+  width: 100%;
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.2s;
 `
 
 export const ProfileImage = styled.img.attrs((props) => ({

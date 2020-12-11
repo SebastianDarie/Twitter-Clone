@@ -59,48 +59,6 @@ export const PointerText = styled.div`
   text-align: left;
 `
 
-export const TweetFormContainer = styled.div`
-  background-color: rgba(255, 255, 255, 1);
-  z-index: 1;
-`
-
-export const TweetFormPadding = styled.div`
-  padding-bottom: 5px;
-`
-
-export const TweetFormTopLine = styled.div`
-  position: absolute;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  height: 0.2rem;
-  width: 100%;
-  z-index: 0;
-`
-
-export const TweetFormContent = styled.div`
-  background-color: rgba(255, 255, 255, 1);
-  padding-top: 5px;
-  padding-bottom: 5px;
-`
-
-export const TweetFormSidePadding = styled.div`
-  padding-left: 15px;
-  padding-right: 15px;
-`
-
-export const TweetFormRow = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-export const TweetFormImageContainer = styled.div`
-  display: flex;
-  flex-basis: 49px;
-  flex-grow: 0;
-  margin-right: 10px;
-  padding-top: 5px;
-`
-
 export const FeedLineBreak = styled.div`
   background-color: rgb(247, 249, 250);
   border-top-color: rgb(235, 238, 240);

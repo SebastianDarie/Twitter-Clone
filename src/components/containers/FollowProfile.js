@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 export const ProfileInfoContainer = styled.div`
   border-bottom-color: rgb(235, 238, 240);
@@ -23,26 +22,6 @@ export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
-
-export const ProfileImageDiv = styled.div`
-  display: flex;
-  flex-basis: 49px;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  max-width: 49px;
-`
-
-export const ImageLink = styled(Link).attrs({
-  to: (props) => props.path,
-})`
-  border-radius: 999px;
-  height: 49px;
-  width: 100%;
-  transition-property: background-color, box-shadow;
-  transition-duration: 0.2s;
 `
 
 export const ProfileName = styled.div`
