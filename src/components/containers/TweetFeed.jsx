@@ -9,7 +9,7 @@ import {
   PointerPadding,
   PointerText,
 } from './TweetFeed'
-import TweetForm from '../common/TweetForm.jsx'
+import TweetForm from '../common/tweets/TweetForm.jsx'
 
 const TweetFeed = () => {
   const profile = useSelector((state) => state.firebase.profile)

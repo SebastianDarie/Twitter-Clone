@@ -15,7 +15,7 @@ import {
   WhiteSpace,
 } from './SignUpModal'
 import SignUpInput from '../layout/SignUpInput.jsx'
-import TwitterBtn from '../common/TwitterBtn.jsx'
+import TwitterBtn from '../common/global/TwitterBtn.jsx'
 
 const SignUpModal = ({ reference, modalState }) => {
   const dispatch = useDispatch()

@@ -15,7 +15,7 @@ import {
   SideLink,
   SideLogo,
 } from './SideNav'
-import TwitterBtn from '../common/TwitterBtn.jsx'
+import TwitterBtn from '../common/global/TwitterBtn.jsx'
 import FooterProfile from '../containers/FooterProfile.jsx'
 
 const SideNav = () => {

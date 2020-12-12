@@ -1,6 +1,5 @@
 import React from 'react'
-import { TextDiv } from './GlobalStyles'
-import { MainBtn } from './TwitterBtn.js'
+import { MainBtn, TextDiv } from '../GlobalStyles'
 
 const TwitterBtn = ({ clickHandler, text, type }) => {
   return (

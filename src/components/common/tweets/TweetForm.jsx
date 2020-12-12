@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCalendar,
@@ -6,12 +6,19 @@ import {
   faImage,
   faSmile,
 } from '@fortawesome/free-solid-svg-icons'
-import { ImageLink, ProfileImage, ProfileImageDiv } from './GlobalStyles'
-import { ReactComponent as Gif } from '../../assets/img/gif.svg'
+import {
+  ImageLink,
+  ProfileImage,
+  ProfileImageDiv,
+  TextDiv,
+} from '../GlobalStyles'
+import { ReactComponent as Gif } from '../../../assets/img/gif.svg'
 import {
   FirstSVG,
+  LineBreak,
   TweetFormBottomContainer,
   TweetFormBottomContent,
+  TweetFormBtn,
   TweetFormContainer,
   TweetFormContent,
   TweetFormContentContainer,
@@ -31,6 +38,35 @@ import {
 } from './TweetForm'
 
 const TweetForm = ({ profile }) => {
+  const textarea = useRef()
+  const breakline = useRef()
+  const button = useRef()
+
+  const blurHandler = () => {
+    breakline.current.style.display = 'none'
+    button.current.style.opacity = 0.5
+    button.current.style.pointerEvents = 'none'
+  }
+
+  const focusHandler = () => {
+    breakline.current.style.display = 'block'
+    button.current.style.opacity = 1
+    button.current.style.pointerEvents = 'all'
+  }
+
+  const setHeight = (txarea) => {
+    txarea.style.height = 'auto'
+    txarea.style.height = txarea.scrollHeight + 'px'
+  }
+
+  for (let i = 0; i < textarea.current?.length || 0; i++) {
+    textarea[i].setAttribute(
+      'style',
+      'height:' + textarea[i].scrollHeight + 'px;'
+    )
+    textarea[i].addEventListener('input', setHeight(textarea[i]), false)
+  }
+
   return (
     <TweetFormContainer>
       <TweetFormPadding>
@@ -59,7 +95,14 @@ const TweetForm = ({ profile }) => {
                                 <div>
                                   <TweetFormInputText>
                                     <TweetFormInputPadding>
-                                      <TweetFormTextArea />
+                                      <TweetFormTextArea
+                                        ref={textarea}
+                                        onBlur={blurHandler}
+                                        onFocus={focusHandler}
+                                        onKeyUp={() =>
+                                          setHeight(textarea.current)
+                                        }
+                                      />
                                     </TweetFormInputPadding>
                                   </TweetFormInputText>
                                   <div></div>
@@ -70,6 +113,7 @@ const TweetForm = ({ profile }) => {
                         </div>
                       </TweetFormInputContainer>
                     </div>
+                    <LineBreak ref={breakline} />
                     <div>
                       <div>
                         <TweetFormBottomContainer>
@@ -101,7 +145,11 @@ const TweetForm = ({ profile }) => {
                             </TweetFormSVGContainer>
                           </TweetFormBottomContent>
 
-                          <TweetFormBottomContent></TweetFormBottomContent>
+                          <TweetFormBottomContent>
+                            <TextDiv>
+                              <TweetFormBtn ref={button}>Tweet</TweetFormBtn>
+                            </TextDiv>
+                          </TweetFormBottomContent>
                         </TweetFormBottomContainer>
                       </div>
                     </div>

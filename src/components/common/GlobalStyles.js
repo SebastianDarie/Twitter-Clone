@@ -72,6 +72,16 @@ export const Button = styled.button`
   transition-duration: 0.2s;
 `
 
+export const MainBtn = styled(Button)`
+  background-color: rgb(29, 161, 242);
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(26, 145, 218);
+  }
+`
+
 export const BtnLink = styled.a`
   display: flex;
   justify-content: center;
@@ -91,6 +101,18 @@ export const BtnLink = styled.a`
   text-decoration: none;
   transition-property: background-color;
   transition-duration: 0.2s;
+`
+
+export const LoginBtn = styled(BtnLink)`
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgb(29, 161, 242);
+  color: rgb(29, 161, 242);
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+  }
 `
 
 export const TextDiv = styled.div`

@@ -18,9 +18,9 @@ import {
   HeaderText,
   SmallText,
 } from './SignUp'
-import AuthBtn from '../components/common/AuthBtn.jsx'
+import AuthBtn from '../components/common/global/AuthBtn.jsx'
 import SignUpModal from '../components/containers/SignUpModal.jsx'
-import TwitterBtn from '../components/common/TwitterBtn.jsx'
+import TwitterBtn from '../components/common/global/TwitterBtn.jsx'
 
 const SignUp = () => {
   const dispatch = useDispatch()

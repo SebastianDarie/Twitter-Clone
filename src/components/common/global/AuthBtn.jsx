@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { LoginBtn } from './AuthBtn'
-import { TextDiv } from './GlobalStyles'
+import { LoginBtn, TextDiv } from '../GlobalStyles'
 
 const AuthBtn = ({ auth, text }) => {
   return (

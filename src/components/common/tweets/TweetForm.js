@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MainBtn } from '../GlobalStyles'
 
 export const TweetFormContainer = styled.div`
   background-color: rgba(255, 255, 255, 1);
@@ -58,7 +59,7 @@ export const TweetFormInputContainer = styled.div`
   border-radius: 4px;
   border-style: solid;
   border-width: 2px;
-  height: 49px;
+  max-height: 38.0625em;
 `
 
 export const TweetFormInputFlex = styled.div`
@@ -91,10 +92,13 @@ export const TweetFormInputText = styled.div`
 
 export const TweetFormInputPadding = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
+  height: 100%;
   padding: 10px;
   padding-left: 0px;
   padding-right: 0px;
+  overflow-y: hidden;
   text-align: center;
   width: 100%;
 `
@@ -106,11 +110,22 @@ export const TweetFormTextArea = styled.textarea.attrs({
   justify-content: center;
   border: 1px solid transparent;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
   font-size: 19px;
   font-weight: 400;
+  min-height: 1.3125em;
+  max-height: 38.0625em;
   resize: none;
   outline: none;
   overflow-wrap: break-word;
+  overflow-y: hidden;
+  width: 100%;
+`
+
+export const LineBreak = styled.div`
+  display: none;
+  background-color: rgb(235, 238, 240);
+  height: 1px;
   width: 100%;
 `
 
@@ -129,8 +144,11 @@ export const TweetFormBottomContainer = styled.div`
 export const TweetFormBottomContent = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
+  height: 100%;
   margin-top: 10px;
+  max-height: 39px;
 `
 
 export const TweetFormSVGContainer = styled.div`
@@ -150,6 +168,7 @@ export const TweetFormSVGContainer = styled.div`
   padding-right: 0px;
   transition-property: background-color, box-shadow;
   transition-duration: 0.2s;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(29, 161, 242, 0.1);
@@ -170,4 +189,10 @@ export const TweetFormIcon = styled.div`
   fill: currentColor;
   max-width: 100%;
   text-align: center;
+`
+
+export const TweetFormBtn = styled(MainBtn)`
+  margin-bottom: 0px;
+  opacity: 0.5;
+  pointer-events: none;
 `
