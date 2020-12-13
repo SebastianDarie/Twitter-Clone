@@ -4,9 +4,9 @@ import { useFirebase } from 'react-redux-firebase'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../actions/authActions'
 import { openModal } from '../actions/modalActions'
+import { BreakPoint, ModalForm } from '../components/common/GlobalStyles'
 import {
   BlueLink,
-  BreakPoint,
   BtnContainer,
   FormContainer,
   Header,
@@ -16,7 +16,6 @@ import {
   SVGContainer,
 } from './LogIn.js'
 import { MainContainer } from './SignUp.js'
-import { ModalForm } from '../components/common/GlobalStyles'
 import SignUpInput from '../components/layout/SignUpInput.jsx'
 import TwitterBtn from '../components/common/global/TwitterBtn.jsx'
 

@@ -59,12 +59,6 @@ export const LinkDiv = styled.div`
   flex-direction: row;
 `
 
-export const BreakPoint = styled.span`
-  color: rgb(91, 112, 131);
-  padding-left: 5px;
-  padding-right: 5px;
-`
-
 export const BlueLink = styled(Link)`
   color: rgb(27, 149, 224);
   text-decoration: none;

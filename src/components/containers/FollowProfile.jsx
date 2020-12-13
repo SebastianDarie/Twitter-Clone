@@ -2,21 +2,21 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import {
   ImageLink,
+  LowerText,
   ProfileImageDiv,
   ProfileImage,
+  UpperText,
 } from '../common/GlobalStyles'
 import {
   FollowBtn,
   FollowBtnContainer,
   InnerDiv,
   LowerName,
-  LowerText,
   ProfileInfo,
   ProfileInfoContainer,
   ProfileName,
   ProfileText,
   UpperName,
-  UpperText,
 } from './FollowProfile'
 
 const FollowProfile = ({ imageURL, name, profile }) => {

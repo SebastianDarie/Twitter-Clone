@@ -178,6 +178,15 @@ export const ProfileImageDiv = styled.div`
   max-width: 49px;
 `
 
+export const TweetImageDiv = styled.div`
+  display: flex;
+  flex-basis: 49px;
+  flex-grow: 1;
+  justify-content: center;
+  margin-right: 10px;
+  max-width: 49px;
+`
+
 export const ImageLink = styled(Link).attrs({
   to: (props) => props.path,
 })`
@@ -207,6 +216,29 @@ export const BlackOut = styled.div`
   bottom: 0;
   right: 0;
   z-index: 2;
+`
+
+export const BreakPoint = styled.span`
+  color: rgb(91, 112, 131);
+  padding-left: 5px;
+  padding-right: 5px;
+`
+
+export const UpperText = styled.div`
+  color: rgb(15, 20, 25);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3125;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+export const LowerText = styled.div`
+  color: rgb(91, 112, 131);
+  font-size: 15px;
+  font-weight: 400;
 `
 
 export default GlobalStyles

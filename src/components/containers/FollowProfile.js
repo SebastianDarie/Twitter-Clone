@@ -52,27 +52,10 @@ export const UpperName = styled.div`
   max-width: 100%;
 `
 
-export const UpperText = styled.div`
-  color: rgb(15, 20, 25);
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.3125;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
 export const LowerName = styled.div`
   display: flex;
   flex-direction: row;
   flex-shrink: 1;
-`
-
-export const LowerText = styled.div`
-  color: rgb(91, 112, 131);
-  font-size: 15px;
-  font-weight: 400;
 `
 
 export const FollowBtnContainer = styled.div`
