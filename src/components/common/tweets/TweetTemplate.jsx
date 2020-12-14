@@ -22,7 +22,6 @@ import {
   ColumnDiv,
   CommentIconContainer,
   DotIconContainer,
-  IconContentContainer,
   LikesIconContainer,
   NameDiv,
   PositionDiv,
@@ -100,7 +99,6 @@ const TweetTemplate = ({ profile, tweet }) => {
                         </UpperLeftContainer>
                         <UpperRightContainer>
                           <DotIconContainer>
-                            <BackgroundHover />
                             <FontAwesomeIcon icon={faEllipsisH} size='sm' />
                           </DotIconContainer>
                         </UpperRightContainer>
@@ -116,7 +114,6 @@ const TweetTemplate = ({ profile, tweet }) => {
                     <BottomIconsContainer>
                       <CommentIconContainer>
                         <div>
-                          <BackgroundHover />
                           <FontAwesomeIcon icon={faComment} size='1x' />
                         </div>
                         <div>
@@ -125,7 +122,7 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </CommentIconContainer>
                       <RetweetIconContainer>
                         <div>
-                          <BackgroundHover />
+                          {/* <BackgroundHover /> */}
                           <FontAwesomeIcon icon={faRetweet} size='1x' />
                         </div>
                         <div>
@@ -134,7 +131,7 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </RetweetIconContainer>
                       <LikesIconContainer>
                         <div>
-                          <BackgroundHover />
+                          {/* <BackgroundHover /> */}
                           <FontAwesomeIcon icon={faHeart} size='1x' />
                         </div>
                         <div>
@@ -143,7 +140,7 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </LikesIconContainer>
                       <CommentIconContainer>
                         <div>
-                          <BackgroundHover />
+                          {/* <BackgroundHover /> */}
                           <FontAwesomeIcon icon={faUpload} size='1x' />
                         </div>
                       </CommentIconContainer>

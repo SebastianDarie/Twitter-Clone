@@ -59,6 +59,7 @@ export const TweetFormInputContainer = styled.div`
   border-radius: 4px;
   border-style: solid;
   border-width: 2px;
+  height: 50px;
   max-height: 38.0625em;
 `
 
@@ -122,6 +123,46 @@ export const TweetFormTextArea = styled.textarea.attrs({
   width: 100%;
 `
 
+export const PaddingLine = styled.div`
+  display: none;
+  flex-direction: row;
+  padding-bottom: 10px;
+`
+
+export const HoverGlobe = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  border-radius: 999px;
+  border-style: solid;
+  border-width: 1px;
+  min-height: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+  }
+`
+
+export const GlobeFlexer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  color: rgba(29, 161, 242, 1);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+`
+
 export const LineBreak = styled.div`
   display: none;
   background-color: rgb(235, 238, 240);
@@ -177,6 +218,13 @@ export const TweetFormSVGContainer = styled.div`
 
 export const FirstSVG = styled(TweetFormSVGContainer)`
   margin-left: -10px;
+`
+
+export const ImageInput = styled.input.attrs({
+  type: 'file',
+  accept: 'image/*',
+})`
+  display: none;
 `
 
 export const TweetFormIcon = styled.div`

@@ -122,12 +122,23 @@ export const UpperRightContainer = styled.div`
 `
 
 export const BackgroundHover = styled.div`
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
   border-radius: 999px;
-  margin: -8px;
+  border-style: solid;
+  border-width: 1px;
+  margin: -10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  min-height: 39px;
+  min-width: 39px;
+  padding-left: 0px;
+  padding-right: 0px;
   transition-property: background-color, box-shadow;
   transition-duration: 0.2s;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(29, 161, 242, 0.1);
@@ -137,7 +148,10 @@ export const BackgroundHover = styled.div`
 export const DotIconContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   color: rgb(91, 112, 131);
+  max-width: 100%;
+  text-align: center;
   transition-property: color;
   transition-duration: 0.2s;
 
@@ -159,7 +173,6 @@ export const BottomIconsContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 10px;
-  margin-left: 15px;
   max-width: 425px;
 `
 

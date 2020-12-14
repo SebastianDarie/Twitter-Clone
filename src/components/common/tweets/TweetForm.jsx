@@ -3,19 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCalendar,
   faChartBar,
+  faGlobeAmericas,
   faImage,
   faSmile,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   ImageLink,
   ProfileImage,
-  ProfileImageDiv,
   TextDiv,
+  TweetImageDiv,
 } from '../GlobalStyles'
 import { ReactComponent as Gif } from '../../../assets/img/gif.svg'
 import {
   FirstSVG,
+  GlobeFlexer,
+  HoverGlobe,
+  ImageInput,
   LineBreak,
+  PaddingLine,
   TweetFormBottomContainer,
   TweetFormBottomContent,
   TweetFormBtn,
@@ -36,27 +41,37 @@ import {
   TweetFormTextArea,
   TweetFormTopLine,
 } from './TweetForm'
+import resizeImage from '../../../utils/resizeImage'
 
 const TweetForm = ({ profile }) => {
+  const container = useRef()
+  const globe = useRef()
   const textarea = useRef()
   const breakline = useRef()
   const button = useRef()
 
   const blurHandler = () => {
     breakline.current.style.display = 'none'
-    button.current.style.opacity = 0.5
-    button.current.style.pointerEvents = 'none'
+    globe.current.style.display = 'none'
+    if (textarea.current.value === '') {
+      container.current.style.height = '50px'
+    }
   }
 
   const focusHandler = () => {
     breakline.current.style.display = 'block'
+    globe.current.style.display = 'flex'
     button.current.style.opacity = 1
     button.current.style.pointerEvents = 'all'
+    container.current.style.height =
+      parseInt(textarea.current.style.height.slice(0, -2)) + 15 + 'px'
   }
 
   const setHeight = (txarea) => {
     txarea.style.height = 'auto'
-    txarea.style.height = txarea.scrollHeight + 'px'
+    txarea.style.height = txarea.scrollHeight + 10 + 'px'
+    container.current.style.height = 'auto'
+    container.current.style.height = txarea.scrollHeight + 15 + 'px'
   }
 
   for (let i = 0; i < textarea.current?.length || 0; i++) {
@@ -65,6 +80,19 @@ const TweetForm = ({ profile }) => {
       'height:' + textarea[i].scrollHeight + 'px;'
     )
     textarea[i].addEventListener('input', setHeight(textarea[i]), false)
+  }
+
+  const imageInput = async (e) => {
+    if (e.target.files[0]) {
+      const image = e.target.files[0]
+
+      const blob = await resizeImage(image, 1200, 675)
+      console.log(blob)
+    }
+  }
+
+  const clickHandler = (e) => {
+    console.log(e.currentTarget, textarea.current.value)
   }
 
   return (
@@ -77,17 +105,17 @@ const TweetForm = ({ profile }) => {
               <TweetFormSidePadding>
                 <TweetFormRow>
                   <TweetFormImageContainer>
-                    <ProfileImageDiv>
+                    <TweetImageDiv>
                       <div>
                         <ImageLink>
                           <ProfileImage imageURL={profile.photoURL} />
                         </ImageLink>
                       </div>
-                    </ProfileImageDiv>
+                    </TweetImageDiv>
                   </TweetFormImageContainer>
                   <TweetFormContentContainer>
                     <div style={{ width: '100%' }}>
-                      <TweetFormInputContainer>
+                      <TweetFormInputContainer ref={container}>
                         <div>
                           <TweetFormInputFlex>
                             <div style={{ width: '100%' }}>
@@ -113,6 +141,22 @@ const TweetForm = ({ profile }) => {
                         </div>
                       </TweetFormInputContainer>
                     </div>
+                    <PaddingLine ref={globe}>
+                      <div>
+                        <HoverGlobe>
+                          <GlobeFlexer>
+                            <FontAwesomeIcon
+                              icon={faGlobeAmericas}
+                              size='lg'
+                              style={{
+                                marginRight: '0.5em',
+                              }}
+                            />
+                            <span>Everyone can reply</span>
+                          </GlobeFlexer>
+                        </HoverGlobe>
+                      </div>
+                    </PaddingLine>
                     <LineBreak ref={breakline} />
                     <div>
                       <div>
@@ -120,7 +164,16 @@ const TweetForm = ({ profile }) => {
                           <TweetFormBottomContent>
                             <FirstSVG>
                               <TweetFormIcon>
-                                <FontAwesomeIcon icon={faImage} size='lg' />
+                                <label
+                                  htmlFor='image-input'
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <FontAwesomeIcon icon={faImage} size='lg' />
+                                </label>
+                                <ImageInput
+                                  id='image-input'
+                                  onChange={imageInput}
+                                />
                               </TweetFormIcon>
                             </FirstSVG>
                             <TweetFormSVGContainer>
@@ -147,7 +200,9 @@ const TweetForm = ({ profile }) => {
 
                           <TweetFormBottomContent>
                             <TextDiv>
-                              <TweetFormBtn ref={button}>Tweet</TweetFormBtn>
+                              <TweetFormBtn ref={button} onClick={clickHandler}>
+                                Tweet
+                              </TweetFormBtn>
                             </TextDiv>
                           </TweetFormBottomContent>
                         </TweetFormBottomContainer>
