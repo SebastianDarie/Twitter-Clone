@@ -1,0 +1,3 @@
+export const IMAGE_ADD = 'IMAGE_ADD'
+export const IMAGE_REMOVE = 'IMAGE_REMOVE'
+export const SET_PREVIEW_IMAGE = 'SET_PREVIEW_IMAGE'

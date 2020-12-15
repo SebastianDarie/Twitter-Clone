@@ -1,6 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
+import {
+  addImage,
+  removeImage,
+  setPreviewImage,
+} from '../../actions/imageActions'
 import {
   FeedLineBreak,
   MainHeaderContainer,
@@ -15,8 +20,11 @@ import TweetTemplate from '../common/tweets/TweetTemplate.jsx'
 
 const TweetFeed = () => {
   useFirestoreConnect([{ collection: 'tweets' }])
+  const dispatch = useDispatch()
   const tweets = useSelector((state) => state.firestore.ordered.tweets)
   const profile = useSelector((state) => state.firebase.profile)
+  const images = useSelector((state) => state.image.imgs)
+  const previews = useSelector((state) => state.image.previewImgs)
 
   return (
     <MainTweetContainer>
@@ -32,7 +40,15 @@ const TweetFeed = () => {
             </PointerHeight>
           </PointerHeader>
         </MainHeaderContainer>
-        <TweetForm profile={profile} />
+        <TweetForm
+          dispatch={dispatch}
+          addImage={addImage}
+          removeImage={removeImage}
+          setPreviewImage={setPreviewImage}
+          images={images}
+          previews={previews}
+          profile={profile}
+        />
         <FeedLineBreak />
         {tweets &&
           tweets.map((tweet) => (

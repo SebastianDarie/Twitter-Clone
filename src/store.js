@@ -6,6 +6,7 @@ import { firestoreReducer } from 'redux-firestore'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 import authReducer from './reducers/authReducer'
+import imageReducer from './reducers/imageReducer'
 import modalReducer from './reducers/modalReducer'
 import selectedReducer from './reducers/selectedReducer'
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
+  image: imageReducer,
   modal: modalReducer,
   selected: selectedReducer,
   toastr: toastrReducer,

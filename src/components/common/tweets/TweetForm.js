@@ -49,18 +49,22 @@ export const TweetFormContentContainer = styled.div`
   flex-basis: 0px;
   flex-grow: 1;
   justify-content: center;
+  min-height: fit-content;
   padding-top: 5px;
 `
 
 export const TweetFormInputContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   border-color: rgba(0, 0, 0, 0);
   border-radius: 4px;
   border-style: solid;
   border-width: 2px;
-  height: 50px;
+  /* height: 50px; */
+  min-height: fit-content;
   max-height: 38.0625em;
+  overflow: hidden;
 `
 
 export const TweetFormInputFlex = styled.div`
@@ -121,6 +125,23 @@ export const TweetFormTextArea = styled.textarea.attrs({
   overflow-wrap: break-word;
   overflow-y: hidden;
   width: 100%;
+`
+
+export const SinglePreviewWrapper = styled.div`
+  display: flex;
+  flex-basis: auto;
+  flex-direction: row;
+  flex-shrink: 0;
+  align-items: stretch;
+  min-height: fit-content;
+  max-height: 285px;
+`
+
+export const DoublePreviewWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 285px;
 `
 
 export const PaddingLine = styled.div`

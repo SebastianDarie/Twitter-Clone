@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCalendar,
@@ -15,12 +15,14 @@ import {
 } from '../GlobalStyles'
 import { ReactComponent as Gif } from '../../../assets/img/gif.svg'
 import {
+  DoublePreviewWrapper,
   FirstSVG,
   GlobeFlexer,
   HoverGlobe,
   ImageInput,
   LineBreak,
   PaddingLine,
+  SinglePreviewWrapper,
   TweetFormBottomContainer,
   TweetFormBottomContent,
   TweetFormBtn,
@@ -41,37 +43,61 @@ import {
   TweetFormTextArea,
   TweetFormTopLine,
 } from './TweetForm'
+import PreviewImage from './PreviewImage.jsx'
 import resizeImage from '../../../utils/resizeImage'
 
-const TweetForm = ({ profile }) => {
+const TweetForm = ({
+  dispatch,
+  addImage,
+  removeImage,
+  setPreviewImage,
+  images,
+  previews,
+  profile,
+}) => {
   const container = useRef()
   const globe = useRef()
   const textarea = useRef()
   const breakline = useRef()
   const button = useRef()
 
-  const blurHandler = () => {
-    breakline.current.style.display = 'none'
-    globe.current.style.display = 'none'
-    if (textarea.current.value === '') {
-      container.current.style.height = '50px'
+  useEffect(() => {
+    if (images.length) {
+      let tempArr = []
+      for (const img of images) {
+        const fileURL = URL.createObjectURL(img)
+
+        const component = (
+          <PreviewImage
+            key={img.name}
+            image={img}
+            src={fileURL}
+            removeImage={removeImage}
+          />
+        )
+
+        tempArr.push(component)
+      }
+      dispatch(setPreviewImage(tempArr))
+    } else {
+      dispatch(setPreviewImage([]))
     }
-  }
+  }, [images])
 
   const focusHandler = () => {
     breakline.current.style.display = 'block'
     globe.current.style.display = 'flex'
     button.current.style.opacity = 1
     button.current.style.pointerEvents = 'all'
-    container.current.style.height =
-      parseInt(textarea.current.style.height.slice(0, -2)) + 15 + 'px'
+    // container.current.style.height =
+    //   parseInt(textarea.current.style.height.slice(0, -2)) + 15 + 'px'
   }
 
   const setHeight = (txarea) => {
     txarea.style.height = 'auto'
     txarea.style.height = txarea.scrollHeight + 10 + 'px'
-    container.current.style.height = 'auto'
-    container.current.style.height = txarea.scrollHeight + 15 + 'px'
+    // container.current.style.height = 'auto'
+    // container.current.style.height = txarea.scrollHeight + 15 + 'px'
   }
 
   for (let i = 0; i < textarea.current?.length || 0; i++) {
@@ -82,12 +108,22 @@ const TweetForm = ({ profile }) => {
     textarea[i].addEventListener('input', setHeight(textarea[i]), false)
   }
 
+  const clearInput = (e) => {
+    e.target.value = null
+  }
+
   const imageInput = async (e) => {
     if (e.target.files[0]) {
-      const image = e.target.files[0]
+      const file = e.target.files[0]
+      const blob = await resizeImage(file, 1200, 675)
 
-      const blob = await resizeImage(image, 1200, 675)
-      console.log(blob)
+      const image = new File([blob], file.name, {
+        lastModified: new Date().getTime(),
+        type: blob.type,
+      })
+      dispatch(addImage(image))
+    } else {
+      console.log('smth went wrong')
     }
   }
 
@@ -125,7 +161,6 @@ const TweetForm = ({ profile }) => {
                                     <TweetFormInputPadding>
                                       <TweetFormTextArea
                                         ref={textarea}
-                                        onBlur={blurHandler}
                                         onFocus={focusHandler}
                                         onKeyUp={() =>
                                           setHeight(textarea.current)
@@ -139,6 +174,25 @@ const TweetForm = ({ profile }) => {
                             </div>
                           </TweetFormInputFlex>
                         </div>
+                        {previews.length > 1 ? (
+                          <SinglePreviewWrapper>
+                            <DoublePreviewWrapper>
+                              {previews.slice(
+                                0,
+                                Math.round(previews.length / 2)
+                              )}
+                            </DoublePreviewWrapper>
+                            <DoublePreviewWrapper>
+                              {previews.slice(Math.round(previews.length / 2))}
+                            </DoublePreviewWrapper>
+                          </SinglePreviewWrapper>
+                        ) : (
+                          previews.length === 1 && (
+                            <SinglePreviewWrapper>
+                              {previews}
+                            </SinglePreviewWrapper>
+                          )
+                        )}
                       </TweetFormInputContainer>
                     </div>
                     <PaddingLine ref={globe}>
@@ -173,6 +227,7 @@ const TweetForm = ({ profile }) => {
                                 <ImageInput
                                   id='image-input'
                                   onChange={imageInput}
+                                  onClick={clearInput}
                                 />
                               </TweetFormIcon>
                             </FirstSVG>
