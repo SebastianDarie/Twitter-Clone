@@ -72,6 +72,7 @@ export const TweetFormInputFlex = styled.div`
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
+  overflow: hidden;
 `
 
 export const TweetFormInputBorder = styled.div`
@@ -82,6 +83,7 @@ export const TweetFormInputBorder = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0);
   border-width: 0px;
+  overflow: hidden;
 `
 
 export const TweetFormInputText = styled.div`
@@ -93,6 +95,7 @@ export const TweetFormInputText = styled.div`
   font-size: 19px;
   font-weight: 400;
   line-height: 1.3125;
+  overflow: hidden;
 `
 
 export const TweetFormInputPadding = styled.div`

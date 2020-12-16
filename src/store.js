@@ -9,6 +9,7 @@ import authReducer from './reducers/authReducer'
 import imageReducer from './reducers/imageReducer'
 import modalReducer from './reducers/modalReducer'
 import selectedReducer from './reducers/selectedReducer'
+import tweetReducer from './reducers/tweetReducer'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   modal: modalReducer,
   selected: selectedReducer,
   toastr: toastrReducer,
+  tweet: tweetReducer,
 })
 
 const initialState = {}

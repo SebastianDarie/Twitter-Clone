@@ -1,0 +1,1 @@
+export const CREATE_TWEET = 'CREATE_TWEET'

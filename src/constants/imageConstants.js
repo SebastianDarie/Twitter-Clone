@@ -1,3 +1,5 @@
 export const IMAGE_ADD = 'IMAGE_ADD'
 export const IMAGE_REMOVE = 'IMAGE_REMOVE'
+export const IMAGE_REMOVE_ALL = 'IMAGE_REMOVE_ALL'
 export const SET_PREVIEW_IMAGE = 'SET_PREVIEW_IMAGE'
+export const SET_TWEET_IMAGE = 'SET_TWEET_IMAGE'

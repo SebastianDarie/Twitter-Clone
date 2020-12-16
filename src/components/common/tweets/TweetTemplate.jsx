@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faComment,
@@ -22,17 +22,20 @@ import {
   ColumnDiv,
   CommentIconContainer,
   DotIconContainer,
+  LikeHover,
   LikesIconContainer,
   NameDiv,
   PositionDiv,
   ProfileImageContainer,
   ProfileLink,
+  RetweetHover,
   RetweetIconContainer,
   RowDiv,
   SideContent,
   TextSpan,
   TimeLink,
   TweetArticle,
+  TweetImageContainer,
   TweetPaddingTop,
   TweetTextDiv,
   UpperLeftContainer,
@@ -42,7 +45,27 @@ import {
   UpperTextMargin,
 } from './TweetTemplate'
 
-const TweetTemplate = ({ profile, tweet }) => {
+const TweetTemplate = ({
+  dispatch,
+  firebase,
+  profile,
+  tweet,
+  tweetImages,
+  setTweetImage,
+}) => {
+  useEffect(() => {
+    ;(async () => {
+      const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
+
+      const res = await pathRef.listAll()
+
+      res.items.forEach(async (imageRef) => {
+        const url = await imageRef.getDownloadURL()
+        dispatch(setTweetImage(tweet.id, url))
+      })
+    })()
+  }, [])
+
   const formatTime = (seconds) => {
     let time = new Date(Date.UTC(1970, 0, 1))
     time.setUTCSeconds(seconds)
@@ -99,7 +122,9 @@ const TweetTemplate = ({ profile, tweet }) => {
                         </UpperLeftContainer>
                         <UpperRightContainer>
                           <DotIconContainer>
-                            <FontAwesomeIcon icon={faEllipsisH} size='sm' />
+                            <BackgroundHover>
+                              <FontAwesomeIcon icon={faEllipsisH} size='sm' />
+                            </BackgroundHover>
                           </DotIconContainer>
                         </UpperRightContainer>
                       </UpperTextFlexer>
@@ -110,11 +135,26 @@ const TweetTemplate = ({ profile, tweet }) => {
                     <div>
                       <TweetTextDiv>{tweet.text}</TweetTextDiv>
                     </div>
-                    <div></div>
+                    <div>
+                      <div>
+                        {tweetImages &&
+                          tweetImages.map((obj, idx) => (
+                            <TweetImageContainer key={idx}>
+                              <img
+                                src={obj.image}
+                                alt='tweet-img'
+                                style={{ height: '100%', width: '100%' }}
+                              />
+                            </TweetImageContainer>
+                          ))}
+                      </div>
+                    </div>
                     <BottomIconsContainer>
                       <CommentIconContainer>
                         <div>
-                          <FontAwesomeIcon icon={faComment} size='1x' />
+                          <BackgroundHover>
+                            <FontAwesomeIcon icon={faComment} size='1x' />
+                          </BackgroundHover>
                         </div>
                         <div>
                           <TextSpan>{tweet.replies.length}</TextSpan>
@@ -122,8 +162,9 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </CommentIconContainer>
                       <RetweetIconContainer>
                         <div>
-                          {/* <BackgroundHover /> */}
-                          <FontAwesomeIcon icon={faRetweet} size='1x' />
+                          <RetweetHover>
+                            <FontAwesomeIcon icon={faRetweet} size='1x' />
+                          </RetweetHover>
                         </div>
                         <div>
                           <TextSpan>{tweet.retweets.length}</TextSpan>
@@ -131,8 +172,9 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </RetweetIconContainer>
                       <LikesIconContainer>
                         <div>
-                          {/* <BackgroundHover /> */}
-                          <FontAwesomeIcon icon={faHeart} size='1x' />
+                          <LikeHover>
+                            <FontAwesomeIcon icon={faHeart} size='1x' />
+                          </LikeHover>
                         </div>
                         <div>
                           <TextSpan>{tweet.likes.length}</TextSpan>
@@ -140,8 +182,9 @@ const TweetTemplate = ({ profile, tweet }) => {
                       </LikesIconContainer>
                       <CommentIconContainer>
                         <div>
-                          {/* <BackgroundHover /> */}
-                          <FontAwesomeIcon icon={faUpload} size='1x' />
+                          <BackgroundHover>
+                            <FontAwesomeIcon icon={faUpload} size='1x' />
+                          </BackgroundHover>
                         </div>
                       </CommentIconContainer>
                     </BottomIconsContainer>

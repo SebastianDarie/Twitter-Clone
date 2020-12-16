@@ -8,7 +8,7 @@ import {
   RemoveBtnContainer,
 } from './PreviewImage'
 
-const PreviewImage = ({ image, src, removeImage }) => {
+const PreviewImage = ({ image, src, dispatch, removeImage }) => {
   return (
     <MarginContainer>
       <MarginTop>
@@ -17,7 +17,11 @@ const PreviewImage = ({ image, src, removeImage }) => {
           alt={image.name}
           style={{ maxHeight: '100%', maxWidth: '100%' }}
         />
-        <RemoveBtnContainer onClick={() => removeImage(image)}>
+        <RemoveBtnContainer
+          onClick={() => {
+            dispatch(removeImage(image))
+          }}
+        >
           <IconStyler>
             <FontAwesomeIcon icon={faTimes} />
           </IconStyler>

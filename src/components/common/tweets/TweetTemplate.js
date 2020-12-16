@@ -123,25 +123,32 @@ export const UpperRightContainer = styled.div`
 
 export const BackgroundHover = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0);
-  border-color: rgba(0, 0, 0, 0);
   border-radius: 999px;
-  border-style: solid;
-  border-width: 1px;
-  margin: -10px;
-  margin-left: 0px;
-  margin-right: 0px;
-  min-height: 39px;
-  min-width: 39px;
-  padding-left: 0px;
-  padding-right: 0px;
+  height: 39px;
+  width: 39px;
   transition-property: background-color, box-shadow;
   transition-duration: 0.2s;
   cursor: pointer;
 
   &:hover {
     background-color: rgba(29, 161, 242, 0.1);
+    color: rgba(29, 161, 242, 1);
+  }
+`
+
+export const RetweetHover = styled(BackgroundHover)`
+  &:hover {
+    background-color: rgba(23, 191, 91, 0.1);
+    color: rgb(23, 191, 99);
+  }
+`
+
+export const LikeHover = styled(BackgroundHover)`
+  &:hover {
+    background-color: rgba(224, 36, 94, 0.1);
+    color: rgb(224, 36, 94);
   }
 `
 
@@ -168,11 +175,25 @@ export const TweetTextDiv = styled.div`
   overflow-wrap: break-word;
 `
 
+export const TweetImageContainer = styled.div`
+  border-color: rgb(196, 207, 214);
+  border-radius: 16px;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 10px;
+  min-height: fit-content;
+  max-height: 285px;
+  outline-style: none;
+  overflow: hidden;
+`
+
 export const BottomIconsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 10px;
+  margin-left: -10px;
+  margin-bottom: -5px;
   max-width: 425px;
 `
 

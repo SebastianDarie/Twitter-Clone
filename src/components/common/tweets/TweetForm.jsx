@@ -48,12 +48,15 @@ import resizeImage from '../../../utils/resizeImage'
 
 const TweetForm = ({
   dispatch,
+  firebase,
+  createTweet,
   addImage,
   removeImage,
   setPreviewImage,
   images,
   previews,
   profile,
+  userID,
 }) => {
   const container = useRef()
   const globe = useRef()
@@ -72,6 +75,7 @@ const TweetForm = ({
             key={img.name}
             image={img}
             src={fileURL}
+            dispatch={dispatch}
             removeImage={removeImage}
           />
         )
@@ -89,15 +93,11 @@ const TweetForm = ({
     globe.current.style.display = 'flex'
     button.current.style.opacity = 1
     button.current.style.pointerEvents = 'all'
-    // container.current.style.height =
-    //   parseInt(textarea.current.style.height.slice(0, -2)) + 15 + 'px'
   }
 
   const setHeight = (txarea) => {
     txarea.style.height = 'auto'
     txarea.style.height = txarea.scrollHeight + 10 + 'px'
-    // container.current.style.height = 'auto'
-    // container.current.style.height = txarea.scrollHeight + 15 + 'px'
   }
 
   for (let i = 0; i < textarea.current?.length || 0; i++) {
@@ -127,8 +127,18 @@ const TweetForm = ({
     }
   }
 
-  const clickHandler = (e) => {
-    console.log(e.currentTarget, textarea.current.value)
+  const clickHandler = () => {
+    dispatch(
+      createTweet(
+        textarea.current.value,
+        profile.name,
+        profile.username,
+        userID,
+        profile.tweets,
+        images,
+        { firebase }
+      )
+    )
   }
 
   return (
@@ -179,15 +189,18 @@ const TweetForm = ({
                             <DoublePreviewWrapper>
                               {previews.slice(
                                 0,
-                                Math.round(previews.length / 2)
+                                Math.floor(previews.length / 2)
                               )}
                             </DoublePreviewWrapper>
-                            <DoublePreviewWrapper>
-                              {previews.slice(Math.round(previews.length / 2))}
+                            <DoublePreviewWrapper style={{ marginLeft: '5px' }}>
+                              {previews.slice(
+                                Math.floor(previews.length / 2),
+                                previews.length
+                              )}
                             </DoublePreviewWrapper>
                           </SinglePreviewWrapper>
                         ) : (
-                          previews.length === 1 && (
+                          previews.length > 0 && (
                             <SinglePreviewWrapper>
                               {previews}
                             </SinglePreviewWrapper>

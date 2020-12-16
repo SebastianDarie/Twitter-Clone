@@ -44,7 +44,7 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Roboto', sans-serif;
         height: 100vh;
         width: 100%;
-        overflow: hidden;
+        ${'' /* overflow: hidden; */}
     }
 `
 

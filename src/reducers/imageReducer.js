@@ -1,12 +1,15 @@
 import {
   IMAGE_ADD,
   IMAGE_REMOVE,
+  IMAGE_REMOVE_ALL,
   SET_PREVIEW_IMAGE,
+  SET_TWEET_IMAGE,
 } from '../constants/imageConstants'
 
 const initialState = {
   imgs: [],
   previewImgs: [],
+  tweetImgs: [],
 }
 
 const imageReducer = (state = initialState, action) => {
@@ -18,12 +21,24 @@ const imageReducer = (state = initialState, action) => {
       return {
         ...state,
         imgs: state.imgs.filter((img) => img.name !== action.payload.name),
+        previewImgs: state.previewImgs.filter(
+          (img) => img.key !== action.payload.name
+        ),
       }
+
+    case IMAGE_REMOVE_ALL:
+      return initialState
 
     case SET_PREVIEW_IMAGE:
       return {
         ...state,
-        previewImgs: [...state.previewImgs, ...action.payload],
+        previewImgs: [...action.payload],
+      }
+
+    case SET_TWEET_IMAGE:
+      return {
+        ...state,
+        tweetImgs: [...state.tweetImgs, action.payload],
       }
 
     default:
