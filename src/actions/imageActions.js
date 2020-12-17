@@ -54,6 +54,6 @@ export const setPreviewImage = (images) => (dispatch) => {
   dispatch({ type: SET_PREVIEW_IMAGE, payload: images })
 }
 
-export const setTweetImage = (id, image) => (dispatch) => {
-  dispatch({ type: SET_TWEET_IMAGE, payload: { id, image } })
+export const setTweetImage = (id, images) => (dispatch) => {
+  dispatch({ type: SET_TWEET_IMAGE, payload: { id, images } })
 }

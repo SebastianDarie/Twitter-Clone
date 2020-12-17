@@ -175,6 +175,14 @@ export const TweetTextDiv = styled.div`
   overflow-wrap: break-word;
 `
 
+export const GridSystem = styled.div`
+  display: grid;
+  grid-template-columns: 252px 252px;
+  grid-template-rows: 285px 285px;
+  height: 100%;
+  max-height: 570px;
+`
+
 export const TweetImageContainer = styled.div`
   border-color: rgb(196, 207, 214);
   border-radius: 16px;
@@ -219,6 +227,8 @@ export const RetweetIconContainer = styled(IconContentContainer)`
   }
 `
 export const LikesIconContainer = styled(IconContentContainer)`
+  color: ${(props) => (props.liked ? 'rgb(224, 36, 94)' : '')};
+
   &:hover {
     color: rgb(224, 36, 94);
   }

@@ -10,7 +10,6 @@ export const MainTweetContainer = styled.div`
   max-width: 600px;
   margin-left: 0px;
   margin-right: 0px;
-  height: 100vh;
   width: 100%;
   z-index: 1;
 `

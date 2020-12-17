@@ -20,6 +20,7 @@ export const MainDiv = styled.div`
 export const GrowDiv = styled.div`
   display: flex;
   flex-grow: 1;
+  height: 100%;
 `
 
 export const MainContainer = styled.div`

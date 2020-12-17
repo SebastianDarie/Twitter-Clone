@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faComment,
@@ -22,6 +22,7 @@ import {
   ColumnDiv,
   CommentIconContainer,
   DotIconContainer,
+  GridSystem,
   LikeHover,
   LikesIconContainer,
   NameDiv,
@@ -48,29 +49,48 @@ import {
 const TweetTemplate = ({
   dispatch,
   firebase,
+  likeTweet,
+  unlikeTweet,
   profile,
+  userID,
   tweet,
   tweetImages,
   setTweetImage,
 }) => {
+  const [tweetImgs, setTweetImgs] = useState([])
+
   useEffect(() => {
-    ;(async () => {
-      const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
+    let mounted = true
+    const fetchImages = async () => {
+      if (tweet.imageNum !== 0) {
+        const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
 
-      const res = await pathRef.listAll()
+        const res = await pathRef.listAll()
 
-      res.items.forEach(async (imageRef) => {
-        const url = await imageRef.getDownloadURL()
-        dispatch(setTweetImage(tweet.id, url))
-      })
-    })()
-  }, [])
+        let tempArray = []
+        res.items.forEach(async (imageRef, i) => {
+          const url = await imageRef.getDownloadURL()
+
+          tempArray.push(url)
+
+          if (mounted && i === tweet.imageNum - 1) {
+            //dispatch(setTweetImage(tweet.id, tempArray))
+            setTweetImgs(tempArray)
+          }
+        })
+      }
+    }
+
+    fetchImages()
+  }, [firebase, tweet.imageNum, tweet.id, tweetImages])
 
   const formatTime = (seconds) => {
     let time = new Date(Date.UTC(1970, 0, 1))
     time.setUTCSeconds(seconds)
     return time.toLocaleDateString()
   }
+
+  const liked = tweet.likes.includes(userID)
 
   return (
     <PositionDiv>
@@ -137,13 +157,33 @@ const TweetTemplate = ({
                     </div>
                     <div>
                       <div>
-                        {tweetImages &&
-                          tweetImages.map((obj, idx) => (
+                        {/* {tweetImages &&
+                          tweetImages.map((obj) =>
+                            obj.id === tweet.id
+                              ? obj.images.map((img, idx) => (
+                                  <TweetImageContainer key={idx}>
+                                    <img
+                                      src={img}
+                                      alt='tweet-img'
+                                      style={{
+                                        height: '100%',
+                                        width: '100%',
+                                      }}
+                                    />
+                                  </TweetImageContainer>
+                                ))
+                              : ''
+                          )} */}
+                        {tweetImgs &&
+                          tweetImgs.map((img, idx) => (
                             <TweetImageContainer key={idx}>
                               <img
-                                src={obj.image}
+                                src={img}
                                 alt='tweet-img'
-                                style={{ height: '100%', width: '100%' }}
+                                style={{
+                                  height: '100%',
+                                  width: '100%',
+                                }}
                               />
                             </TweetImageContainer>
                           ))}
@@ -170,7 +210,24 @@ const TweetTemplate = ({
                           <TextSpan>{tweet.retweets.length}</TextSpan>
                         </div>
                       </RetweetIconContainer>
-                      <LikesIconContainer>
+                      <LikesIconContainer
+                        liked={liked}
+                        onClick={
+                          liked
+                            ? () =>
+                                dispatch(
+                                  unlikeTweet(tweet, userID, profile.likes, {
+                                    firebase,
+                                  })
+                                )
+                            : () =>
+                                dispatch(
+                                  likeTweet(tweet, userID, profile.likes, {
+                                    firebase,
+                                  })
+                                )
+                        }
+                      >
                         <div>
                           <LikeHover>
                             <FontAwesomeIcon icon={faHeart} size='1x' />

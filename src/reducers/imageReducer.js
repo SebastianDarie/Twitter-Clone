@@ -27,7 +27,12 @@ const imageReducer = (state = initialState, action) => {
       }
 
     case IMAGE_REMOVE_ALL:
-      return initialState
+      return {
+        ...state,
+        imgs: [],
+        previewImgs: [],
+        tweetImgs: [...state.tweetImgs],
+      }
 
     case SET_PREVIEW_IMAGE:
       return {
@@ -38,7 +43,7 @@ const imageReducer = (state = initialState, action) => {
     case SET_TWEET_IMAGE:
       return {
         ...state,
-        tweetImgs: [...state.tweetImgs, action.payload],
+        tweetImgs: [action.payload],
       }
 
     default:
