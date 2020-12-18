@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { BackgroundHover } from '../GlobalStyles'
 
 export const PositionDiv = styled.div`
   position: relative;
@@ -121,23 +122,6 @@ export const UpperRightContainer = styled.div`
   margin-left: 20px;
 `
 
-export const BackgroundHover = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 999px;
-  height: 39px;
-  width: 39px;
-  transition-property: background-color, box-shadow;
-  transition-duration: 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(29, 161, 242, 0.1);
-    color: rgba(29, 161, 242, 1);
-  }
-`
-
 export const RetweetHover = styled(BackgroundHover)`
   &:hover {
     background-color: rgba(23, 191, 91, 0.1);
@@ -173,14 +157,6 @@ export const TweetTextDiv = styled.div`
   font-weight: 400;
   line-height: 1.3125;
   overflow-wrap: break-word;
-`
-
-export const GridSystem = styled.div`
-  display: grid;
-  grid-template-columns: 252px 252px;
-  grid-template-rows: 285px 285px;
-  height: 100%;
-  max-height: 570px;
 `
 
 export const TweetImageContainer = styled.div`
@@ -221,11 +197,15 @@ export const CommentIconContainer = styled(IconContentContainer)`
     color: rgba(29, 161, 242, 1);
   }
 `
+
 export const RetweetIconContainer = styled(IconContentContainer)`
+  color: ${(props) => (props.retweeted ? 'rgb(23, 191, 99)' : '')};
+
   &:hover {
     color: rgb(23, 191, 99);
   }
 `
+
 export const LikesIconContainer = styled(IconContentContainer)`
   color: ${(props) => (props.liked ? 'rgb(224, 36, 94)' : '')};
 

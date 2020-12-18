@@ -55,6 +55,7 @@ export const signUp = (credentials, { firebase }) => async (dispatch) => {
         followers: [],
         following: [],
         likes: [],
+        retweets: [],
         tweets: [],
       })
 

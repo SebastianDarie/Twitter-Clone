@@ -7,7 +7,13 @@ import {
   setPreviewImage,
   setTweetImage,
 } from '../../actions/imageActions'
-import { createTweet, likeTweet, unlikeTweet } from '../../actions/tweetActions'
+import {
+  createTweet,
+  likeTweet,
+  unlikeTweet,
+  retweet,
+  unretweet,
+} from '../../actions/tweetActions'
 import {
   FeedLineBreak,
   MainHeaderContainer,
@@ -66,6 +72,8 @@ const TweetFeed = () => {
               firebase={firebase}
               likeTweet={likeTweet}
               unlikeTweet={unlikeTweet}
+              retweet={retweet}
+              unretweet={unretweet}
               profile={profile}
               userID={auth.uid}
               tweet={tweet}

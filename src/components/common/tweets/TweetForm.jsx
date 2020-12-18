@@ -8,6 +8,7 @@ import {
   faSmile,
 } from '@fortawesome/free-solid-svg-icons'
 import {
+  DoublePreviewWrapper,
   ImageLink,
   ProfileImage,
   TextDiv,
@@ -15,7 +16,6 @@ import {
 } from '../GlobalStyles'
 import { ReactComponent as Gif } from '../../../assets/img/gif.svg'
 import {
-  DoublePreviewWrapper,
   FirstSVG,
   GlobeFlexer,
   HoverGlobe,

@@ -241,4 +241,28 @@ export const LowerText = styled.div`
   font-weight: 400;
 `
 
+export const DoublePreviewWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 285px;
+`
+
+export const BackgroundHover = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  height: 39px;
+  width: 39px;
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+    color: rgba(29, 161, 242, 1);
+  }
+`
+
 export default GlobalStyles
