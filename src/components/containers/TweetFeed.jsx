@@ -31,6 +31,7 @@ const TweetFeed = () => {
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const tweets = useSelector((state) => state.firestore.ordered.tweets)
+  const users = useSelector((state) => state.firestore.ordered.users)
   const auth = useSelector((state) => state.firebase.auth)
   const profile = useSelector((state) => state.firebase.profile)
   const images = useSelector((state) => state.image.imgs)
@@ -74,6 +75,7 @@ const TweetFeed = () => {
               unlikeTweet={unlikeTweet}
               retweet={retweet}
               unretweet={unretweet}
+              users={users}
               profile={profile}
               userID={auth.uid}
               tweet={tweet}

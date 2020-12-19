@@ -55,6 +55,7 @@ const TweetTemplate = ({
   unlikeTweet,
   retweet,
   unretweet,
+  users,
   profile,
   userID,
   tweet,
@@ -99,7 +100,15 @@ const TweetTemplate = ({
 
   return (
     <>
-      <ReplyModal />
+      <ReplyModal
+        dispatch={dispatch}
+        firebase={firebase}
+        tweet={tweet}
+        users={users}
+        profile={profile}
+        userID={userID}
+        formatTime={formatTime}
+      />
       <PositionDiv>
         <BorderDiv>
           <div>
@@ -113,11 +122,9 @@ const TweetTemplate = ({
                 <RowDiv>
                   <ProfileImageContainer>
                     <TweetImageDiv>
-                      <div>
-                        <ImageLink>
-                          <ProfileImage imageURL={profile.photoURL} />
-                        </ImageLink>
-                      </div>
+                      <ImageLink>
+                        <ProfileImage imageURL={profile.photoURL} />
+                      </ImageLink>
                     </TweetImageDiv>
                   </ProfileImageContainer>
                   <SideContent>
@@ -197,7 +204,7 @@ const TweetTemplate = ({
                             </DoublePreviewWrapper>
                           </TweetImageContainer>
                         )} */}
-                          {tweetImgs.length > 0 &&
+                          {tweetImgs &&
                             tweetImgs.map((img, idx) => (
                               <TweetImageContainer key={idx}>
                                 <img

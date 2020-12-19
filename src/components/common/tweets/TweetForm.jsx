@@ -1,49 +1,35 @@
 import React, { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCalendar,
-  faChartBar,
-  faGlobeAmericas,
-  faImage,
-  faSmile,
-} from '@fortawesome/free-solid-svg-icons'
+import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons'
 import {
   DoublePreviewWrapper,
   ImageLink,
   ProfileImage,
-  TextDiv,
+  TweetFormInputPadding,
+  TweetFormInputText,
+  TweetFormTextArea,
   TweetImageDiv,
 } from '../GlobalStyles'
-import { ReactComponent as Gif } from '../../../assets/img/gif.svg'
 import {
-  FirstSVG,
   GlobeFlexer,
   HoverGlobe,
-  ImageInput,
   LineBreak,
   PaddingLine,
   SinglePreviewWrapper,
-  TweetFormBottomContainer,
-  TweetFormBottomContent,
-  TweetFormBtn,
   TweetFormContainer,
   TweetFormContent,
   TweetFormContentContainer,
-  TweetFormIcon,
   TweetFormImageContainer,
   TweetFormInputBorder,
   TweetFormInputContainer,
   TweetFormInputFlex,
-  TweetFormInputPadding,
-  TweetFormInputText,
   TweetFormPadding,
   TweetFormRow,
   TweetFormSidePadding,
-  TweetFormSVGContainer,
-  TweetFormTextArea,
   TweetFormTopLine,
 } from './TweetForm'
 import PreviewImage from './PreviewImage.jsx'
+import TweetCreator from './TweetCreator.jsx'
 import resizeImage from '../../../utils/resizeImage'
 
 const TweetForm = ({
@@ -122,23 +108,27 @@ const TweetForm = ({
         type: blob.type,
       })
       dispatch(addImage(image))
-    } else {
-      console.log('smth went wrong')
-    }
+    } //else {
+    //   console.log('smth went wrong')
+    // }
   }
 
   const clickHandler = () => {
-    dispatch(
-      createTweet(
-        textarea.current.value,
-        profile.name,
-        profile.username,
-        userID,
-        profile.tweets,
-        images,
-        { firebase }
+    if (textarea.current.value === '' && images.length === 0) {
+      console.log('test')
+    } else {
+      dispatch(
+        createTweet(
+          textarea.current.value,
+          profile.name,
+          profile.username,
+          userID,
+          profile.tweets,
+          images,
+          { firebase }
+        )
       )
-    )
+    }
   }
 
   return (
@@ -152,11 +142,9 @@ const TweetForm = ({
                 <TweetFormRow>
                   <TweetFormImageContainer>
                     <TweetImageDiv>
-                      <div>
-                        <ImageLink>
-                          <ProfileImage imageURL={profile.photoURL} />
-                        </ImageLink>
-                      </div>
+                      <ImageLink>
+                        <ProfileImage imageURL={profile.photoURL} />
+                      </ImageLink>
                     </TweetImageDiv>
                   </TweetFormImageContainer>
                   <TweetFormContentContainer>
@@ -227,53 +215,13 @@ const TweetForm = ({
                     <LineBreak ref={breakline} />
                     <div>
                       <div>
-                        <TweetFormBottomContainer>
-                          <TweetFormBottomContent>
-                            <FirstSVG>
-                              <TweetFormIcon>
-                                <label
-                                  htmlFor='image-input'
-                                  style={{ cursor: 'pointer' }}
-                                >
-                                  <FontAwesomeIcon icon={faImage} size='lg' />
-                                </label>
-                                <ImageInput
-                                  id='image-input'
-                                  onChange={imageInput}
-                                  onClick={clearInput}
-                                />
-                              </TweetFormIcon>
-                            </FirstSVG>
-                            <TweetFormSVGContainer>
-                              <TweetFormIcon>
-                                <Gif />
-                              </TweetFormIcon>
-                            </TweetFormSVGContainer>
-                            <TweetFormSVGContainer>
-                              <TweetFormIcon>
-                                <FontAwesomeIcon icon={faChartBar} size='lg' />
-                              </TweetFormIcon>
-                            </TweetFormSVGContainer>
-                            <TweetFormSVGContainer>
-                              <TweetFormIcon>
-                                <FontAwesomeIcon icon={faSmile} size='lg' />
-                              </TweetFormIcon>
-                            </TweetFormSVGContainer>
-                            <TweetFormSVGContainer>
-                              <TweetFormIcon>
-                                <FontAwesomeIcon icon={faCalendar} size='lg' />
-                              </TweetFormIcon>
-                            </TweetFormSVGContainer>
-                          </TweetFormBottomContent>
-
-                          <TweetFormBottomContent>
-                            <TextDiv>
-                              <TweetFormBtn ref={button} onClick={clickHandler}>
-                                Tweet
-                              </TweetFormBtn>
-                            </TextDiv>
-                          </TweetFormBottomContent>
-                        </TweetFormBottomContainer>
+                        <TweetCreator
+                          text='Tweet'
+                          button={button}
+                          imageInput={imageInput}
+                          clearInput={clearInput}
+                          clickHandler={clickHandler}
+                        />
                       </div>
                     </div>
                   </TweetFormContentContainer>

@@ -265,4 +265,48 @@ export const BackgroundHover = styled.div`
   }
 `
 
+export const TweetFormInputText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  color: rgb(15, 20, 25);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.3125;
+  overflow: hidden;
+`
+
+export const TweetFormInputPadding = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  overflow-y: hidden;
+  text-align: center;
+  width: 100%;
+`
+
+export const TweetFormTextArea = styled.textarea.attrs({
+  placeholder: "What's happening?",
+})`
+  display: flex;
+  justify-content: center;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  min-height: 1.3125em;
+  max-height: 38.0625em;
+  resize: none;
+  outline: none;
+  overflow-wrap: break-word;
+  overflow-y: hidden;
+  width: 100%;
+`
+
 export default GlobalStyles
