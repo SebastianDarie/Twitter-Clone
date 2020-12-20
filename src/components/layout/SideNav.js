@@ -7,7 +7,7 @@ export const Header = styled.header`
   flex-direction: column;
   flex-grow: 1;
   align-items: flex-end;
-  z-index: 3;
+  z-index: 1;
 `
 
 export const SideContainer = styled.div`

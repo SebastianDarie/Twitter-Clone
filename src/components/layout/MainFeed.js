@@ -5,7 +5,7 @@ export const MainFlexer = styled.main`
   flex-grow: 1;
   flex-shrink: 1;
   align-items: flex-start;
-  height: 100vh;
+  height: 100%;
 `
 
 export const MainDiv = styled.div`

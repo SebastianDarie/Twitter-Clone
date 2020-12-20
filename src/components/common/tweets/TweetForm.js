@@ -52,20 +52,6 @@ export const TweetFormContentContainer = styled.div`
   padding-top: 5px;
 `
 
-export const TweetFormInputContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-color: rgba(0, 0, 0, 0);
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 2px;
-  /* height: 50px; */
-  min-height: fit-content;
-  max-height: 38.0625em;
-  overflow: hidden;
-`
-
 export const TweetFormInputFlex = styled.div`
   display: flex;
   flex-direction: column;
@@ -83,16 +69,6 @@ export const TweetFormInputBorder = styled.div`
   background-color: rgba(0, 0, 0, 0);
   border-width: 0px;
   overflow: hidden;
-`
-
-export const SinglePreviewWrapper = styled.div`
-  display: flex;
-  flex-basis: auto;
-  flex-direction: row;
-  flex-shrink: 0;
-  align-items: stretch;
-  min-height: fit-content;
-  max-height: 285px;
 `
 
 export const PaddingLine = styled.div`

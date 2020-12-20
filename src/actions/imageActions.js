@@ -7,9 +7,14 @@ import {
   SET_TWEET_IMAGE,
 } from '../constants/imageConstants'
 
-export const addImage = (image) => (dispatch, getState) => {
+export const addImage = (image, type) => (dispatch, getState) => {
   const currImages = getState().image.imgs
+  const currType = getState().image.type
   const names = currImages.map((image) => image.name)
+
+  if (currType !== type) {
+    dispatch({ type: IMAGE_REMOVE_ALL })
+  }
 
   if (currImages.length >= 4 && !names.includes(image.name)) {
     dispatch(
@@ -38,7 +43,7 @@ export const addImage = (image) => (dispatch, getState) => {
       })
     )
   } else {
-    dispatch({ type: IMAGE_ADD, payload: image })
+    dispatch({ type: IMAGE_ADD, payload: { image, type } })
   }
 }
 

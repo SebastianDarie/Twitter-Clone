@@ -19,6 +19,7 @@ import {
 } from './TweetCreator'
 
 const TweetCreator = ({
+  input,
   text,
   button,
   imageInput,
@@ -30,14 +31,10 @@ const TweetCreator = ({
       <TweetFormBottomContent>
         <FirstSVG>
           <TweetFormIcon>
-            <label htmlFor='image-input' style={{ cursor: 'pointer' }}>
+            <label htmlFor={input} style={{ cursor: 'pointer' }}>
               <FontAwesomeIcon icon={faImage} size='lg' />
             </label>
-            <ImageInput
-              id='image-input'
-              onChange={imageInput}
-              onClick={clearInput}
-            />
+            <ImageInput id={input} onChange={imageInput} onClick={clearInput} />
           </TweetFormIcon>
         </FirstSVG>
         <TweetFormSVGContainer>

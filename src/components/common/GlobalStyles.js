@@ -208,7 +208,8 @@ export const ProfileImage = styled.img.attrs((props) => ({
 `
 
 export const BlackOut = styled.div`
-  display: ${(props) => (props.modalState.open ? '' : 'none')};
+  display: ${(props) =>
+    props.modalState.open && props.modalState.el !== 'logout' ? '' : 'none'};
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;
@@ -239,6 +240,29 @@ export const LowerText = styled.div`
   color: rgb(91, 112, 131);
   font-size: 15px;
   font-weight: 400;
+`
+
+export const TweetFormInputContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-color: rgba(0, 0, 0, 0);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 2px;
+  min-height: fit-content;
+  max-height: 38.0625em;
+  overflow: hidden;
+`
+
+export const SinglePreviewWrapper = styled.div`
+  display: flex;
+  flex-basis: auto;
+  flex-direction: row;
+  flex-shrink: 0;
+  align-items: stretch;
+  min-height: fit-content;
+  max-height: 285px;
 `
 
 export const DoublePreviewWrapper = styled.div`
@@ -301,6 +325,25 @@ export const TweetFormTextArea = styled.textarea.attrs({
   font-size: 19px;
   font-weight: 400;
   min-height: 1.3125em;
+  max-height: 38.0625em;
+  resize: none;
+  outline: none;
+  overflow-wrap: break-word;
+  overflow-y: hidden;
+  width: 100%;
+`
+
+export const ReplyFormTextArea = styled.textarea.attrs({
+  placeholder: 'Tweet your reply',
+})`
+  display: flex;
+  justify-content: center;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  min-height: 99px;
   max-height: 38.0625em;
   resize: none;
   outline: none;

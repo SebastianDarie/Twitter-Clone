@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import {
   BackgroundHover,
   BreakPoint,
+  DoublePreviewWrapper,
   ImageLink,
   ProfileImage,
+  ReplyFormTextArea,
+  SinglePreviewWrapper,
+  TweetFormInputContainer,
   TweetFormInputPadding,
   TweetFormInputText,
-  TweetFormTextArea,
   TweetImageDiv,
 } from '../GlobalStyles'
 import {
@@ -44,30 +47,103 @@ import {
   TimeDiv,
   TweetContent,
 } from './ReplyModal'
+import PreviewImage from './PreviewImage.jsx'
 import TweetCreator from './TweetCreator.jsx'
+import { clearInput, imageInput } from '../../../utils/addImage'
 
 const ReplyModal = ({
   dispatch,
   firebase,
+  replyModal,
+  modalState,
+  closeModal,
+  reply,
   tweet,
   users,
   profile,
   userID,
   formatTime,
+  type,
+  images,
+  previews,
+  addImage,
+  removeImage,
+  removeAllImages,
+  setPreviewImage,
 }) => {
-  const { name, username, text, timeStamp } = tweet
+  const button = useRef()
+  const textarea = useRef()
+
+  useEffect(() => {
+    if (type === 'reply') {
+      if (images.length) {
+        let tempArr = []
+        for (const img of images) {
+          const fileURL = URL.createObjectURL(img)
+
+          const component = (
+            <PreviewImage
+              key={img.name}
+              image={img}
+              src={fileURL}
+              dispatch={dispatch}
+              removeImage={removeImage}
+            />
+          )
+
+          tempArr.push(component)
+        }
+        dispatch(setPreviewImage(tempArr))
+      } else {
+        dispatch(setPreviewImage([]))
+      }
+    }
+  }, [images, type])
+
+  const { id, name, username, text, timeStamp } = tweet
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
+  const focusHandler = () => {
+    button.current.style.opacity = 1
+    button.current.style.pointerEvents = 'all'
+  }
+
+  const closeHandler = () => {
+    dispatch(removeAllImages())
+    dispatch(closeModal())
+  }
+
+  const clickHandler = () => {
+    if (textarea.current.value === '' && images.length === 0) {
+      console.log(tweet)
+    } else {
+      dispatch(
+        reply(
+          tweet.id,
+          tweetCreator.id,
+          textarea.current.value,
+          profile.name,
+          profile.username,
+          userID,
+          profile.tweets,
+          images,
+          { firebase }
+        )
+      )
+      dispatch(closeModal())
+    }
+  }
+
   return (
-    <PositionModalDiv>
+    <PositionModalDiv ref={replyModal} modalState={modalState} id={id}>
       <FlavorDiv>
         <div></div>
         <div style={{ height: '53px' }}>
           <div>
             <HeaderPadding>
               <BigFlexer>
-                <LeftContainer>
+                <LeftContainer onClick={closeHandler}>
                   <BackgroundHover>
                     <FontAwesomeIcon
                       color='rgba(29, 161, 242, 1)'
@@ -165,17 +241,52 @@ const ReplyModal = ({
                       <ReplyTextAreaContainer>
                         <TweetFormInputText>
                           <TweetFormInputPadding>
-                            <TweetFormTextArea
-                            // ref={textarea}
-                            // onFocus={focusHandler}
-                            // onKeyUp={() =>
-                            //   setHeight(textarea.current)
-                            // }
+                            <ReplyFormTextArea
+                              ref={textarea}
+                              onFocus={focusHandler}
+                              // onKeyUp={() =>
+                              //   setHeight(textarea.current)
+                              // }
                             />
                           </TweetFormInputPadding>
                         </TweetFormInputText>
                       </ReplyTextAreaContainer>
-                      <TweetCreator text='Reply' />
+
+                      <TweetFormInputContainer>
+                        {previews.length > 1 ? (
+                          <SinglePreviewWrapper>
+                            <DoublePreviewWrapper>
+                              {previews.slice(
+                                0,
+                                Math.floor(previews.length / 2)
+                              )}
+                            </DoublePreviewWrapper>
+                            <DoublePreviewWrapper style={{ marginLeft: '5px' }}>
+                              {previews.slice(
+                                Math.floor(previews.length / 2),
+                                previews.length
+                              )}
+                            </DoublePreviewWrapper>
+                          </SinglePreviewWrapper>
+                        ) : (
+                          previews.length > 0 && (
+                            <SinglePreviewWrapper>
+                              {previews}
+                            </SinglePreviewWrapper>
+                          )
+                        )}
+                      </TweetFormInputContainer>
+
+                      <TweetCreator
+                        input='reply-image'
+                        text='Reply'
+                        button={button}
+                        imageInput={(e) =>
+                          imageInput(e, dispatch, addImage, 'reply')
+                        }
+                        clearInput={clearInput}
+                        clickHandler={clickHandler}
+                      />
                     </ReplySectionCreator>
                   </SidePaddingDiv>
                 </div>

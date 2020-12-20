@@ -4,7 +4,7 @@ export const ModalPositioner = styled.div`
   position: fixed;
   bottom: 79px;
   display: ${(props) =>
-    props.modalState.el && props.modalState.el !== 'logout'
+    props.modalState.open && props.modalState.el === 'logout'
       ? ''
       : 'none' || 'none'};
 `

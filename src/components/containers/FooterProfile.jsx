@@ -37,9 +37,7 @@ const FooterProfile = () => {
   }
 
   const modalHandler = () => {
-    !modalState.open
-      ? dispatch(openModal(logoutModal.current))
-      : dispatch(closeModal())
+    !modalState.open ? dispatch(openModal('logout')) : dispatch(closeModal())
   }
 
   // const outsideClick = (e) => {

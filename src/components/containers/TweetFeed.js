@@ -21,7 +21,7 @@ export const MainHeaderContainer = styled.div`
   border-bottom-color: rgb(235, 238, 240);
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  z-index: 3;
+  z-index: 2;
 `
 
 export const PointerHeader = styled.div`

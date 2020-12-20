@@ -1,13 +1,18 @@
 import styled from 'styled-components'
 
 export const PositionModalDiv = styled.div`
-  display: flex;
+  display: ${(props) =>
+    props.modalState.open && props.modalState.el === props.id
+      ? 'flex'
+      : 'none'};
   flex-shrink: 1;
   border-radius: 16px;
+  position: fixed;
   top: 5%;
   max-height: 90vh;
   min-width: 600px;
   max-width: 80vw;
+  z-index: 3;
 `
 
 export const FlavorDiv = styled.div`
@@ -249,7 +254,7 @@ export const ReplySectionCreator = styled.div`
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-  min-height: 177px;
+  min-height: 157px;
   padding-top: 5px;
 `
 

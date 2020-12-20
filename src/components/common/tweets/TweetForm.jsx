@@ -5,6 +5,8 @@ import {
   DoublePreviewWrapper,
   ImageLink,
   ProfileImage,
+  SinglePreviewWrapper,
+  TweetFormInputContainer,
   TweetFormInputPadding,
   TweetFormInputText,
   TweetFormTextArea,
@@ -15,13 +17,11 @@ import {
   HoverGlobe,
   LineBreak,
   PaddingLine,
-  SinglePreviewWrapper,
   TweetFormContainer,
   TweetFormContent,
   TweetFormContentContainer,
   TweetFormImageContainer,
   TweetFormInputBorder,
-  TweetFormInputContainer,
   TweetFormInputFlex,
   TweetFormPadding,
   TweetFormRow,
@@ -30,7 +30,7 @@ import {
 } from './TweetForm'
 import PreviewImage from './PreviewImage.jsx'
 import TweetCreator from './TweetCreator.jsx'
-import resizeImage from '../../../utils/resizeImage'
+import { clearInput, imageInput } from '../../../utils/addImage'
 
 const TweetForm = ({
   dispatch,
@@ -41,6 +41,7 @@ const TweetForm = ({
   setPreviewImage,
   images,
   previews,
+  type,
   profile,
   userID,
 }) => {
@@ -51,28 +52,30 @@ const TweetForm = ({
   const button = useRef()
 
   useEffect(() => {
-    if (images.length) {
-      let tempArr = []
-      for (const img of images) {
-        const fileURL = URL.createObjectURL(img)
+    if (type === 'form') {
+      if (images.length) {
+        let tempArr = []
+        for (const img of images) {
+          const fileURL = URL.createObjectURL(img)
 
-        const component = (
-          <PreviewImage
-            key={img.name}
-            image={img}
-            src={fileURL}
-            dispatch={dispatch}
-            removeImage={removeImage}
-          />
-        )
+          const component = (
+            <PreviewImage
+              key={img.name}
+              image={img}
+              src={fileURL}
+              dispatch={dispatch}
+              removeImage={removeImage}
+            />
+          )
 
-        tempArr.push(component)
+          tempArr.push(component)
+        }
+        dispatch(setPreviewImage(tempArr))
+      } else {
+        dispatch(setPreviewImage([]))
       }
-      dispatch(setPreviewImage(tempArr))
-    } else {
-      dispatch(setPreviewImage([]))
     }
-  }, [images])
+  }, [images, type])
 
   const focusHandler = () => {
     breakline.current.style.display = 'block'
@@ -92,25 +95,6 @@ const TweetForm = ({
       'height:' + textarea[i].scrollHeight + 'px;'
     )
     textarea[i].addEventListener('input', setHeight(textarea[i]), false)
-  }
-
-  const clearInput = (e) => {
-    e.target.value = null
-  }
-
-  const imageInput = async (e) => {
-    if (e.target.files[0]) {
-      const file = e.target.files[0]
-      const blob = await resizeImage(file, 1200, 675)
-
-      const image = new File([blob], file.name, {
-        lastModified: new Date().getTime(),
-        type: blob.type,
-      })
-      dispatch(addImage(image))
-    } //else {
-    //   console.log('smth went wrong')
-    // }
   }
 
   const clickHandler = () => {
@@ -216,9 +200,12 @@ const TweetForm = ({
                     <div>
                       <div>
                         <TweetCreator
+                          input='image-input'
                           text='Tweet'
                           button={button}
-                          imageInput={imageInput}
+                          imageInput={(e) =>
+                            imageInput(e, dispatch, addImage, 'form')
+                          }
                           clearInput={clearInput}
                           clickHandler={clickHandler}
                         />

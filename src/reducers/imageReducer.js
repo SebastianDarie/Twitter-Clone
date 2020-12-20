@@ -10,12 +10,17 @@ const initialState = {
   imgs: [],
   previewImgs: [],
   tweetImgs: [],
+  type: 'form',
 }
 
 const imageReducer = (state = initialState, action) => {
   switch (action.type) {
     case IMAGE_ADD:
-      return { ...state, imgs: [...state.imgs, action.payload] }
+      return {
+        ...state,
+        imgs: [...state.imgs, action.payload.image],
+        type: action.payload.type,
+      }
 
     case IMAGE_REMOVE:
       return {
@@ -43,7 +48,7 @@ const imageReducer = (state = initialState, action) => {
     case SET_TWEET_IMAGE:
       return {
         ...state,
-        tweetImgs: [action.payload],
+        tweetImgs: [...state.tweetImgs, action.payload],
       }
 
     default:

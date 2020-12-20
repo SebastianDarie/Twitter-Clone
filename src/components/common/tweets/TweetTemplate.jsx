@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faComment,
@@ -55,19 +55,32 @@ const TweetTemplate = ({
   unlikeTweet,
   retweet,
   unretweet,
+  reply,
+  modalState,
+  closeModal,
+  openModal,
   users,
   profile,
   userID,
   tweet,
   tweetImages,
   setTweetImage,
+  type,
+  images,
+  previews,
+  addImage,
+  removeImage,
+  removeAllImages,
+  setPreviewImage,
 }) => {
   const [tweetImgs, setTweetImgs] = useState([])
+
+  const replyModal = useRef()
 
   useEffect(() => {
     let mounted = true
     const fetchImages = async () => {
-      if (tweet.imageNum !== 0) {
+      if (tweet.imageNum !== 0 && tweetImgs.length !== tweet.imageNum) {
         const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
 
         const res = await pathRef.listAll()
@@ -87,7 +100,8 @@ const TweetTemplate = ({
     }
 
     fetchImages()
-  }, [firebase, tweet.imageNum, tweet.id, tweetImages])
+    return () => (mounted = false)
+  }, [firebase, tweet.imageNum, tweet.id])
 
   const formatTime = (seconds) => {
     let time = new Date(Date.UTC(1970, 0, 1))
@@ -95,19 +109,46 @@ const TweetTemplate = ({
     return time.toLocaleDateString()
   }
 
+  const replyClick = () => {
+    dispatch(removeAllImages())
+    dispatch(openModal(tweet.id))
+  }
+
+  const outsideClickHandler = (e) => {
+    if (modalState.open) {
+      if (e.target !== replyModal.current) {
+        dispatch(removeAllImages())
+        dispatch(closeModal())
+      }
+    }
+  }
+
   const liked = tweet.likes.includes(userID)
   const retweeted = tweet.retweets.includes(userID)
 
+  // TODO: tweet alert on empty tweet, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
   return (
     <>
+      <BlackOut modalState={modalState} onClick={outsideClickHandler} />
       <ReplyModal
         dispatch={dispatch}
         firebase={firebase}
+        replyModal={replyModal}
+        modalState={modalState}
+        closeModal={closeModal}
+        reply={reply}
         tweet={tweet}
         users={users}
         profile={profile}
         userID={userID}
         formatTime={formatTime}
+        type={type}
+        images={images}
+        previews={previews}
+        addImage={addImage}
+        removeImage={removeImage}
+        removeAllImages={removeAllImages}
+        setPreviewImage={setPreviewImage}
       />
       <PositionDiv>
         <BorderDiv>
@@ -220,7 +261,7 @@ const TweetTemplate = ({
                         </div>
                       </div>
                       <BottomIconsContainer>
-                        <CommentIconContainer>
+                        <CommentIconContainer onClick={replyClick}>
                           <div>
                             <BackgroundHover>
                               <FontAwesomeIcon icon={faComment} size='1x' />
