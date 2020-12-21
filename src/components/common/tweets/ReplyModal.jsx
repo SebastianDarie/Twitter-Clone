@@ -54,12 +54,13 @@ import { clearInput, imageInput } from '../../../utils/addImage'
 const ReplyModal = ({
   dispatch,
   firebase,
+  button,
   replyModal,
   modalState,
   closeModal,
   reply,
   tweet,
-  users,
+  tweetCreator,
   profile,
   userID,
   formatTime,
@@ -70,8 +71,8 @@ const ReplyModal = ({
   removeImage,
   removeAllImages,
   setPreviewImage,
+  toastrActions,
 }) => {
-  const button = useRef()
   const textarea = useRef()
 
   useEffect(() => {
@@ -102,21 +103,33 @@ const ReplyModal = ({
 
   const { id, name, username, text, timeStamp } = tweet
 
-  const tweetCreator = users?.find((user) => user.id === tweet.userID)
-
   const focusHandler = () => {
     button.current.style.opacity = 1
     button.current.style.pointerEvents = 'all'
   }
 
   const closeHandler = () => {
+    button.current.style.opacity = 0.5
+    button.current.style.pointerEvents = 'none'
+
     dispatch(removeAllImages())
     dispatch(closeModal())
   }
 
   const clickHandler = () => {
     if (textarea.current.value === '' && images.length === 0) {
-      console.log(tweet)
+      dispatch(
+        toastrActions.add({
+          type: 'warning',
+          title: 'Tweet Creation Error',
+          position: 'top-right',
+          message: 'Please enter some text or an image',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
     } else {
       dispatch(
         reply(

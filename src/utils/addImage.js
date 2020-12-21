@@ -1,3 +1,4 @@
+import { actions as toastrActions } from 'react-redux-toastr'
 import resizeImage from './resizeImage'
 
 export const clearInput = (e) => {
@@ -14,7 +15,18 @@ export const imageInput = async (e, dispatch, addImage, type) => {
       type: blob.type,
     })
     dispatch(addImage(image, type))
-  } //else {
-  //   console.log('smth went wrong')
-  // }
+  } else {
+    dispatch(
+      toastrActions.add({
+        type: 'warning',
+        title: 'Invalid File',
+        position: 'top-right',
+        message: 'Please upload an image!',
+        options: {
+          showCloseButton: true,
+          timeOut: 3500,
+        },
+      })
+    )
+  }
 }

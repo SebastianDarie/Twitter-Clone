@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useFirestoreConnect } from 'react-redux-firebase'
 import {
   AsideDiv,
   FollowSectionContainer,
@@ -10,7 +9,6 @@ import {
 import FollowProfile from './FollowProfile.jsx'
 
 const FollowSection = () => {
-  useFirestoreConnect([{ collection: 'users' }])
   const users = useSelector((state) => state.firestore.ordered.users)
 
   return (
@@ -30,7 +28,7 @@ const FollowSection = () => {
                     key={user.id}
                     imageURL={user.photoURL}
                     name={user.name}
-                    profile={user.username}
+                    username={user.username}
                   />
                 ))
             : null}

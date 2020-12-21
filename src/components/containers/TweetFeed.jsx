@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { actions as toastrActions } from 'react-redux-toastr'
 import { closeModal, openModal } from '../../actions/modalActions'
 import {
   addImage,
@@ -18,14 +19,13 @@ import {
   reply,
 } from '../../actions/tweetActions'
 import {
-  FeedLineBreak,
   MainHeaderContainer,
   MainTweetContainer,
   PointerHeader,
   PointerHeight,
   PointerPadding,
-  PointerText,
-} from './TweetFeed'
+} from '../common/GlobalStyles'
+import { FeedLineBreak, PointerText } from './TweetFeed'
 import TweetForm from '../common/tweets/TweetForm.jsx'
 import TweetTemplate from '../common/tweets/TweetTemplate.jsx'
 
@@ -73,6 +73,7 @@ const TweetFeed = () => {
           type={type}
           profile={profile}
           userID={auth.uid}
+          toastrActions={toastrActions}
         />
         <FeedLineBreak />
         {filteredTweets &&
@@ -102,6 +103,7 @@ const TweetFeed = () => {
               removeImage={removeImage}
               removeAllImages={removeAllImages}
               setPreviewImage={setPreviewImage}
+              toastrActions={toastrActions}
             />
           ))}
       </div>

@@ -48,6 +48,48 @@ const GlobalStyles = createGlobalStyle`
     }
 `
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  min-height: 767px;
+  width: 100%;
+  z-index: 0;
+`
+
+export const MainFlexer = styled.main`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-items: flex-start;
+  height: 100%;
+`
+
+export const MainDiv = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 100%;
+  max-width: 990px;
+  width: 990px;
+`
+
+export const GrowDiv = styled.div`
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+`
+
+export const MainContainer = styled.div`
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 100%;
+  width: 100%;
+`
+
 export const Button = styled.button`
   display: flex;
   justify-content: center;
@@ -272,6 +314,21 @@ export const DoublePreviewWrapper = styled.div`
   height: 285px;
 `
 
+export const DotIconContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: rgb(91, 112, 131);
+  max-width: 100%;
+  text-align: center;
+  transition-property: color;
+  transition-duration: 0.2s;
+
+  &:hover {
+    color: rgba(29, 161, 242, 1);
+  }
+`
+
 export const BackgroundHover = styled.div`
   display: flex;
   justify-content: center;
@@ -350,6 +407,95 @@ export const ReplyFormTextArea = styled.textarea.attrs({
   overflow-wrap: break-word;
   overflow-y: hidden;
   width: 100%;
+`
+
+export const MainTweetContainer = styled.div`
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgb(235, 238, 240);
+  border-style: solid;
+  border-top-width: 0px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  max-width: 600px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+  z-index: 1;
+`
+
+export const MainHeaderContainer = styled.div`
+  position: sticky;
+  top: 0px;
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom-color: rgb(235, 238, 240);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  z-index: 2;
+`
+
+export const PointerHeader = styled.div`
+  cursor: pointer;
+  z-index: 2;
+`
+
+export const PointerHeight = styled.div`
+  height: 53px;
+  z-index: 2;
+`
+
+export const PointerPadding = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1);
+  height: 53px;
+  padding-left: 15px;
+  padding-right: 15px;
+`
+
+export const ColumnDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+`
+
+export const RowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const TweetPaddingTop = styled.div`
+  padding-top: 10px;
+`
+
+export const InnerDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+export const ProfileText = styled.div`
+  display: flex;
+  flex-shrink: 1;
+  max-width: 100%;
+`
+
+export const UpperName = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 100%;
+`
+
+export const LowerName = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 1;
 `
 
 export default GlobalStyles

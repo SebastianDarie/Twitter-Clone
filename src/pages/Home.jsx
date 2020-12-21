@@ -1,19 +1,35 @@
 import React from 'react'
-import MainFeed from '../components/layout/MainFeed.jsx'
-import SideNav from '../components/layout/SideNav.jsx'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import TweetFeed from '../components/containers/TweetFeed.jsx'
+import RightScreen from '../components/layout/RightScreen.jsx'
+import {
+  GrowDiv,
+  MainContainer,
+  MainDiv,
+  MainFlexer,
+} from '../components/common/GlobalStyles.js'
 //import TwitterModal from '../components/common/TwitterModal.jsx'
-import { Container } from './Home.js'
 
 const Home = () => {
+  useFirestoreConnect([{ collection: 'users' }])
+
   return (
-    <Container>
+    <>
       {/* <TwitterModal
         title='Log out of Twitter?'
         text='You can always log back in at any time. If you just want to switch accounts, you can do that by adding an existing account.'
       /> */}
-      <SideNav />
-      <MainFeed />
-    </Container>
+      <MainFlexer>
+        <MainDiv>
+          <GrowDiv>
+            <MainContainer>
+              <TweetFeed />
+              <RightScreen />
+            </MainContainer>
+          </GrowDiv>
+        </MainDiv>
+      </MainFlexer>
+    </>
   )
 }
 

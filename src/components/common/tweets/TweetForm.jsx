@@ -44,6 +44,7 @@ const TweetForm = ({
   type,
   profile,
   userID,
+  toastrActions,
 }) => {
   const container = useRef()
   const globe = useRef()
@@ -99,7 +100,18 @@ const TweetForm = ({
 
   const clickHandler = () => {
     if (textarea.current.value === '' && images.length === 0) {
-      console.log('test')
+      dispatch(
+        toastrActions.add({
+          type: 'warning',
+          title: 'Tweet Creation Error',
+          position: 'top-right',
+          message: 'Please enter some text or an image',
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
     } else {
       dispatch(
         createTweet(

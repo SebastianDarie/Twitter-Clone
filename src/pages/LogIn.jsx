@@ -46,9 +46,12 @@ const LogIn = () => {
 
         <LinkContainer>
           <LinkDiv>
-            <BlueLink to='/'>Forgot Password?</BlueLink>
+            <BlueLink to='/signup'>Forgot Password?</BlueLink>
             <BreakPoint>&#8901;</BreakPoint>
-            <BlueLink to='/' onClick={() => dispatch(openModal('signup'))}>
+            <BlueLink
+              to='/signup'
+              onClick={() => dispatch(openModal('signup'))}
+            >
               Sign up for Twitter
             </BlueLink>
           </LinkDiv>

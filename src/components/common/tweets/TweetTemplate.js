@@ -30,22 +30,6 @@ export const TweetArticle = styled.article`
   }
 `
 
-export const ColumnDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
-`
-
-export const RowDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-export const TweetPaddingTop = styled.div`
-  padding-top: 10px;
-`
-
 export const ProfileImageContainer = styled.div`
   display: flex;
   flex-basis: 49px;
@@ -133,21 +117,6 @@ export const LikeHover = styled(BackgroundHover)`
   &:hover {
     background-color: rgba(224, 36, 94, 0.1);
     color: rgb(224, 36, 94);
-  }
-`
-
-export const DotIconContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: rgb(91, 112, 131);
-  max-width: 100%;
-  text-align: center;
-  transition-property: color;
-  transition-duration: 0.2s;
-
-  &:hover {
-    color: rgba(29, 161, 242, 1);
   }
 `
 

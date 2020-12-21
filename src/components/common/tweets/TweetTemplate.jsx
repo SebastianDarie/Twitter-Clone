@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faComment,
@@ -11,19 +12,21 @@ import {
   BackgroundHover,
   BlackOut,
   BreakPoint,
-  DoublePreviewWrapper,
+  ColumnDiv,
+  DotIconContainer,
+  //DoublePreviewWrapper,
   ImageLink,
   LowerText,
   ProfileImage,
+  RowDiv,
   TweetImageDiv,
+  TweetPaddingTop,
   UpperText,
 } from '../GlobalStyles'
 import {
   BorderDiv,
   BottomIconsContainer,
-  ColumnDiv,
   CommentIconContainer,
-  DotIconContainer,
   LikeHover,
   LikesIconContainer,
   NameDiv,
@@ -32,13 +35,11 @@ import {
   ProfileLink,
   RetweetHover,
   RetweetIconContainer,
-  RowDiv,
   SideContent,
   TextSpan,
   TimeLink,
   TweetArticle,
   TweetImageContainer,
-  TweetPaddingTop,
   TweetTextDiv,
   UpperLeftContainer,
   UpperProfileName,
@@ -72,10 +73,14 @@ const TweetTemplate = ({
   removeImage,
   removeAllImages,
   setPreviewImage,
+  toastrActions,
 }) => {
   const [tweetImgs, setTweetImgs] = useState([])
 
   const replyModal = useRef()
+  const button = useRef()
+
+  const router = useRouter()
 
   useEffect(() => {
     let mounted = true
@@ -109,6 +114,13 @@ const TweetTemplate = ({
     return time.toLocaleDateString()
   }
 
+  const redirectClick = () => {
+    router.push({
+      pathname: `/tweet/${tweet.id}`,
+      state: { prev: router.location.pathname },
+    })
+  }
+
   const replyClick = () => {
     dispatch(removeAllImages())
     dispatch(openModal(tweet.id))
@@ -117,6 +129,9 @@ const TweetTemplate = ({
   const outsideClickHandler = (e) => {
     if (modalState.open) {
       if (e.target !== replyModal.current) {
+        button.current.style.opacity = 0.5
+        button.current.style.pointerEvents = 'none'
+
         dispatch(removeAllImages())
         dispatch(closeModal())
       }
@@ -126,19 +141,22 @@ const TweetTemplate = ({
   const liked = tweet.likes.includes(userID)
   const retweeted = tweet.retweets.includes(userID)
 
-  // TODO: tweet alert on empty tweet, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
+  const tweetCreator = users?.find((user) => user.id === tweet.userID)
+
+  // TODO: tweet letter count svg circle, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
       <ReplyModal
         dispatch={dispatch}
         firebase={firebase}
+        button={button}
         replyModal={replyModal}
         modalState={modalState}
         closeModal={closeModal}
         reply={reply}
         tweet={tweet}
-        users={users}
+        tweetCreator={tweetCreator}
         profile={profile}
         userID={userID}
         formatTime={formatTime}
@@ -149,8 +167,9 @@ const TweetTemplate = ({
         removeImage={removeImage}
         removeAllImages={removeAllImages}
         setPreviewImage={setPreviewImage}
+        toastrActions={toastrActions}
       />
-      <PositionDiv>
+      <PositionDiv onClick={redirectClick}>
         <BorderDiv>
           <div>
             <TweetArticle>
@@ -164,7 +183,7 @@ const TweetTemplate = ({
                   <ProfileImageContainer>
                     <TweetImageDiv>
                       <ImageLink>
-                        <ProfileImage imageURL={profile.photoURL} />
+                        <ProfileImage imageURL={tweetCreator?.photoURL} />
                       </ImageLink>
                     </TweetImageDiv>
                   </ProfileImageContainer>
@@ -174,7 +193,7 @@ const TweetTemplate = ({
                         <UpperTextFlexer>
                           <UpperLeftContainer>
                             <UpperProfileName>
-                              <ProfileLink to={`/${tweet.profile}`}>
+                              <ProfileLink to={`/${tweetCreator?.username}`}>
                                 <NameDiv>
                                   <UpperText>{tweet.name}</UpperText>
 

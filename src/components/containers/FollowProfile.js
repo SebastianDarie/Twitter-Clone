@@ -31,33 +31,6 @@ export const ProfileName = styled.div`
   justify-content: center;
 `
 
-export const InnerDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`
-
-export const ProfileText = styled.div`
-  display: flex;
-  flex-shrink: 1;
-  max-width: 100%;
-`
-
-export const UpperName = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  max-width: 100%;
-`
-
-export const LowerName = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 1;
-`
-
 export const FollowBtnContainer = styled.div`
   display: flex;
   justify-content: center;
