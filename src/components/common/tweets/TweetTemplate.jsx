@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -16,9 +16,12 @@ import {
   DotIconContainer,
   //DoublePreviewWrapper,
   ImageLink,
+  LikeHover,
   LowerText,
   ProfileImage,
+  RetweetHover,
   RowDiv,
+  TweetImageContainer,
   TweetImageDiv,
   TweetPaddingTop,
   UpperText,
@@ -27,19 +30,16 @@ import {
   BorderDiv,
   BottomIconsContainer,
   CommentIconContainer,
-  LikeHover,
   LikesIconContainer,
   NameDiv,
   PositionDiv,
   ProfileImageContainer,
   ProfileLink,
-  RetweetHover,
   RetweetIconContainer,
   SideContent,
   TextSpan,
   TimeLink,
   TweetArticle,
-  TweetImageContainer,
   TweetTextDiv,
   UpperLeftContainer,
   UpperProfileName,
@@ -48,14 +48,16 @@ import {
   UpperTextMargin,
 } from './TweetTemplate'
 import ReplyModal from './ReplyModal.jsx'
+import formatTime from '../../../utils/formatTime'
+import {
+  replyHandler,
+  retweetHandler,
+  likeHandler,
+} from '../../../utils/tweetHandlers'
 
 const TweetTemplate = ({
   dispatch,
   firebase,
-  likeTweet,
-  unlikeTweet,
-  retweet,
-  unretweet,
   reply,
   modalState,
   closeModal,
@@ -64,8 +66,8 @@ const TweetTemplate = ({
   profile,
   userID,
   tweet,
-  tweetImages,
-  setTweetImage,
+  //tweetImages,
+  //setTweetImage,
   type,
   images,
   previews,
@@ -83,7 +85,7 @@ const TweetTemplate = ({
   const router = useRouter()
 
   useEffect(() => {
-    let mounted = true
+    //let mounted = true
     const fetchImages = async () => {
       if (tweet.imageNum !== 0 && tweetImgs.length !== tweet.imageNum) {
         const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
@@ -96,34 +98,25 @@ const TweetTemplate = ({
 
           tempArray.push(url)
 
-          if (mounted && i === tweet.imageNum - 1) {
+          if (i === tweet.imageNum - 1) {
             //dispatch(setTweetImage(tweet.id, tempArray))
             setTweetImgs(tempArray)
+            //console.log('downloaded images')
           }
         })
       }
     }
 
     fetchImages()
-    return () => (mounted = false)
-  }, [firebase, tweet.imageNum, tweet.id])
 
-  const formatTime = (seconds) => {
-    let time = new Date(Date.UTC(1970, 0, 1))
-    time.setUTCSeconds(seconds)
-    return time.toLocaleDateString()
-  }
+    //return () => (mounted = false)
+  }, [firebase, tweet.imageNum, tweet.id])
 
   const redirectClick = () => {
     router.push({
       pathname: `/tweet/${tweet.id}`,
-      state: { prev: router.location.pathname },
+      state: { prev: router.location.pathname, images: tweetImgs },
     })
-  }
-
-  const replyClick = () => {
-    dispatch(removeAllImages())
-    dispatch(openModal(tweet.id))
   }
 
   const outsideClickHandler = (e) => {
@@ -143,7 +136,7 @@ const TweetTemplate = ({
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
-  // TODO: tweet letter count svg circle, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
+  // TODO: get images for prev tweet view, tweet view determine if tweet is a reply, use twitter modal for follow, logout, others (search its use on twitter), integrate React lazy and Suspense in code, get images for tweet view in a smart way(try to pass state in redirect with router), tweet letter count svg circle, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
@@ -280,7 +273,17 @@ const TweetTemplate = ({
                         </div>
                       </div>
                       <BottomIconsContainer>
-                        <CommentIconContainer onClick={replyClick}>
+                        <CommentIconContainer
+                          onClick={(e) =>
+                            replyHandler(
+                              e,
+                              dispatch,
+                              openModal,
+                              removeAllImages,
+                              tweet
+                            )
+                          }
+                        >
                           <div>
                             <BackgroundHover>
                               <FontAwesomeIcon icon={faComment} size='1x' />
@@ -292,30 +295,16 @@ const TweetTemplate = ({
                         </CommentIconContainer>
                         <RetweetIconContainer
                           retweeted={retweeted}
-                          onClick={
-                            retweeted
-                              ? () =>
-                                  dispatch(
-                                    unretweet(
-                                      tweet.id,
-                                      userID,
-                                      profile.retweets,
-                                      {
-                                        firebase,
-                                      }
-                                    )
-                                  )
-                              : () =>
-                                  dispatch(
-                                    retweet(
-                                      tweet.id,
-                                      userID,
-                                      profile.retweets,
-                                      {
-                                        firebase,
-                                      }
-                                    )
-                                  )
+                          onClick={(e) =>
+                            retweetHandler(
+                              e,
+                              retweeted,
+                              dispatch,
+                              tweet,
+                              userID,
+                              profile,
+                              firebase
+                            )
                           }
                         >
                           <div>
@@ -329,25 +318,16 @@ const TweetTemplate = ({
                         </RetweetIconContainer>
                         <LikesIconContainer
                           liked={liked}
-                          onClick={
-                            liked
-                              ? () =>
-                                  dispatch(
-                                    unlikeTweet(
-                                      tweet.id,
-                                      userID,
-                                      profile.likes,
-                                      {
-                                        firebase,
-                                      }
-                                    )
-                                  )
-                              : () =>
-                                  dispatch(
-                                    likeTweet(tweet.id, userID, profile.likes, {
-                                      firebase,
-                                    })
-                                  )
+                          onClick={(e) =>
+                            likeHandler(
+                              e,
+                              liked,
+                              dispatch,
+                              tweet,
+                              userID,
+                              profile,
+                              firebase
+                            )
                           }
                         >
                           <div>

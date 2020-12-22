@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
 import { closeModal, openModal } from '../../actions/modalActions'
 import {
@@ -10,14 +10,7 @@ import {
   setPreviewImage,
   setTweetImage,
 } from '../../actions/imageActions'
-import {
-  createTweet,
-  likeTweet,
-  unlikeTweet,
-  retweet,
-  unretweet,
-  reply,
-} from '../../actions/tweetActions'
+import { createTweet, reply } from '../../actions/tweetActions'
 import {
   MainHeaderContainer,
   MainTweetContainer,
@@ -30,9 +23,6 @@ import TweetForm from '../common/tweets/TweetForm.jsx'
 import TweetTemplate from '../common/tweets/TweetTemplate.jsx'
 
 const TweetFeed = () => {
-  useFirestoreConnect([
-    { collection: 'tweets', orderBy: ['timeStamp', 'desc'] },
-  ])
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const tweets = useSelector((state) => state.firestore.ordered.tweets)
@@ -82,10 +72,6 @@ const TweetFeed = () => {
               key={tweet.id}
               dispatch={dispatch}
               firebase={firebase}
-              likeTweet={likeTweet}
-              unlikeTweet={unlikeTweet}
-              retweet={retweet}
-              unretweet={unretweet}
               reply={reply}
               modalState={modalState}
               closeModal={closeModal}

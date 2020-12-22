@@ -1,5 +1,4 @@
 import React from 'react'
-import { useFirestoreConnect } from 'react-redux-firebase'
 import TweetFeed from '../components/containers/TweetFeed.jsx'
 import RightScreen from '../components/layout/RightScreen.jsx'
 import {
@@ -11,8 +10,6 @@ import {
 //import TwitterModal from '../components/common/TwitterModal.jsx'
 
 const Home = () => {
-  useFirestoreConnect([{ collection: 'users' }])
-
   return (
     <>
       {/* <TwitterModal

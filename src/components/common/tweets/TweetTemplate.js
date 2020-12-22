@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { BackgroundHover } from '../GlobalStyles'
 
 export const PositionDiv = styled.div`
   position: relative;
@@ -106,38 +105,12 @@ export const UpperRightContainer = styled.div`
   margin-left: 20px;
 `
 
-export const RetweetHover = styled(BackgroundHover)`
-  &:hover {
-    background-color: rgba(23, 191, 91, 0.1);
-    color: rgb(23, 191, 99);
-  }
-`
-
-export const LikeHover = styled(BackgroundHover)`
-  &:hover {
-    background-color: rgba(224, 36, 94, 0.1);
-    color: rgb(224, 36, 94);
-  }
-`
-
 export const TweetTextDiv = styled.div`
   color: rgb(15, 20, 25);
   font-size: 15px;
   font-weight: 400;
   line-height: 1.3125;
   overflow-wrap: break-word;
-`
-
-export const TweetImageContainer = styled.div`
-  border-color: rgb(196, 207, 214);
-  border-radius: 16px;
-  border-style: solid;
-  border-width: 1px;
-  margin-top: 10px;
-  min-height: fit-content;
-  max-height: 285px;
-  outline-style: none;
-  overflow: hidden;
 `
 
 export const BottomIconsContainer = styled.div`
