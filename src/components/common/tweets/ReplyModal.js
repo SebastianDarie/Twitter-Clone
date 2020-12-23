@@ -1,29 +1,5 @@
 import styled from 'styled-components'
 
-export const PositionModalDiv = styled.div`
-  display: ${(props) =>
-    props.modalState.open && props.modalState.el === props.id
-      ? 'flex'
-      : 'none'};
-  flex-shrink: 1;
-  border-radius: 16px;
-  position: fixed;
-  top: 5%;
-  max-height: 90vh;
-  min-width: 600px;
-  max-width: 80vw;
-  z-index: 3;
-`
-
-export const FlavorDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 4px;
-`
-
 export const HeaderPadding = styled.div`
   background-color: rgba(255, 255, 255, 1);
   border-top-left-radius: 4px;

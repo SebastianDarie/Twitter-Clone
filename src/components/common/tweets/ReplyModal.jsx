@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import {
-  BackgroundHover,
   BreakPoint,
   DoublePreviewWrapper,
+  FlavorDiv,
   ImageLink,
+  PositionModalDiv,
   ProfileImage,
   ReplyFormTextArea,
   SinglePreviewWrapper,
@@ -17,21 +16,16 @@ import {
 import {
   Article,
   AtSpan,
-  BigFlexer,
   BigLineContainer,
   BoldName,
   CenteredName,
   ColumnFlexer,
   DoublePaddingDiv,
-  FlavorDiv,
   GrayName,
-  HeaderPadding,
   InitialTweetContainer,
-  LeftContainer,
   NameContent,
   NameFlexer,
   NameUsr,
-  PositionModalDiv,
   ReplyAtDiv,
   ReplyAtFlexer,
   ReplyBigLine,
@@ -42,11 +36,11 @@ import {
   ReplySectionCreator,
   ReplySmallLine,
   ReplyTextAreaContainer,
-  RightContainer,
   SidePaddingDiv,
   TimeDiv,
   TweetContent,
 } from './ReplyModal'
+import CloseHeader from '../global/CloseHeader'
 import PreviewImage from './PreviewImage.jsx'
 import TweetCreator from './TweetCreator.jsx'
 import { clearInput, imageInput } from '../../../utils/addImage'
@@ -99,7 +93,17 @@ const ReplyModal = ({
         dispatch(setPreviewImage([]))
       }
     }
-  }, [images, type])
+    let text = textarea.current
+
+    return () => (text.value = '')
+  }, [images, type, modalState?.open])
+
+  useEffect(() => {
+    if (!modalState.open) {
+      button.current.style.opacity = 0.5
+      button.current.style.pointerEvents = 'none'
+    }
+  }, [button, modalState.open])
 
   const { id, name, username, text, timeStamp } = tweet
 
@@ -111,6 +115,7 @@ const ReplyModal = ({
   const closeHandler = () => {
     button.current.style.opacity = 0.5
     button.current.style.pointerEvents = 'none'
+    textarea.current.value = ''
 
     dispatch(removeAllImages())
     dispatch(closeModal())
@@ -145,32 +150,15 @@ const ReplyModal = ({
         )
       )
       dispatch(closeModal())
+      textarea.current.value = ''
     }
   }
 
   return (
     <PositionModalDiv ref={replyModal} modalState={modalState} id={id}>
       <FlavorDiv>
-        <div></div>
-        <div style={{ height: '53px' }}>
-          <div>
-            <HeaderPadding>
-              <BigFlexer>
-                <LeftContainer onClick={closeHandler}>
-                  <BackgroundHover>
-                    <FontAwesomeIcon
-                      color='rgba(29, 161, 242, 1)'
-                      icon={faTimes}
-                    />
-                  </BackgroundHover>
-                </LeftContainer>
-                <RightContainer>
-                  <div></div>
-                </RightContainer>
-              </BigFlexer>
-            </HeaderPadding>
-          </div>
-        </div>
+        <CloseHeader closeHandler={closeHandler} />
+
         <ReplySectionContainer>
           <div style={{ paddingBottom: '5px', width: '100%' }}>
             <DoublePaddingDiv>

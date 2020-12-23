@@ -8,6 +8,7 @@ import {
   UNRETWEET,
 } from '../constants/tweetConstants'
 import { IMAGE_REMOVE_ALL, SET_TWEET_IMAGE } from '../constants/imageConstants'
+import { MODAL_CLOSE } from '../constants/modalConstants'
 
 export const createTweet = (
   text,
@@ -58,6 +59,7 @@ export const createTweet = (
       payload: { id: newTweet.id, images: tempArr },
     })
     dispatch({ type: IMAGE_REMOVE_ALL })
+    dispatch({ type: MODAL_CLOSE })
     dispatch(
       toastrActions.add({
         type: 'success',
@@ -398,6 +400,99 @@ export const reply = (
       toastrActions.add({
         type: 'error',
         title: 'Reply Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
+  }
+}
+
+export const deleteTweet = (
+  tweetID,
+  userID,
+  userTweets,
+  replyTo,
+  { firebase }
+) => async (dispatch) => {
+  try {
+    const filteredTweets = userTweets.filter((tweet) => tweet !== tweetID)
+
+    await firebase.firestore().collection('tweets').doc(tweetID).delete()
+    await firebase
+      .firestore()
+      .collection('users')
+      .doc(userID)
+      .update({ tweets: filteredTweets })
+
+    const retweetSnapshot = await firebase
+      .firestore()
+      .collection('users')
+      .where('retweets', 'array-contains', tweetID)
+      .get()
+
+    retweetSnapshot.forEach(async (user) => {
+      const filteredRetweets = user
+        .data()
+        .retweets.filter((retweet) => retweet !== tweetID)
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .update({ retweets: filteredRetweets })
+    })
+
+    const likeSnapshot = await firebase
+      .firestore()
+      .collection('users')
+      .where('likes', 'array-contains', tweetID)
+      .get()
+
+    likeSnapshot.forEach(async (user) => {
+      const filteredLikes = user.data().likes.filter((like) => like !== tweetID)
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(user.id)
+        .update({ likes: filteredLikes })
+    })
+
+    if (replyTo) {
+      const tweetDoc = await firebase
+        .firestore()
+        .collection('tweets')
+        .doc(replyTo)
+        .get()
+
+      await firebase
+        .firestore()
+        .collection('tweets')
+        .doc(replyTo)
+        .update({
+          replies: tweetDoc.data().replies.filter((reply) => reply !== tweetID),
+        })
+    }
+
+    dispatch(
+      toastrActions.add({
+        type: 'success',
+        title: 'Success',
+        position: 'top-right',
+        message: `Tweet deleted!`,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
+  } catch (err) {
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Delete Error',
         position: 'top-right',
         message: err.message,
         options: {

@@ -34,8 +34,11 @@ const TweetFeed = () => {
   const previews = useSelector((state) => state.image.previewImgs)
   const tweetImages = useSelector((state) => state.image.tweetImgs)
   const type = useSelector((state) => state.image.type)
+  const searchedText = useSelector((state) => state.search.filteredTweet)
 
-  const filteredTweets = tweets?.filter((tweet) => !tweet.replyTo)
+  const filteredTweets = tweets
+    ?.filter((tweet) => !tweet.replyTo)
+    .filter((filteredTweet) => filteredTweet.text.includes(searchedText))
 
   return (
     <MainTweetContainer>

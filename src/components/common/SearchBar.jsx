@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { filterTweets } from '../../actions/searchActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -13,6 +15,8 @@ import {
 } from './SearchBar'
 
 const SearchBar = () => {
+  const dispatch = useDispatch()
+
   return (
     <SearchContainer>
       <div style={{ width: '100%' }}>
@@ -35,7 +39,9 @@ const SearchBar = () => {
                       />
                     </SearchIconDiv>
                     <SearchInputDiv>
-                      <SearchInput />
+                      <SearchInput
+                        onChange={(e) => dispatch(filterTweets(e.target.value))}
+                      />
                     </SearchInputDiv>
                   </ElementsContainer>
                 </FormDiv>

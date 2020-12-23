@@ -35,6 +35,8 @@ import { clearInput, imageInput } from '../../../utils/addImage'
 const TweetForm = ({
   dispatch,
   firebase,
+  button,
+  textarea,
   createTweet,
   addImage,
   removeImage,
@@ -48,9 +50,11 @@ const TweetForm = ({
 }) => {
   const container = useRef()
   const globe = useRef()
-  const textarea = useRef()
   const breakline = useRef()
-  const button = useRef()
+  const fallBacktextarea = useRef()
+  const fallBackBtn = useRef()
+  button = button || fallBackBtn
+  textarea = textarea || fallBacktextarea
 
   useEffect(() => {
     if (type === 'form') {
@@ -124,6 +128,7 @@ const TweetForm = ({
           { firebase }
         )
       )
+      textarea.current.value = ''
     }
   }
 

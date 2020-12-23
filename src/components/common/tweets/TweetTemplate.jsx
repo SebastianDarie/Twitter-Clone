@@ -50,6 +50,7 @@ import {
 import ReplyModal from './ReplyModal.jsx'
 import formatTime from '../../../utils/formatTime'
 import {
+  deleteHandler,
   replyHandler,
   retweetHandler,
   likeHandler,
@@ -87,7 +88,7 @@ const TweetTemplate = ({
   useEffect(() => {
     //let mounted = true
     const fetchImages = async () => {
-      if (tweet.imageNum !== 0 && tweetImgs.length !== tweet.imageNum) {
+      if (tweet.imageNum !== 0) {
         const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
 
         const res = await pathRef.listAll()
@@ -110,7 +111,7 @@ const TweetTemplate = ({
     fetchImages()
 
     //return () => (mounted = false)
-  }, [firebase, tweet.imageNum, tweet.id])
+  }, [firebase, tweet.imageNum, tweet.id, tweetImgs.length])
 
   const redirectClick = () => {
     router.push({
@@ -122,9 +123,6 @@ const TweetTemplate = ({
   const outsideClickHandler = (e) => {
     if (modalState.open) {
       if (e.target !== replyModal.current) {
-        button.current.style.opacity = 0.5
-        button.current.style.pointerEvents = 'none'
-
         dispatch(removeAllImages())
         dispatch(closeModal())
       }
@@ -136,7 +134,11 @@ const TweetTemplate = ({
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
-  // TODO: get images for prev tweet view, tweet view determine if tweet is a reply, use twitter modal for follow, logout, others (search its use on twitter), integrate React lazy and Suspense in code, get images for tweet view in a smart way(try to pass state in redirect with router), tweet letter count svg circle, autoresize textarea, fetch images only once, single tweet view, implement hashtags and @, tweet side button handle create, follow users, filter followed users on the right ...
+  // TODO: reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
+  // tweet view determine if tweet is a reply, implement hashtags and @, make searchbar work
+  // use twitter modal for follow, logout, others (search its use on twitter), delete tweet
+  // tweet side btn modal + form = modalform, tweet letter count svg circle,
+  // integrate React lazy and Suspense in code, autoresize textarea, fetch images only once, single tweet view, ...
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
@@ -208,7 +210,33 @@ const TweetTemplate = ({
                             </TimeLink>
                           </UpperLeftContainer>
                           <UpperRightContainer>
-                            <DotIconContainer>
+                            <DotIconContainer
+                              onClick={(e) =>
+                                tweet.userID === userID
+                                  ? deleteHandler(
+                                      e,
+                                      dispatch,
+                                      tweet.id,
+                                      userID,
+                                      profile.tweets,
+                                      tweet.replyTo,
+                                      firebase
+                                    )
+                                  : dispatch(
+                                      toastrActions.add({
+                                        type: 'error',
+                                        title: 'Delete Error',
+                                        position: 'top-right',
+                                        message:
+                                          "You're not the author of the tweet",
+                                        options: {
+                                          showCloseButton: true,
+                                          timeOut: 3000,
+                                        },
+                                      })
+                                    )
+                              }
+                            >
                               <BackgroundHover>
                                 <FontAwesomeIcon icon={faEllipsisH} size='sm' />
                               </BackgroundHover>

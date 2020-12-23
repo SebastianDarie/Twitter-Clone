@@ -1,9 +1,24 @@
 import {
+  deleteTweet,
   likeTweet,
   unlikeTweet,
   retweet,
   unretweet,
 } from '../actions/tweetActions'
+
+export const deleteHandler = (
+  e,
+  dispatch,
+  tweetID,
+  userID,
+  userTweets,
+  replyTo,
+  firebase
+) => {
+  e.stopPropagation()
+
+  dispatch(deleteTweet(tweetID, userID, userTweets, replyTo, { firebase }))
+}
 
 export const replyHandler = (
   e,

@@ -524,4 +524,30 @@ export const TweetImageContainer = styled.div`
   overflow: hidden;
 `
 
+export const PositionModalDiv = styled.div`
+  display: ${(props) =>
+    props.modalState.open && props.modalState.el === props.id
+      ? 'flex'
+      : 'none'};
+  flex-shrink: 1;
+  border-radius: 16px;
+  position: fixed;
+  top: 5%;
+  left: ${(props) => (props.modalState.el === 'create' ? '27%' : '')};
+  max-height: 90vh;
+  min-width: 600px;
+  max-width: 80vw;
+  overflow: hidden;
+  z-index: 3;
+`
+
+export const FlavorDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+`
+
 export default GlobalStyles
