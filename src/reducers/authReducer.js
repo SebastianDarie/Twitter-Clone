@@ -11,8 +11,8 @@ const initialState = {
   authMsg: null,
 }
 
-const authReducer = (state = initialState, action) => {
-  switch (action.type) {
+const authReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case SIGN_UP_SUCCESS:
     case LOG_IN_SUCCESS:
     case LOG_IN_ERROR:
@@ -21,7 +21,7 @@ const authReducer = (state = initialState, action) => {
     case SIGN_OUT_ERROR:
       return {
         ...state,
-        authMsg: action.payload,
+        authMsg: payload,
       }
 
     default:

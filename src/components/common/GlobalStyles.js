@@ -550,4 +550,47 @@ export const FlavorDiv = styled.div`
   border-radius: 4px;
 `
 
+export const ReplyImageDiv = styled.div`
+  display: flex;
+  flex-basis: 49px;
+  flex-grow: 0;
+  /* align-items: center; */
+  margin-right: 10px;
+`
+
+export const ReplyImageContainer = styled.div`
+  border-radius: 999px;
+  height: 100%;
+  width: 100%;
+`
+
+export const ReplySmallLine = styled.div`
+  display: flex;
+  flex-grow: 1;
+  background-color: rgb(196, 207, 214);
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 2px;
+`
+
+export const BigLineContainer = styled.div`
+  display: flex;
+  flex-basis: 49px;
+  flex-grow: 0;
+  align-items: center;
+  margin-right: 10px;
+`
+
+export const ReplyBigLine = styled.div`
+  display: flex;
+  background-color: rgb(196, 207, 214);
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 35px;
+  width: 2px;
+`
+
 export default GlobalStyles

@@ -41,22 +41,38 @@ export const FollowBtnContainer = styled.div`
 `
 
 export const FollowBtn = styled.button`
-  background-color: rgba(0, 0, 0, 0);
-  border-color: rgb(29, 161, 242);
+  background-color: ${(props) =>
+    props.followed ? 'rgb(29,161,242)' : 'rgb(0, 0, 0,0)'};
+  border-color: ${(props) =>
+    props.followed ? 'rgb(0,0,0,0)' : 'rgb(29, 161, 242)'};
   border-width: 1px;
   border-style: solid;
   border-radius: 999px;
-  color: rgb(29, 161, 242);
+  color: ${(props) =>
+    props.followed ? 'rgb(255,255,255)' : 'rgb(29, 161, 242)'};
   font-size: 15px;
   font-weight: 700;
   line-height: 1.3125;
   height: 30px;
-  min-width: 100%;
+  min-width: ${(props) => (props.followed ? '101px' : '71px')};
   margin-bottom: 2px;
   outline: none;
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(29, 161, 242, 0.1);
+    background-color: ${(props) =>
+      props.followed ? 'rgb(202, 32,85)' : 'rgba(29, 161, 242, 0.1)'};
+  }
+
+  &::before {
+    content: '${(props) => (props.followed ? 'Following' : 'Follow')}';
+  }
+
+  &:hover::before {
+    content: '';
+  }
+
+  &:hover::after {
+    content: '${(props) => (props.followed ? 'Unfollow' : 'Follow')}';
   }
 `

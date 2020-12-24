@@ -5,19 +5,19 @@ const initialState = {
   open: false,
 }
 
-const modalReducer = (state = initialState, action) => {
-  switch (action.type) {
+const modalReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case MODAL_OPEN:
       return {
         ...state,
-        el: action.payload || null,
+        el: payload || null,
         open: true,
       }
 
     case MODAL_CLOSE:
       return {
         ...state,
-        el: action.payload || null,
+        el: payload || null,
         open: false,
       }
 

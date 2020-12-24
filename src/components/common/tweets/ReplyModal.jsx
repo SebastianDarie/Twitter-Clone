@@ -1,12 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import {
+  BigLineContainer,
   BreakPoint,
   DoublePreviewWrapper,
   FlavorDiv,
   ImageLink,
   PositionModalDiv,
   ProfileImage,
+  ReplyBigLine,
   ReplyFormTextArea,
+  ReplyImageContainer,
+  ReplyImageDiv,
+  ReplySmallLine,
   SinglePreviewWrapper,
   TweetFormInputContainer,
   TweetFormInputPadding,
@@ -16,7 +21,6 @@ import {
 import {
   Article,
   AtSpan,
-  BigLineContainer,
   BoldName,
   CenteredName,
   ColumnFlexer,
@@ -28,18 +32,15 @@ import {
   NameUsr,
   ReplyAtDiv,
   ReplyAtFlexer,
-  ReplyBigLine,
-  ReplyImageContainer,
-  ReplyImageDiv,
   ReplyingToDiv,
   ReplySectionContainer,
   ReplySectionCreator,
-  ReplySmallLine,
   ReplyTextAreaContainer,
   SidePaddingDiv,
   TimeDiv,
   TweetContent,
 } from './ReplyModal'
+import { ProfileImageContainer } from './TweetTemplate'
 import CloseHeader from '../global/CloseHeader'
 import PreviewImage from './PreviewImage.jsx'
 import TweetCreator from './TweetCreator.jsx'
@@ -169,12 +170,16 @@ const ReplyModal = ({
                       <div>
                         <div></div>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                          <ReplyImageDiv>
-                            <ReplyImageContainer>
-                              <ProfileImage imageURL={tweetCreator?.photoURL} />
-                              <ReplySmallLine />
-                            </ReplyImageContainer>
-                          </ReplyImageDiv>
+                          <ProfileImageContainer>
+                            <ReplyImageDiv>
+                              <ReplyImageContainer>
+                                <ProfileImage
+                                  imageURL={tweetCreator?.photoURL}
+                                />
+                                <ReplySmallLine style={{ maxHeight: '50%' }} />
+                              </ReplyImageContainer>
+                            </ReplyImageDiv>
+                          </ProfileImageContainer>
 
                           <InitialTweetContainer>
                             <div>

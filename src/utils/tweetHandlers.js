@@ -30,7 +30,7 @@ export const replyHandler = (
   e.stopPropagation()
 
   dispatch(removeAllImages())
-  dispatch(openModal(tweet.id))
+  dispatch(openModal(tweet ? tweet.id : 'view'))
 }
 
 export const retweetHandler = (

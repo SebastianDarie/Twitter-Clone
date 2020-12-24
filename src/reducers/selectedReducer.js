@@ -4,12 +4,12 @@ const initialState = {
   el: 'home',
 }
 
-const selectedReducer = (state = initialState, action) => {
-  switch (action.type) {
+const selectedReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case SELECT_LINK:
       return {
         ...state,
-        el: action.payload.el,
+        el: payload.el,
       }
 
     default:

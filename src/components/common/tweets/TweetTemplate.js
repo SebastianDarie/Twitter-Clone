@@ -8,9 +8,8 @@ export const PositionDiv = styled.div`
 `
 
 export const BorderDiv = styled.div`
-  border-bottom-color: rgb(235, 238, 240);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+  border-bottom: ${(props) =>
+    props.replyView ? 'none' : '1px solid rgb(235, 238, 240)'};
 `
 
 export const TweetArticle = styled.article`
@@ -33,6 +32,7 @@ export const ProfileImageContainer = styled.div`
   display: flex;
   flex-basis: 49px;
   flex-grow: 0;
+  margin-top: 5px;
   margin-right: 10px;
   width: 49px;
 `
@@ -117,7 +117,7 @@ export const BottomIconsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 2px;
   margin-left: -10px;
   margin-bottom: -5px;
   max-width: 425px;

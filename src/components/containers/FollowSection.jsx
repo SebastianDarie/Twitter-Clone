@@ -9,7 +9,11 @@ import {
 import FollowProfile from './FollowProfile.jsx'
 
 const FollowSection = () => {
+  const auth = useSelector((state) => state.firebase.auth)
   const users = useSelector((state) => state.firestore.ordered.users)
+  const filteredUsers = users?.filter(
+    (user) => !user.followers.includes(auth.uid)
+  )
 
   return (
     <FollowSectionContainer>
@@ -20,8 +24,8 @@ const FollowSection = () => {
           </h2>
         </AsideDiv>
         <div>
-          {users
-            ? users
+          {filteredUsers
+            ? filteredUsers
                 .slice(0, 3)
                 .map((user) => (
                   <FollowProfile
@@ -29,6 +33,7 @@ const FollowSection = () => {
                     imageURL={user.photoURL}
                     name={user.name}
                     username={user.username}
+                    followID={user.id}
                   />
                 ))
             : null}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from '../../../hooks/useRouter'
@@ -10,6 +10,7 @@ import {
   removeImage,
   removeAllImages,
   setPreviewImage,
+  setTweetImage,
 } from '../../../actions/imageActions'
 import { reply } from '../../../actions/tweetActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {
   BackgroundHover,
+  BlackOut,
   ColumnDiv,
   ImageLink,
   InnerDiv,
@@ -62,6 +64,8 @@ import {
   PointerEnder,
   PointerFlexer,
   PointerTitle,
+  ReplyLink,
+  ReplyText,
   RetweetIconContainer,
   RowMargin,
   StatMargin,
@@ -70,6 +74,7 @@ import {
   TextMargin,
   TextWrapper,
 } from './TweetView'
+import ReplyModal from './ReplyModal.jsx'
 import RightScreen from '../../layout/RightScreen.jsx'
 import TweetTemplate from './TweetTemplate.jsx'
 import formatTime from '../../../utils/formatTime'
@@ -80,6 +85,9 @@ import {
 } from '../../../utils/tweetHandlers'
 
 const TweetView = () => {
+  const [mainTweet, setMainTweet] = useState(null)
+  const button = useRef()
+
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const router = useRouter()
@@ -90,6 +98,7 @@ const TweetView = () => {
   const modalState = useSelector((state) => state.modal)
   const images = useSelector((state) => state.image.imgs)
   const previews = useSelector((state) => state.image.previewImgs)
+  const tweetImages = useSelector((state) => state.image.tweetImgs)
   const type = useSelector((state) => state.image.type)
 
   const currTweet = tweets?.find((tweet) => tweet.id === router.query.id)
@@ -99,22 +108,58 @@ const TweetView = () => {
     currTweet?.replies.includes(tweet.id)
   )
 
-  const liked = currTweet?.likes.includes(auth.uid)
-  const retweeted = currTweet?.retweets.includes(auth.uid)
+  const currLiked = currTweet?.likes.includes(auth.uid)
+  const currRetweeted = currTweet?.retweets.includes(auth.uid)
 
   useEffect(() => {
     if (currTweet.replyTo) {
       const mainTweet = tweets.find((tweet) => tweet.id === currTweet.replyTo)
-      console.log(mainTweet)
+      setMainTweet(mainTweet)
     }
-  }, [currTweet.replyTo])
+
+    return () => setMainTweet(null)
+  }, [currTweet.replyTo, tweets])
+
+  const outsideClickHandler = () => {
+    if (modalState.open) {
+      dispatch(removeAllImages())
+      dispatch(closeModal())
+    }
+  }
+
   return (
-    <MainFlexer style={{ height: '100vh' }}>
-      <MainDiv>
-        <GrowDiv>
-          <MainContainer>
-            <MainTweetContainer>
-              <div>
+    <>
+      {modalState.open.el === currTweet.id ? (
+        <BlackOut modalState={modalState} onClick={outsideClickHandler} />
+      ) : null}
+      <div style={{ left: '27%' }}>
+        <ReplyModal
+          dispatch={dispatch}
+          firebase={firebase}
+          button={button}
+          modalState={modalState}
+          closeModal={closeModal}
+          reply={reply}
+          tweet={currTweet}
+          tweetCreator={tweetCreator}
+          profile={profile}
+          userID={auth.uid}
+          formatTime={formatTime}
+          type={type}
+          images={images}
+          previews={previews}
+          addImage={addImage}
+          removeImage={removeImage}
+          removeAllImages={removeAllImages}
+          setPreviewImage={setPreviewImage}
+          toastrActions={toastrActions}
+        />
+      </div>
+      <MainFlexer style={{ height: '100vh' }}>
+        <MainDiv>
+          <GrowDiv>
+            <MainContainer>
+              <MainTweetContainer>
                 <MainHeaderContainer>
                   <PointerHeader>
                     <PointerHeight>
@@ -151,6 +196,32 @@ const TweetView = () => {
                   <section>
                     <div style={{ position: 'relative' }}>
                       <InitialTweet>
+                        {mainTweet && (
+                          <TweetTemplate
+                            key={mainTweet.id}
+                            dispatch={dispatch}
+                            firebase={firebase}
+                            reply={reply}
+                            replyView={true}
+                            modalState={modalState}
+                            closeModal={closeModal}
+                            openModal={openModal}
+                            users={users}
+                            profile={profile}
+                            userID={auth.uid}
+                            tweet={mainTweet}
+                            tweetImages={tweetImages}
+                            setTweetImage={setTweetImage}
+                            type={type}
+                            images={images}
+                            previews={previews}
+                            addImage={addImage}
+                            removeImage={removeImage}
+                            removeAllImages={removeAllImages}
+                            setPreviewImage={setPreviewImage}
+                            toastrActions={toastrActions}
+                          />
+                        )}
                         <PaddingArticle>
                           <ColumnDiv>
                             <RowDiv>
@@ -203,26 +274,38 @@ const TweetView = () => {
                             </RowMargin>
 
                             <div>
+                              {currTweet.replyTo && (
+                                <TextMargin>
+                                  <ReplyText>
+                                    Replying to{' '}
+                                    <ReplyLink to={`${mainTweet?.username}`}>
+                                      @{mainTweet?.username}
+                                    </ReplyLink>
+                                  </ReplyText>
+                                </TextMargin>
+                              )}
+
                               <TextMargin>
                                 <TextWrapper>{currTweet?.text}</TextWrapper>
                               </TextMargin>
 
-                              {router.location.state
-                                ? router.location.state.images.map(
-                                    (image, idx) => (
-                                      <TweetImageContainer key={idx}>
-                                        <img
-                                          src={image}
-                                          alt='tweet-img'
-                                          style={{
-                                            height: '100%',
-                                            width: '100%',
-                                          }}
-                                        />
-                                      </TweetImageContainer>
-                                    )
-                                  )
-                                : null}
+                              {tweetImages &&
+                                tweetImages.map((obj) =>
+                                  obj.id === currTweet.id
+                                    ? obj.images.map((img, idx) => (
+                                        <TweetImageContainer key={idx}>
+                                          <img
+                                            src={img}
+                                            alt='tweet-img'
+                                            style={{
+                                              height: '100%',
+                                              width: '100%',
+                                            }}
+                                          />
+                                        </TweetImageContainer>
+                                      ))
+                                    : ''
+                                )}
 
                               <DescriptionDiv>
                                 <DescriptionText>
@@ -282,11 +365,11 @@ const TweetView = () => {
                                   </BackgroundHover>
                                 </CommentIconContainer>
                                 <RetweetIconContainer
-                                  retweeted={retweeted}
+                                  currRetweeted={currRetweeted}
                                   onClick={(e) =>
                                     retweetHandler(
                                       e,
-                                      retweeted,
+                                      currRetweeted,
                                       dispatch,
                                       currTweet,
                                       auth.uid,
@@ -303,11 +386,11 @@ const TweetView = () => {
                                   </RetweetHover>
                                 </RetweetIconContainer>
                                 <LikesIconContainer
-                                  liked={liked}
+                                  currLiked={currLiked}
                                   onClick={(e) =>
                                     likeHandler(
                                       e,
-                                      liked,
+                                      currLiked,
                                       dispatch,
                                       currTweet,
                                       auth.uid,
@@ -340,6 +423,7 @@ const TweetView = () => {
                               dispatch={dispatch}
                               firebase={firebase}
                               reply={reply}
+                              replyView={false}
                               modalState={modalState}
                               closeModal={closeModal}
                               openModal={openModal}
@@ -347,6 +431,8 @@ const TweetView = () => {
                               profile={profile}
                               userID={auth.uid}
                               tweet={tweet}
+                              tweetImages={tweetImages}
+                              setTweetImage={setTweetImage}
                               type={type}
                               images={images}
                               previews={previews}
@@ -361,13 +447,13 @@ const TweetView = () => {
                     </div>
                   </section>
                 </div>
-              </div>
-            </MainTweetContainer>
-            <RightScreen />
-          </MainContainer>
-        </GrowDiv>
-      </MainDiv>
-    </MainFlexer>
+              </MainTweetContainer>
+              <RightScreen />
+            </MainContainer>
+          </GrowDiv>
+        </MainDiv>
+      </MainFlexer>
+    </>
   )
 }
 

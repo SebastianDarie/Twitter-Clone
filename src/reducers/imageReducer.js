@@ -13,21 +13,21 @@ const initialState = {
   type: 'form',
 }
 
-const imageReducer = (state = initialState, action) => {
-  switch (action.type) {
+const imageReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case IMAGE_ADD:
       return {
         ...state,
-        imgs: [...state.imgs, action.payload.image],
-        type: action.payload.type,
+        imgs: [...state.imgs, payload.image],
+        type: payload.type,
       }
 
     case IMAGE_REMOVE:
       return {
         ...state,
-        imgs: state.imgs.filter((img) => img.name !== action.payload.name),
+        imgs: state.imgs.filter((img) => img.name !== payload.name),
         previewImgs: state.previewImgs.filter(
-          (img) => img.key !== action.payload.name
+          (img) => img.key !== payload.name
         ),
       }
 
@@ -42,13 +42,13 @@ const imageReducer = (state = initialState, action) => {
     case SET_PREVIEW_IMAGE:
       return {
         ...state,
-        previewImgs: [...action.payload],
+        previewImgs: [...payload],
       }
 
     case SET_TWEET_IMAGE:
       return {
         ...state,
-        tweetImgs: [...state.tweetImgs, action.payload],
+        tweetImgs: [...state.tweetImgs, payload],
       }
 
     default:

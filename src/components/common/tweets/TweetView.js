@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const PointerFlexer = styled.div`
   display: flex;
@@ -89,6 +90,15 @@ export const DescriptionText = styled.div`
 
 export const ReplyText = styled(DescriptionText)`
   margin-right: 0px;
+`
+
+export const ReplyLink = styled(Link)`
+  color: rgb(27, 149, 224);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export const StatsPadding = styled.div`

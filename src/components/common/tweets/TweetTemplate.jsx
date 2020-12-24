@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -19,6 +19,9 @@ import {
   LikeHover,
   LowerText,
   ProfileImage,
+  ReplyImageContainer,
+  ReplyImageDiv,
+  ReplySmallLine,
   RetweetHover,
   RowDiv,
   TweetImageContainer,
@@ -60,6 +63,7 @@ const TweetTemplate = ({
   dispatch,
   firebase,
   reply,
+  replyView,
   modalState,
   closeModal,
   openModal,
@@ -67,8 +71,8 @@ const TweetTemplate = ({
   profile,
   userID,
   tweet,
-  //tweetImages,
-  //setTweetImage,
+  tweetImages,
+  setTweetImage,
   type,
   images,
   previews,
@@ -78,17 +82,17 @@ const TweetTemplate = ({
   setPreviewImage,
   toastrActions,
 }) => {
-  const [tweetImgs, setTweetImgs] = useState([])
-
   const replyModal = useRef()
   const button = useRef()
 
   const router = useRouter()
 
   useEffect(() => {
-    //let mounted = true
+    let download = true
     const fetchImages = async () => {
-      if (tweet.imageNum !== 0) {
+      const found = tweetImages.some((obj) => obj.id === tweet.id)
+
+      if (tweet.imageNum !== 0 && !found) {
         const pathRef = firebase.storage().ref('tweet pics/' + tweet.id + '/')
 
         const res = await pathRef.listAll()
@@ -99,10 +103,8 @@ const TweetTemplate = ({
 
           tempArray.push(url)
 
-          if (i === tweet.imageNum - 1) {
-            //dispatch(setTweetImage(tweet.id, tempArray))
-            setTweetImgs(tempArray)
-            //console.log('downloaded images')
+          if (download && i === tweet.imageNum - 1) {
+            dispatch(setTweetImage(tweet.id, tempArray))
           }
         })
       }
@@ -110,13 +112,13 @@ const TweetTemplate = ({
 
     fetchImages()
 
-    //return () => (mounted = false)
-  }, [firebase, tweet.imageNum, tweet.id, tweetImgs.length])
+    return () => (download = false)
+  }, [firebase, tweet.imageNum, tweet.id, tweetImages])
 
   const redirectClick = () => {
     router.push({
       pathname: `/tweet/${tweet.id}`,
-      state: { prev: router.location.pathname, images: tweetImgs },
+      state: { prev: router.location.pathname },
     })
   }
 
@@ -135,10 +137,15 @@ const TweetTemplate = ({
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
   // TODO: reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
-  // tweet view determine if tweet is a reply, implement hashtags and @, make searchbar work
-  // use twitter modal for follow, logout, others (search its use on twitter), delete tweet
-  // tweet side btn modal + form = modalform, tweet letter count svg circle,
-  // integrate React lazy and Suspense in code, autoresize textarea, fetch images only once, single tweet view, ...
+  // tweet view determine if tweet is a reply, implement hashtags and @,
+  // use twitter modal for follow, logout, others (search its use on twitter), delete dropdown & modal
+  // tweet letter count svg circle, autoresize textarea
+  // Performance: integrate React lazy and Suspense in code, fetch tweet & profile images only once, memoization, caching, service workers
+  // link does not go to user profile, image not rendered on tweet creation, outside click logout
+  // Completed(might benefit from refactoring later): tweet side btn modal + form = modalform,
+  // make searchbar work, single tweet view, create and reply tweets
+  // Possible Improvement: dispatch images with redux once on load and then check if the redux images contain the currTweet id then don't fetch
+  // Remove useState: signup input, tweet template(images), tweet view
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
@@ -165,7 +172,7 @@ const TweetTemplate = ({
         toastrActions={toastrActions}
       />
       <PositionDiv onClick={redirectClick}>
-        <BorderDiv>
+        <BorderDiv replyView={replyView}>
           <div>
             <TweetArticle>
               <ColumnDiv>
@@ -176,12 +183,23 @@ const TweetTemplate = ({
                 </div>
                 <RowDiv>
                   <ProfileImageContainer>
-                    <TweetImageDiv>
-                      <ImageLink>
-                        <ProfileImage imageURL={tweetCreator?.photoURL} />
-                      </ImageLink>
-                    </TweetImageDiv>
+                    {/* tweet.replyTo && */}
+                    {replyView ? (
+                      <ReplyImageDiv>
+                        <ReplyImageContainer>
+                          <ProfileImage imageURL={tweetCreator?.photoURL} />
+                          <ReplySmallLine />
+                        </ReplyImageContainer>
+                      </ReplyImageDiv>
+                    ) : (
+                      <TweetImageDiv>
+                        <ImageLink>
+                          <ProfileImage imageURL={tweetCreator?.photoURL} />
+                        </ImageLink>
+                      </TweetImageDiv>
+                    )}
                   </ProfileImageContainer>
+
                   <SideContent>
                     <div>
                       <UpperTextMargin>
@@ -252,52 +270,23 @@ const TweetTemplate = ({
                       </div>
                       <div>
                         <div>
-                          {/* {tweetImages &&
-                          tweetImages.map((obj) =>
-                            obj.id === tweet.id
-                              ? obj.images.map((img, idx) => (
-                                  <TweetImageContainer key={idx}>
-                                    <img
-                                      src={img}
-                                      alt='tweet-img'
-                                      style={{
-                                        height: '100%',
-                                        width: '100%',
-                                      }}
-                                    />
-                                  </TweetImageContainer>
-                                ))
-                              : ''
-                          )} */}
-                          {/* {tweetImgs.length > 1 && (
-                          <TweetImageContainer>
-                            <DoublePreviewWrapper>
-                              {tweetImgs.slice(
-                                0,
-                                Math.floor(tweetImgs.length / 2)
-                              )}
-                            </DoublePreviewWrapper>
-                            <DoublePreviewWrapper>
-                              {tweetImgs.slice(
-                                Math.floor(tweetImgs.length / 2),
-                                tweetImgs.length
-                              )}
-                            </DoublePreviewWrapper>
-                          </TweetImageContainer>
-                        )} */}
-                          {tweetImgs &&
-                            tweetImgs.map((img, idx) => (
-                              <TweetImageContainer key={idx}>
-                                <img
-                                  src={img}
-                                  alt='tweet-img'
-                                  style={{
-                                    height: '100%',
-                                    width: '100%',
-                                  }}
-                                />
-                              </TweetImageContainer>
-                            ))}
+                          {tweetImages &&
+                            tweetImages.map((obj) =>
+                              obj.id === tweet.id
+                                ? obj.images.map((img, idx) => (
+                                    <TweetImageContainer key={idx}>
+                                      <img
+                                        src={img}
+                                        alt='tweet-img'
+                                        style={{
+                                          height: '100%',
+                                          width: '100%',
+                                        }}
+                                      />
+                                    </TweetImageContainer>
+                                  ))
+                                : ''
+                            )}
                         </div>
                       </div>
                       <BottomIconsContainer>

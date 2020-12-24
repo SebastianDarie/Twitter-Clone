@@ -13,20 +13,20 @@ const initialState = {
   retweet: null,
 }
 
-const tweetReducer = (state = initialState, action) => {
-  switch (action.type) {
+const tweetReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case CREATE_TWEET:
     case REPLY:
-      return { ...state, currTweet: action.payload }
+      return { ...state, currTweet: payload }
 
     case LIKE_TWEET:
-      return { ...state, likedTweet: action.payload }
+      return { ...state, likedTweet: payload }
 
     case UNLIKE_TWEET:
       return { ...state, likedTweet: null }
 
     case RETWEET:
-      return { ...state, retweet: action.payload }
+      return { ...state, retweet: payload }
 
     case UNRETWEET:
       return { ...state, retweet: null }
