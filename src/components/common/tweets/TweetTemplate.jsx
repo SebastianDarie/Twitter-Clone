@@ -206,7 +206,10 @@ const TweetTemplate = ({
                         <UpperTextFlexer>
                           <UpperLeftContainer>
                             <UpperProfileName>
-                              <ProfileLink to={`/${tweetCreator?.username}`}>
+                              <ProfileLink
+                                to={`/${tweetCreator?.username}`}
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <NameDiv>
                                   <UpperText>{tweet.name}</UpperText>
 
@@ -217,7 +220,7 @@ const TweetTemplate = ({
                               </ProfileLink>
                             </UpperProfileName>
                             <BreakPoint>&#8901;</BreakPoint>
-                            <TimeLink to={`${tweet.id}`}>
+                            <TimeLink to={`/tweet/${tweet.id}`}>
                               <time
                                 dateTime={`${formatTime(
                                   tweet.timeStamp.seconds

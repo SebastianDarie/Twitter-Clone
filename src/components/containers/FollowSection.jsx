@@ -11,6 +11,7 @@ import FollowProfile from './FollowProfile.jsx'
 const FollowSection = () => {
   const auth = useSelector((state) => state.firebase.auth)
   const users = useSelector((state) => state.firestore.ordered.users)
+
   const filteredUsers = users?.filter(
     (user) => !user.followers.includes(auth.uid)
   )

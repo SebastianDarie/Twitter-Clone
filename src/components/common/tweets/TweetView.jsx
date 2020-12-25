@@ -24,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {
   BackgroundHover,
+  BackSvg,
   BlackOut,
   ColumnDiv,
   ImageLink,
@@ -37,6 +38,9 @@ import {
   MainFlexer,
   MainHeaderContainer,
   MainTweetContainer,
+  PointerEnder,
+  PointerFlexer,
+  PointerTitle,
   PointerHeader,
   PointerHeight,
   PointerPadding,
@@ -52,7 +56,6 @@ import {
   DotIconContainer,
 } from '../GlobalStyles'
 import {
-  BackSvg,
   CommentIconContainer,
   DescriptionDiv,
   DescriptionText,
@@ -61,9 +64,6 @@ import {
   LikesIconContainer,
   NumberStat,
   PaddingArticle,
-  PointerEnder,
-  PointerFlexer,
-  PointerTitle,
   ReplyLink,
   ReplyText,
   RetweetIconContainer,

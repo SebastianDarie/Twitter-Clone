@@ -35,7 +35,7 @@ export const FollowBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  align-self: flex-end;
+  align-self: center;
   min-width: 79px;
   margin-left: 10px;
 `
@@ -56,6 +56,8 @@ export const FollowBtn = styled.button`
   height: 30px;
   min-width: ${(props) => (props.followed ? '101px' : '71px')};
   margin-bottom: 2px;
+  padding-left: 1em;
+  padding-right: 1em;
   outline: none;
   cursor: pointer;
 

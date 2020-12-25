@@ -18,12 +18,12 @@ function App() {
         <Route
           exact
           path='/login'
-          render={() => (isEmpty(auth) ? <LogIn /> : <Redirect to='/home' />)}
+          render={() => (isEmpty(auth) ? <LogIn /> : <Redirect to='/' />)}
         />
         <Route
           exact
           path='/signup'
-          render={() => (isEmpty(auth) ? <SignUp /> : <Redirect to='/home' />)}
+          render={() => (isEmpty(auth) ? <SignUp /> : <Redirect to='/' />)}
         ></Route>
         <Route path='/'>
           <Routes />

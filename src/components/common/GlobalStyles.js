@@ -61,7 +61,7 @@ export const MainFlexer = styled.main`
   flex-grow: 1;
   flex-shrink: 1;
   align-items: flex-start;
-  height: 100%;
+  /* height: 100%; */
 `
 
 export const MainDiv = styled.div`
@@ -591,6 +591,84 @@ export const ReplyBigLine = styled.div`
   margin-right: auto;
   min-height: 35px;
   width: 2px;
+`
+
+export const PointerFlexer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 53px;
+  max-width: 1000px;
+  width: 100%;
+`
+
+export const BackSvg = styled.div`
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  min-height: 30px;
+  min-width: 59px;
+`
+
+export const PointerColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  justify-content: center;
+  height: 100%;
+`
+
+export const PointerTitle = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-items: center;
+  align-self: flex-start;
+  color: rgb(15, 20, 25);
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.3125;
+  height: 100%;
+  text-align: left;
+`
+
+export const PointerTitleBlack = styled(PointerTitle)`
+  color: #000000;
+  font-size: 19px;
+  margin-bottom: -6px;
+`
+
+export const PointerText = styled.div`
+  color: rgb(91, 112, 131);
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 6px;
+`
+
+export const PointerEnder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: stretch;
+  margin-left: 20px;
+  min-height: 30px;
+  min-width: 30px;
+`
+
+export const ProfileContainer = styled.div`
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgb(235, 238, 240);
+  border-style: solid;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  margin-left: 0px;
+  margin-right: 0px;
+  max-width: 600px;
+  width: 100%;
+  z-index: 1;
 `
 
 export default GlobalStyles
