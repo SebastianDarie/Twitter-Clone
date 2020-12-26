@@ -19,8 +19,9 @@ import {
 } from './ProfileView'
 import { FollowBtn, FollowBtnContainer } from '../../containers/FollowProfile'
 import ProfileNav from './ProfileNav.jsx'
+import followHandler from '../../../utils/followHandler'
 
-const ProfileView = ({ auth, currProfile, profile }) => {
+const ProfileView = ({ auth, currProfile, dispatch, firebase, profile }) => {
   const followed = profile.following?.includes(currProfile?.id)
 
   const formatTime = (seconds) => {
@@ -53,10 +54,17 @@ const ProfileView = ({ auth, currProfile, profile }) => {
             <FollowBtnContainer style={{ marginBottom: 10 }}>
               <FollowBtn
                 followed={followed}
-                //onClick={followHandler}
-              >
-                {/* {currProfile.id === auth.uid ? 'Set up profile' : ''} */}
-              </FollowBtn>
+                onClick={() =>
+                  followHandler(
+                    followed,
+                    dispatch,
+                    currProfile.id,
+                    auth,
+                    profile,
+                    firebase
+                  )
+                }
+              ></FollowBtn>
             </FollowBtnContainer>
           </TopContainer>
           <NameContainer>
@@ -76,7 +84,7 @@ const ProfileView = ({ auth, currProfile, profile }) => {
           </JoinedContainer>
           <FollowStats>
             <FollowingMargin>
-              <FollowingLink to='/'>
+              <FollowingLink to={`${currProfile?.username}/following`}>
                 <span>
                   {currProfile?.following.length}
                   <span style={{ color: 'rgb(91,112,131)', whiteSpace: 'pre' }}>
@@ -87,7 +95,7 @@ const ProfileView = ({ auth, currProfile, profile }) => {
               </FollowingLink>
             </FollowingMargin>
             <div>
-              <FollowingLink to='/'>
+              <FollowingLink to={`${currProfile?.username}/followers`}>
                 <span>
                   {currProfile?.followers.length}
                   <span style={{ color: 'rgb(91,112,131)', whiteSpace: 'pre' }}>

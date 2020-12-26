@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import { followUser, unfollowUser } from '../../actions/userActions'
 import {
   ImageLink,
   InnerDiv,
@@ -21,6 +20,7 @@ import {
   ProfileInfoContainer,
   ProfileName,
 } from './FollowProfile'
+import followHandler from '../../utils/followHandler'
 
 const FollowProfile = ({ imageURL, name, username, followID }) => {
   const dispatch = useDispatch()
@@ -29,16 +29,6 @@ const FollowProfile = ({ imageURL, name, username, followID }) => {
   const profile = useSelector((state) => state.firebase.profile)
 
   const followed = profile.following?.includes(followID)
-
-  const followHandler = () => {
-    if (!followed) {
-      dispatch(followUser(followID, auth.uid, profile.following, { firebase }))
-    } else {
-      dispatch(
-        unfollowUser(followID, auth.uid, profile.following, { firebase })
-      )
-    }
-  }
 
   return (
     <ProfileInfoContainer>
@@ -67,7 +57,16 @@ const FollowProfile = ({ imageURL, name, username, followID }) => {
             <FollowBtnContainer>
               <FollowBtn
                 followed={followed}
-                onClick={followHandler}
+                onClick={() =>
+                  followHandler(
+                    followed,
+                    dispatch,
+                    followID,
+                    auth,
+                    profile,
+                    firebase
+                  )
+                }
               ></FollowBtn>
             </FollowBtnContainer>
           </InnerDiv>

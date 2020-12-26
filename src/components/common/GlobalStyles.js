@@ -483,6 +483,7 @@ export const RowDiv = styled.div`
 
 export const TweetPaddingTop = styled.div`
   padding-top: 10px;
+  width: 100%;
 `
 
 export const InnerDiv = styled.div`

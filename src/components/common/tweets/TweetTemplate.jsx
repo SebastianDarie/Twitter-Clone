@@ -38,6 +38,10 @@ import {
   PositionDiv,
   ProfileImageContainer,
   ProfileLink,
+  RetweetedIcon,
+  RetweetedLink,
+  RetweetedMargin,
+  RetweetedText,
   RetweetIconContainer,
   SideContent,
   TextSpan,
@@ -64,6 +68,7 @@ const TweetTemplate = ({
   firebase,
   reply,
   replyView,
+  profileView,
   modalState,
   closeModal,
   openModal,
@@ -178,7 +183,25 @@ const TweetTemplate = ({
               <ColumnDiv>
                 <div>
                   <RowDiv>
-                    <TweetPaddingTop />
+                    <TweetPaddingTop>
+                      {profileView === 'retweets' &&
+                      tweet.retweets &&
+                      tweet.retweets.includes(userID) ? (
+                        <RetweetedMargin>
+                          <RetweetedIcon>
+                            <FontAwesomeIcon icon={faRetweet} />
+                          </RetweetedIcon>
+                          <RetweetedText>
+                            <RetweetedLink
+                              to={`/${profile.username}`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              You retweeted
+                            </RetweetedLink>
+                          </RetweetedText>
+                        </RetweetedMargin>
+                      ) : null}
+                    </TweetPaddingTop>
                   </RowDiv>
                 </div>
                 <RowDiv>

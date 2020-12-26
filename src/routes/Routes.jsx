@@ -1,10 +1,11 @@
 import React from 'react'
+import { Switch } from 'react-router-dom'
 import { useFirestoreConnect } from 'react-redux-firebase'
 import PrivateRoute from '../components/containers/auth/PrivateRoute'
+import ProfileRoutes from './ProfileRoutes'
 import SideNav from '../components/layout/SideNav.jsx'
-//import RightScreen from '../components/layout/RightScreen.jsx'
+
 import Home from '../pages/Home.jsx'
-import Profile from '../pages/Profile.jsx'
 import TweetView from '../components/common/tweets/TweetView.jsx'
 import { Container } from '../components/common/GlobalStyles'
 
@@ -16,16 +17,20 @@ const Routes = () => {
   return (
     <Container>
       <SideNav />
-      <PrivateRoute path='/tweet/:id'>
-        <TweetView />
-      </PrivateRoute>
-      <PrivateRoute path='/:profile'>
-        <Profile />
-      </PrivateRoute>
-      <PrivateRoute exact path={['/', '/home']}>
-        <Home />
-      </PrivateRoute>
-      {/* <RightScreen /> */}
+      <Switch>
+        <PrivateRoute path='/tweet/:id'>
+          <TweetView />
+        </PrivateRoute>
+        {/* <PrivateRoute path='/home'>
+          <Home />
+        </PrivateRoute> */}
+        <PrivateRoute path='/:profile'>
+          <ProfileRoutes />
+        </PrivateRoute>
+        <PrivateRoute exact path='/'>
+          <Home />
+        </PrivateRoute>
+      </Switch>
     </Container>
   )
 }

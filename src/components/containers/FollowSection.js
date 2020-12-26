@@ -30,7 +30,7 @@ export const TextHeading = styled.div`
   line-height: 1.3125;
 `
 
-export const ShowMore = styled(Link).attrs({ to: '/home' })`
+export const ShowMore = styled(Link).attrs({ to: '/' })`
   display: block;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;

@@ -27,5 +27,6 @@ export const ProfileNavLink = styled(Link)`
 
   &:hover {
     background-color: rgba(29, 161, 242, 0.1);
+    color: rgb(29, 161, 242);
   }
 `

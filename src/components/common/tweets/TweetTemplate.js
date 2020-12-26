@@ -28,6 +28,38 @@ export const TweetArticle = styled.article`
   }
 `
 
+export const RetweetedMargin = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+`
+
+export const RetweetedIcon = styled.div`
+  display: flex;
+  flex-basis: 49px;
+  flex-grow: 0;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: rgb(91, 112, 131);
+  margin-right: 10px;
+`
+
+export const RetweetedText = styled.div`
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+`
+
+export const RetweetedLink = styled(Link)`
+  color: rgb(91, 112, 131);
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 export const ProfileImageContainer = styled.div`
   display: flex;
   flex-basis: 49px;
