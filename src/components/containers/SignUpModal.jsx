@@ -5,7 +5,6 @@ import { useFirebase } from 'react-redux-firebase'
 import { signUp } from '../../actions/authActions'
 import { ModalForm } from '../common/GlobalStyles'
 import {
-  BtnContainer,
   ModalContainer,
   ModalContent,
   ModalHeader,
@@ -41,6 +40,7 @@ const SignUpModal = ({ reference, modalState }) => {
           <WhiteSpace style={{ marginLeft: 20 }}></WhiteSpace>
         </ModalPadding>
       </ModalHeader>
+
       <ModalContent>
         <ModalForm>
           <ModalTitle>Create your account</ModalTitle>
@@ -52,6 +52,14 @@ const SignUpModal = ({ reference, modalState }) => {
                   Bro I ain't got time to frick with u!
                 </span>
               ),
+              minLength: {
+                value: 3,
+                message: (
+                  <span style={{ color: 'red' }}>
+                    Username must be minimum 3 characters!
+                  </span>
+                ),
+              },
               maxLength: {
                 value: 15,
                 message: (
@@ -71,6 +79,14 @@ const SignUpModal = ({ reference, modalState }) => {
                   Make sure it's your real name!
                 </span>
               ),
+              minLength: {
+                value: 3,
+                message: (
+                  <span style={{ color: 'red' }}>
+                    Name must be minimum 3 characters!
+                  </span>
+                ),
+              },
               maxLength: {
                 value: 25,
                 message: (
@@ -114,6 +130,14 @@ const SignUpModal = ({ reference, modalState }) => {
                   </span>
                 ),
               },
+              minLength: {
+                value: 8,
+                message: (
+                  <span style={{ color: 'red' }}>
+                    Password must be minimum 8 characters!
+                  </span>
+                ),
+              },
               maxLength: {
                 value: 20,
                 message: (
@@ -127,9 +151,10 @@ const SignUpModal = ({ reference, modalState }) => {
           {errors.password && errors.password.message}
         </ModalForm>
       </ModalContent>
-      <BtnContainer>
+
+      <div>
         <TwitterBtn text='Create New' type='submit' />
-      </BtnContainer>
+      </div>
     </ModalContainer>
   )
 }

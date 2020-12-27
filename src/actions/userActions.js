@@ -120,3 +120,49 @@ export const unfollowUser = (
     )
   }
 }
+
+export const updateName = (newName, userID, { firebase }) => async (
+  dispatch
+) => {
+  try {
+    const snapshot = await firebase
+      .firestore()
+      .collection('tweets')
+      .where('userID', '==', userID)
+      .get()
+
+    snapshot.forEach(async (doc) => {
+      await firebase
+        .firestore()
+        .collection('tweets')
+        .doc(doc.id)
+        .update({ name: newName })
+    })
+
+    dispatch(
+      toastrActions.add({
+        type: 'success',
+        title: 'Success',
+        position: 'top-right',
+        message: 'Successfully updated name!',
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
+  } catch (err) {
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Update Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
+  }
+}

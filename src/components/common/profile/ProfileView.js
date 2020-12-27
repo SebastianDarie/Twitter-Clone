@@ -1,6 +1,17 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+export const ProfileBlackout = styled.div`
+  display: ${(props) => (props.modalState.profile ? '' : 'none')};
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+`
+
 export const ProfileViewContainer = styled.div`
   display: flex;
   flex-grow: 1;
@@ -49,11 +60,34 @@ export const ImageBox = styled.div`
   }
 `
 
+export const SetupBtn = styled.button`
+  background-color: rgb(0, 0, 0, 0);
+  border-color: rgb(29, 161, 242);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 999px;
+  color: rgb(29, 161, 242);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3125;
+  height: 30px;
+  min-width: 101px;
+  margin-bottom: 2px;
+  padding-left: 1em;
+  padding-right: 1em;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+  }
+`
+
 export const NameContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `
 
 export const Name = styled.div`
@@ -71,6 +105,11 @@ export const Username = styled.div`
   color: rgb(91, 112, 131);
   font-size: 15px;
   font-weight: 400;
+`
+
+export const BioContainer = styled.div`
+  display: flex;
+  margin-bottom: 15px;
 `
 
 export const JoinedContainer = styled.div`

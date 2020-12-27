@@ -29,12 +29,24 @@ const ProfileFeed = ({ currProfile, profileView }) => {
   const filteredTweets =
     profileView === 'retweets'
       ? tweets
-          .filter((tweet) => !tweet.replyTo)
+          ?.filter((tweet) => !tweet.replyTo)
           .filter(
             (pureTweet) =>
-              pureTweet.userID === currProfile.id ||
-              pureTweet.retweets.includes(currProfile.id)
+              pureTweet.userID === currProfile?.id ||
+              pureTweet.retweets.includes(currProfile?.id)
           )
+      : profileView === 'replies'
+      ? tweets?.filter(
+          (tweet) =>
+            tweet.userID === currProfile?.id ||
+            tweet.retweets.includes(currProfile?.id)
+        )
+      : profileView === 'media'
+      ? tweets?.filter(
+          (tweet) => tweet.userID === currProfile?.id && tweet.imageNum !== 0
+        )
+      : profileView === 'likes'
+      ? tweets?.filter((tweet) => tweet.likes.includes(currProfile?.id))
       : []
 
   return (

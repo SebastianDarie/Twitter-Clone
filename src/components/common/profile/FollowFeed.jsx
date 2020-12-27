@@ -40,11 +40,7 @@ const FollowFeed = () => {
               <div>
                 <PointerPadding>
                   <PointerFlexer>
-                    <Link
-                      to={
-                        router.location.state ? router.location.state.prev : '/'
-                      }
-                    >
+                    <Link to={`/${router.match.params.profile}`}>
                       <BackSvg>
                         <BackgroundHover>
                           <FontAwesomeIcon

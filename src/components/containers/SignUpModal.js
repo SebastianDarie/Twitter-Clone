@@ -3,7 +3,8 @@ import { SmallLogo } from '../common/GlobalStyles'
 
 export const ModalContainer = styled.form`
   background-color: rgba(255, 255, 255, 1);
-  display: ${(props) => (props.modalState.open ? 'flex' : 'none')};
+  display: ${(props) =>
+    props.modalState.open || props.modalState.profile ? 'flex' : 'none'};
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
@@ -54,7 +55,6 @@ export const ModalContent = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
   justify-content: flex-start;
-  align-items: center;
   margin-bottom: 100px;
   height: 400px;
   max-height: 400px;
@@ -68,8 +68,4 @@ export const ModalTitle = styled.div`
   font-weight: 700;
   margin-bottom: 15px;
   margin-top: 15px;
-`
-
-export const BtnContainer = styled.div`
-  width: 20%;
 `

@@ -84,7 +84,17 @@ const SideLinks = () => {
       <LinkContainer>
         <Link to={`/${profile.username}`} style={{ textDecoration: 'none' }}>
           <HoverDiv
-            selected={router.pathname === `/${profile.username}` ? true : false}
+            selected={
+              router.pathname === `/${profile.username}`
+                ? true
+                : router.pathname === `/${profile.username}/with_replies`
+                ? true
+                : router.pathname === `/${profile.username}/media`
+                ? true
+                : router.pathname === `/${profile.username}/likes`
+                ? true
+                : false
+            }
           >
             <FontAwesomeIcon size='lg' icon={faUser} />
             <IconText>Profile</IconText>

@@ -28,8 +28,11 @@ const Profile = () => {
   const auth = useSelector((state) => state.firebase.auth)
   const profile = useSelector((state) => state.firebase.profile)
   const users = useSelector((state) => state.firestore.ordered.users)
+  const modalState = useSelector((state) => state.modal)
 
-  const currName = router.pathname.slice(1, router.pathname.length)
+  const currName = router.pathname
+    .slice(1, router.pathname.length)
+    .replace(/\/[^/]*$/gi, '')
 
   const currProfile = users?.find((user) => user.username === currName)
 
@@ -41,11 +44,7 @@ const Profile = () => {
             <div>
               <PointerPadding>
                 <PointerFlexer>
-                  <Link
-                    to={
-                      router.location.state ? router.location.state.prev : '/'
-                    }
-                  >
+                  <Link to='/'>
                     <BackSvg>
                       <BackgroundHover>
                         <FontAwesomeIcon
@@ -76,6 +75,7 @@ const Profile = () => {
         dispatch={dispatch}
         firebase={firebase}
         profile={profile}
+        modalState={modalState}
       />
     </ProfileContainer>
   )

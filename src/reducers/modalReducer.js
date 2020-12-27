@@ -1,8 +1,14 @@
-import { MODAL_CLOSE, MODAL_OPEN } from '../constants/modalConstants'
+import {
+  MODAL_CLOSE,
+  MODAL_OPEN,
+  PROFILE_CLOSE,
+  PROFILE_OPEN,
+} from '../constants/modalConstants'
 
 const initialState = {
   el: null,
   open: false,
+  profile: false,
 }
 
 const modalReducer = (state = initialState, { type, payload }) => {
@@ -19,6 +25,19 @@ const modalReducer = (state = initialState, { type, payload }) => {
         ...state,
         el: payload || null,
         open: false,
+      }
+
+    case PROFILE_OPEN:
+      return {
+        ...state,
+        open: false,
+        profile: true,
+      }
+
+    case PROFILE_CLOSE:
+      return {
+        ...state,
+        profile: false,
       }
 
     default:
