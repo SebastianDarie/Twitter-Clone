@@ -62,7 +62,12 @@ const ProfileView = ({
   return (
     <div onClick={outsideClickHandler}>
       <ProfileBlackout modalState={modalState} ref={background} />
-      <ProfileModal modalState={modalState} profileModal={profileModal} />
+      <ProfileModal
+        currProfile={currProfile}
+        firebase={firebase}
+        modalState={modalState}
+        profileModal={profileModal}
+      />
       <ProfileViewContainer>
         <div style={{ width: '100%' }}>
           <DefaultCover />

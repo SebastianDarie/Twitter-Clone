@@ -1,4 +1,4 @@
-import { FOLLOW, UNFOLLOW, UPDATE_NAME } from '../constants/userConstants'
+import { FOLLOW, UNFOLLOW } from '../constants/userConstants'
 
 const initialState = {
   followedUsers: [],

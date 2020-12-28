@@ -4,8 +4,8 @@ export const ModalInputContainer = styled.div`
   display: flex;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: ${(props) => (props.profile ? '15px' : '0px')};
+  padding-right: ${(props) => (props.profile ? '15px' : '0px')};
 `
 
 export const ModalLabel = styled.label`

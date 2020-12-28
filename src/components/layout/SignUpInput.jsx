@@ -13,7 +13,7 @@ import {
   UsernameInput,
 } from './SignUpInput'
 
-const SignUpInput = React.forwardRef(({ type }, ref) => {
+const SignUpInput = React.forwardRef(({ profile, type }, ref) => {
   const [changeIcon, setChangeIcon] = useState(false)
 
   const password = useRef()
@@ -29,7 +29,7 @@ const SignUpInput = React.forwardRef(({ type }, ref) => {
   }
 
   return (
-    <ModalInputContainer>
+    <ModalInputContainer profile={profile}>
       <ModalLabel>
         <div>
           <ModalInputPlaceholder>

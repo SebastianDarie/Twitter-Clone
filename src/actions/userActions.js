@@ -1,4 +1,4 @@
-import { FOLLOW, UNFOLLOW, UPDATE_NAME } from '../constants/userConstants'
+import { FOLLOW, UNFOLLOW, UPDATE_PROFILE } from '../constants/userConstants'
 import { actions as toastrActions } from 'react-redux-toastr'
 
 export const followUser = (
@@ -138,13 +138,59 @@ export const updateName = (newName, userID, { firebase }) => async (
         .doc(doc.id)
         .update({ name: newName })
     })
+  } catch (err) {
+    dispatch(
+      toastrActions.add({
+        type: 'error',
+        title: 'Update Error',
+        position: 'top-right',
+        message: err.message,
+        options: {
+          showCloseButton: true,
+          timeOut: 3000,
+        },
+      })
+    )
+  }
+}
+
+export const updateProfile = (
+  data,
+  header,
+  profile,
+  userID,
+  { firebase }
+) => async (dispatch) => {
+  try {
+    await firebase
+      .firestore()
+      .collection('users')
+      .doc(userID)
+      .update({ name: data.name, bio: data.bio })
+
+    dispatch(updateName(data.name, userID, { firebase }))
+
+    if (header) {
+      await firebase
+        .storage()
+        .ref('header pics/' + userID + '.png')
+        .put(header)
+    }
+
+    if (profile) {
+      await firebase
+        .storage()
+        .ref('profile pics/' + userID + '.png')
+        .put(profile)
+      console.log(profile, typeof profile)
+    }
 
     dispatch(
       toastrActions.add({
         type: 'success',
         title: 'Success',
         position: 'top-right',
-        message: 'Successfully updated name!',
+        message: 'Profile successfully updated!',
         options: {
           showCloseButton: true,
           timeOut: 3000,
