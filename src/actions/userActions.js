@@ -121,14 +121,14 @@ export const unfollowUser = (
   }
 }
 
-export const updateName = (newName, userID, { firebase }) => async (
+export const updateName = (newName, currProfile, { firebase }) => async (
   dispatch
 ) => {
   try {
     const snapshot = await firebase
       .firestore()
       .collection('tweets')
-      .where('userID', '==', userID)
+      .where('userID', '==', currProfile.id)
       .get()
 
     snapshot.forEach(async (doc) => {
@@ -136,7 +136,7 @@ export const updateName = (newName, userID, { firebase }) => async (
         .firestore()
         .collection('tweets')
         .doc(doc.id)
-        .update({ name: newName })
+        .update({ name: newName || currProfile.name })
     })
   } catch (err) {
     dispatch(
@@ -158,31 +158,53 @@ export const updateProfile = (
   data,
   header,
   profile,
-  userID,
+  currProfile,
   { firebase }
 ) => async (dispatch) => {
   try {
     await firebase
       .firestore()
       .collection('users')
-      .doc(userID)
-      .update({ name: data.name, bio: data.bio })
+      .doc(currProfile.id)
+      .update({
+        name: data.name || currProfile.name,
+        bio: data.bio || currProfile.bio,
+      })
 
-    dispatch(updateName(data.name, userID, { firebase }))
+    dispatch(updateName(data.name, currProfile, { firebase }))
 
     if (header) {
-      await firebase
+      const snapshot = await firebase
         .storage()
-        .ref('header pics/' + userID + '.png')
+        .ref('header pics/' + currProfile.id + '.png')
         .put(header)
+
+      const url = await snapshot.ref.getDownloadURL()
+
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(currProfile.id)
+        .update({
+          headerURL: url,
+        })
     }
 
     if (profile) {
-      await firebase
+      const snapshot = await firebase
         .storage()
-        .ref('profile pics/' + userID + '.png')
+        .ref('profile pics/' + currProfile.id + '.png')
         .put(profile)
-      console.log(profile, typeof profile)
+
+      const url = await snapshot.ref.getDownloadURL()
+
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(currProfile.id)
+        .update({
+          photoURL: url,
+        })
     }
 
     dispatch(

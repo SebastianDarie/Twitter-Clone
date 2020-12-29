@@ -25,7 +25,7 @@ export const BackgroundImage = styled.div`
 
 export const HeaderInputContainer = styled.div`
   position: absolute;
-  top: 25%;
+  top: 23%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -84,6 +84,7 @@ export const ProfilePicContainer = styled.div`
   margin-top: -25%;
   margin-left: 15px;
   max-height: 169px;
+  height: 169px;
   width: 169px;
 `
 

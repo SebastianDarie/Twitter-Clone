@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { ProfilePicture } from '../GlobalStyles'
 import {
   BioContainer,
   DefaultCover,
@@ -25,6 +26,7 @@ import ProfileModal from './ProfileModal.jsx'
 import ProfileNav from './ProfileNav.jsx'
 import followHandler from '../../../utils/followHandler'
 import { profileClose, profileOpen } from '../../../actions/modalActions'
+import { removePreviews } from '../../../actions/imageActions'
 
 const ProfileView = ({
   auth,
@@ -36,6 +38,8 @@ const ProfileView = ({
 }) => {
   const background = useRef()
   const profileModal = useRef()
+  const headerInput = useRef()
+  const profileInput = useRef()
 
   const followed = profile.following?.includes(currProfile?.id)
 
@@ -55,6 +59,9 @@ const ProfileView = ({
         e.target === background.current
       ) {
         dispatch(profileClose())
+        dispatch(removePreviews())
+        headerInput.current.value = null
+        profileInput.current.value = null
       }
     }
   }
@@ -67,22 +74,24 @@ const ProfileView = ({
         firebase={firebase}
         modalState={modalState}
         profileModal={profileModal}
+        headerInput={headerInput}
+        profileInput={profileInput}
       />
       <ProfileViewContainer>
-        <div style={{ width: '100%' }}>
-          <DefaultCover />
+        <div style={{ maxHeight: 199, maxWidth: 598, width: '100%' }}>
+          {currProfile?.headerURL ? (
+            <img
+              src={currProfile?.headerURL}
+              alt='header'
+              style={{ maxHeight: '100%', width: '100%' }}
+            />
+          ) : (
+            <DefaultCover />
+          )}
           <ProfileDetailsBox>
             <TopContainer>
               <ImageBox>
-                <img
-                  src={currProfile?.photoURL}
-                  alt='profile'
-                  style={{
-                    borderRadius: 999,
-                    maxHeight: '100%',
-                    maxWidth: '100%',
-                  }}
-                />
+                <ProfilePicture currProfile={currProfile} />
               </ImageBox>
 
               <FollowBtnContainer style={{ marginBottom: 10 }}>

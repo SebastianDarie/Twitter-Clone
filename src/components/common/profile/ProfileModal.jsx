@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { profileClose } from '../../../actions/modalActions'
 import { updateProfile } from '../../../actions/userActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,11 +37,23 @@ import SignUpInput from '../../layout/SignUpInput.jsx'
 import TwitterBtn from '../global/TwitterBtn.jsx'
 import resizeImage from '../../../utils/resizeImage'
 import { clearInput } from '../../../utils/addImage'
+import {
+  removePreviews,
+  setPreviewHeader,
+  setPreviewPic,
+} from '../../../actions/imageActions'
 
-const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
+const ProfileModal = ({
+  currProfile,
+  firebase,
+  modalState,
+  profileModal,
+  headerInput,
+  profileInput,
+}) => {
   const dispatch = useDispatch()
-  const [previewHeader, setPreviewHeader] = useState(null)
-  const [previewProfile, setPreviewProfile] = useState(null)
+  const previewHeader = useSelector((state) => state.image.previewHeader)
+  const previewPic = useSelector((state) => state.image.previewPic)
   const { register, handleSubmit, errors } = useForm()
   const textarea = useRef()
 
@@ -58,18 +70,20 @@ const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
         type: blob.type,
       })
       type === 'profile'
-        ? setPreviewProfile(URL.createObjectURL(image))
-        : setPreviewHeader(URL.createObjectURL(image))
+        ? dispatch(setPreviewPic(image))
+        : dispatch(setPreviewHeader(image))
     }
   }
 
   const submitProfile = async (data) => {
     dispatch(
-      updateProfile(data, previewHeader, previewProfile, currProfile.id, {
+      updateProfile(data, previewHeader, previewPic, currProfile, {
         firebase,
       })
     )
     dispatch(profileClose())
+    dispatch(removePreviews())
+    textarea.current.value = ''
   }
 
   return (
@@ -92,16 +106,19 @@ const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
           <ProfilePicsPadding>
             <ProfileHeaderContainer>
               <BackgroundImage />
-              {previewHeader ? (
-                <img
-                  src={previewHeader}
-                  alt='header'
-                  style={{
-                    maxHeight: '100%',
-                    maxWidth: '100%',
-                  }}
-                />
-              ) : null}
+
+              <img
+                src={
+                  previewHeader
+                    ? URL.createObjectURL(previewHeader)
+                    : currProfile?.headerURL
+                }
+                alt='header'
+                style={{
+                  maxHeight: '100%',
+                  maxWidth: '100%',
+                }}
+              />
 
               <HeaderInputContainer>
                 <AddPhotoContainer>
@@ -110,7 +127,7 @@ const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
                   </label>
                 </AddPhotoContainer>
                 <HeaderInput
-                  ref={register}
+                  ref={headerInput}
                   onChange={(e) => setImage(e, 'header')}
                   onClick={clearInput}
                 />
@@ -120,12 +137,16 @@ const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
             <ProfilePicContainer>
               <PicBlackout />
               <img
-                src={previewProfile ? previewProfile : currProfile?.photoURL}
+                src={
+                  previewPic
+                    ? URL.createObjectURL(previewPic)
+                    : currProfile?.photoURL
+                }
                 alt='profile'
                 style={{
                   borderRadius: '999px',
-                  maxHeight: '100%',
-                  maxWidth: '100%',
+                  height: '100%',
+                  width: '100%',
                 }}
               />
               <ProfileInputContainer>
@@ -135,7 +156,7 @@ const ProfileModal = ({ currProfile, firebase, modalState, profileModal }) => {
                   </label>
                 </AddPhotoContainer>
                 <ProfileInput
-                  ref={register}
+                  ref={profileInput}
                   onChange={(e) => setImage(e, 'profile')}
                   onClick={clearInput}
                 />

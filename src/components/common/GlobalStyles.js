@@ -76,7 +76,7 @@ export const MainDiv = styled.div`
 export const GrowDiv = styled.div`
   display: flex;
   flex-grow: 1;
-  height: 100%;
+  /* height: 100%; */
 `
 
 export const MainContainer = styled.div`
@@ -670,6 +670,15 @@ export const ProfileContainer = styled.div`
   max-width: 600px;
   width: 100%;
   z-index: 1;
+`
+
+export const ProfilePicture = styled.img.attrs((props) => ({
+  src: props.currProfile?.photoURL,
+  alt: 'profile',
+}))`
+  border-radius: 999px;
+  height: 100%;
+  width: 100%;
 `
 
 export default GlobalStyles

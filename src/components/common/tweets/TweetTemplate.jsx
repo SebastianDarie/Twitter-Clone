@@ -141,7 +141,7 @@ const TweetTemplate = ({
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
-  // TODO: reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
+  // TODO: properly resize images, reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
   // tweet view determine if tweet is a reply, implement hashtags and @,
   // use twitter modal for follow, logout, others (search its use on twitter), delete dropdown & modal
   // tweet letter count svg circle, autoresize textarea

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { useRouter } from '../hooks/useRouter'
 import { Switch } from 'react-router-dom'
 import {
@@ -7,10 +7,14 @@ import {
   MainDiv,
   MainFlexer,
 } from '../components/common/GlobalStyles'
+import Loading from '../components/common/global/Loading.jsx'
 import PrivateRoute from '../components/containers/auth/PrivateRoute'
-import FollowFeed from '../components/common/profile/FollowFeed.jsx'
-import Profile from '../pages/Profile'
-import RightScreen from '../components/layout/RightScreen.jsx'
+
+const FollowFeed = lazy(() =>
+  import('../components/common/profile/FollowFeed.jsx')
+)
+const Profile = lazy(() => import('../pages/Profile'))
+const RightScreen = lazy(() => import('../components/layout/RightScreen.jsx'))
 
 const ProfileRoutes = () => {
   const router = useRouter()
@@ -20,18 +24,20 @@ const ProfileRoutes = () => {
       <MainDiv>
         <GrowDiv>
           <MainContainer>
-            <Switch>
-              <PrivateRoute path={`${router.match.path}/following`}>
-                <FollowFeed />
-              </PrivateRoute>
-              <PrivateRoute path={`${router.match.path}/followers`}>
-                <FollowFeed />
-              </PrivateRoute>
-              <PrivateRoute path={`${router.match.path}`}>
-                <Profile />
-              </PrivateRoute>
-            </Switch>
-            <RightScreen />
+            <Suspense fallback={<Loading inner='profileRoutes' />}>
+              <Switch>
+                <PrivateRoute path={`${router.match.path}/following`}>
+                  <FollowFeed />
+                </PrivateRoute>
+                <PrivateRoute path={`${router.match.path}/followers`}>
+                  <FollowFeed />
+                </PrivateRoute>
+                <PrivateRoute path={`${router.match.path}`}>
+                  <Profile />
+                </PrivateRoute>
+              </Switch>
+              <RightScreen />
+            </Suspense>
           </MainContainer>
         </GrowDiv>
       </MainDiv>

@@ -3,7 +3,10 @@ import {
   IMAGE_ADD,
   IMAGE_REMOVE,
   IMAGE_REMOVE_ALL,
+  REMOVE_PREVIEWS,
+  SET_PREVIEW_HEADER,
   SET_PREVIEW_IMAGE,
+  SET_PREVIEW_PIC,
   SET_TWEET_IMAGE,
 } from '../constants/imageConstants'
 
@@ -61,4 +64,16 @@ export const setPreviewImage = (images) => (dispatch) => {
 
 export const setTweetImage = (id, images) => (dispatch) => {
   dispatch({ type: SET_TWEET_IMAGE, payload: { id, images } })
+}
+
+export const setPreviewHeader = (image) => (dispatch) => {
+  dispatch({ type: SET_PREVIEW_HEADER, payload: image })
+}
+
+export const setPreviewPic = (image) => (dispatch) => {
+  dispatch({ type: SET_PREVIEW_PIC, payload: image })
+}
+
+export const removePreviews = () => (dispatch) => {
+  dispatch({ type: REMOVE_PREVIEWS })
 }

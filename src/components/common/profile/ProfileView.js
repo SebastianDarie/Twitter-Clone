@@ -50,6 +50,7 @@ export const ImageBox = styled.div`
   margin-left: -4px;
   margin-bottom: -4px;
   min-width: 49px;
+  height: 142px;
   width: 25%;
   transition-property: background-color, box-shadow;
   transition-duration: 0.2s;

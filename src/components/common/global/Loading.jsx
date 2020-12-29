@@ -1,14 +1,28 @@
 import React from 'react'
-import { BlueDot, GreenDot, Loader, RedDot, YellowDot } from './Loading'
+import {
+  BlueDot,
+  Circle,
+  CircleSVG,
+  Container,
+  GreenDot,
+  Loader,
+  RedDot,
+  YellowDot,
+} from './Loading'
 
-const Loading = () => {
+const Loading = ({ inner }) => {
   return (
-    <Loader className='google-loader'>
-      <BlueDot className='dot blue'></BlueDot>
-      <RedDot className='dot red'></RedDot>
-      <YellowDot className='dot yellow'></YellowDot>
-      <GreenDot className='dot green'></GreenDot>
+    //<Container inner={inner}>
+    <Loader>
+      <CircleSVG viewBox='25 25 50 50'>
+        <Circle />
+      </CircleSVG>
+      {/* <BlueDot></BlueDot>
+        <RedDot></RedDot>
+        <YellowDot></YellowDot>
+        <GreenDot></GreenDot> */}
     </Loader>
+    //</Container>
   )
 }
 

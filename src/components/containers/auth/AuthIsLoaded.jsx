@@ -5,25 +5,7 @@ import Loading from '../../common/global/Loading.jsx'
 
 const AuthIsLoaded = ({ children }) => {
   const auth = useSelector((state) => state.firebase.auth)
-  return (
-    <>
-      {!isLoaded(auth) ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 350,
-            width: '100%',
-          }}
-        >
-          <Loading />
-        </div>
-      ) : (
-        children
-      )}
-    </>
-  )
+  return <>{!isLoaded(auth) ? <Loading /> : children}</>
 }
 
 export default AuthIsLoaded

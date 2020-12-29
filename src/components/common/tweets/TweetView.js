@@ -120,7 +120,7 @@ export const CommentIconContainer = styled(IconContainer)`
 `
 
 export const RetweetIconContainer = styled(IconContainer)`
-  color: ${(props) => (props.retweeted ? 'rgb(23, 191, 99)' : '')};
+  color: ${(props) => (props.currRetweeted ? 'rgb(23, 191, 99)' : '')};
 
   &:hover {
     color: rgb(23, 191, 99);
@@ -128,7 +128,7 @@ export const RetweetIconContainer = styled(IconContainer)`
 `
 
 export const LikesIconContainer = styled(IconContainer)`
-  color: ${(props) => (props.liked ? 'rgb(224, 36, 94)' : '')};
+  color: ${(props) => (props.currLiked ? 'rgb(224, 36, 94)' : '')};
 
   &:hover {
     color: rgb(224, 36, 94);

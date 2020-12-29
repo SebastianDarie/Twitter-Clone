@@ -2,7 +2,10 @@ import {
   IMAGE_ADD,
   IMAGE_REMOVE,
   IMAGE_REMOVE_ALL,
+  REMOVE_PREVIEWS,
+  SET_PREVIEW_HEADER,
   SET_PREVIEW_IMAGE,
+  SET_PREVIEW_PIC,
   SET_TWEET_IMAGE,
 } from '../constants/imageConstants'
 
@@ -11,6 +14,8 @@ const initialState = {
   previewImgs: [],
   tweetImgs: [],
   type: 'form',
+  previewHeader: null,
+  previewPic: null,
 }
 
 const imageReducer = (state = initialState, { type, payload }) => {
@@ -49,6 +54,25 @@ const imageReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         tweetImgs: [...state.tweetImgs, payload],
+      }
+
+    case SET_PREVIEW_HEADER:
+      return {
+        ...state,
+        previewHeader: payload,
+      }
+
+    case SET_PREVIEW_PIC:
+      return {
+        ...state,
+        previewPic: payload,
+      }
+
+    case REMOVE_PREVIEWS:
+      return {
+        ...state,
+        previewHeader: null,
+        previewPic: null,
       }
 
     default:
