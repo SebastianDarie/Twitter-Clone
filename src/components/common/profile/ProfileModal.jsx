@@ -62,8 +62,8 @@ const ProfileModal = ({
       const file = e.target.files[0]
       const blob =
         type === 'profile'
-          ? await resizeImage(file, 400, 400)
-          : await resizeImage(file, 1500, 500)
+          ? await resizeImage(file, 150, 150)
+          : await resizeImage(file, 600, 200)
 
       const image = new File([blob], file?.name, {
         lastModified: new Date().getTime(),

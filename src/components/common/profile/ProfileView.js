@@ -21,6 +21,13 @@ export const ProfileViewContainer = styled.div`
   width: 100%;
 `
 
+export const HeaderImageContainer = styled.div`
+  max-height: 199px;
+  max-width: 598px;
+  height: 100%;
+  width: 100%;
+`
+
 export const DefaultCover = styled.div`
   background-color: rgb(196, 207, 214);
   min-height: 199.33px;

@@ -20,6 +20,7 @@ import {
   ProfileName,
 } from '../../containers/FollowProfile'
 import {
+  BackgroundDiv,
   BioContainer,
   BorderContainer,
   Column,
@@ -35,6 +36,7 @@ const ProfileCard = ({ profile, userID }) => {
 
   const currUser = users?.find((user) => user.id === userID)
   const followed = profile.following?.includes(currUser?.id)
+  const following = profile.followers?.includes(currUser?.id)
 
   return (
     <BorderContainer>
@@ -58,6 +60,11 @@ const ProfileCard = ({ profile, userID }) => {
                     </UpperName>
                     <LowerName>
                       <LowerText>@{currUser?.username}</LowerText>
+                      {following && (
+                        <BackgroundDiv>
+                          <span>Follows you</span>
+                        </BackgroundDiv>
+                      )}
                     </LowerName>
                   </Link>
                 </ProfileText>

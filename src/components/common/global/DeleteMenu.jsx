@@ -1,0 +1,78 @@
+import React, { useEffect, useRef } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  DeleteContainer,
+  DeleteText,
+  SelectionContainer,
+  ShadowDiv,
+} from './DeleteMenu'
+
+const DeleteMenu = ({
+  dispatch,
+  firebase,
+  deleteHandler,
+  modalState,
+  profile,
+  tweet,
+  userID,
+  toastrActions,
+}) => {
+  const menu = useRef()
+
+  useEffect(() => {
+    const outsideClick = async (e) => {
+      if (menu.current && !menu.current.contains(e.target)) {
+        // const menu = await import('../../../actions/modalActions')
+        // dispatch(menu.closeMenu())
+      }
+    }
+
+    document.addEventListener('click', outsideClick)
+
+    return () => document.removeEventListener('click', outsideClick)
+  }, [])
+
+  const deleteClick = (e) => {
+    tweet.userID === userID
+      ? deleteHandler(
+          e,
+          dispatch,
+          tweet.id,
+          userID,
+          profile.tweets,
+          tweet.replyTo,
+          firebase
+        )
+      : dispatch(
+          toastrActions.add({
+            type: 'error',
+            title: 'Delete Error',
+            position: 'top-right',
+            message: "You're not the author of the tweet",
+            options: {
+              showCloseButton: true,
+              timeOut: 3000,
+            },
+          })
+        )
+  }
+
+  return (
+    <ShadowDiv
+      ref={menu}
+      modalState={modalState}
+      tweetID={tweet.id}
+      onClick={deleteClick}
+    >
+      <SelectionContainer>
+        <DeleteContainer>
+          <FontAwesomeIcon icon={faTrashAlt} />
+        </DeleteContainer>
+        <DeleteText>Delete</DeleteText>
+      </SelectionContainer>
+    </ShadowDiv>
+  )
+}
+
+export default DeleteMenu

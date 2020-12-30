@@ -126,10 +126,9 @@ const TweetView = () => {
       dispatch(closeModal())
     }
   }
-
   return (
     <>
-      {modalState.open.el === currTweet.id ? (
+      {modalState.el === currTweet.id ? (
         <BlackOut modalState={modalState} onClick={outsideClickHandler} />
       ) : null}
       <div style={{ left: '27%' }}>
@@ -155,7 +154,7 @@ const TweetView = () => {
           toastrActions={toastrActions}
         />
       </div>
-      <MainFlexer style={{ height: '100vh' }}>
+      <MainFlexer>
         <MainDiv>
           <GrowDiv>
             <MainContainer>

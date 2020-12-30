@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useRef, Suspense, lazy } from 'react'
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -33,6 +33,7 @@ import {
   BorderDiv,
   BottomIconsContainer,
   CommentIconContainer,
+  HashtagLink,
   LikesIconContainer,
   NameDiv,
   PositionDiv,
@@ -54,14 +55,17 @@ import {
   UpperTextFlexer,
   UpperTextMargin,
 } from './TweetTemplate'
-import ReplyModal from './ReplyModal.jsx'
 import formatTime from '../../../utils/formatTime'
+import highlightPattern from '../../../utils/highlightPattern'
 import {
   deleteHandler,
   replyHandler,
   retweetHandler,
   likeHandler,
 } from '../../../utils/tweetHandlers'
+
+const ReplyModal = lazy(() => import('./ReplyModal.jsx'))
+const DeleteMenu = lazy(() => import('../global/DeleteMenu.jsx'))
 
 const TweetTemplate = ({
   dispatch,
@@ -70,8 +74,6 @@ const TweetTemplate = ({
   replyView,
   profileView,
   modalState,
-  closeModal,
-  openModal,
   users,
   profile,
   userID,
@@ -127,11 +129,29 @@ const TweetTemplate = ({
     })
   }
 
-  const outsideClickHandler = (e) => {
+  const menuOpener = async (e) => {
+    // e.stopPropagation()
+    // const { openMenu, closeMenu } = await import(
+    //   '../../../actions/modalActions'
+    // )
+    // !modalState.menu ? dispatch(openMenu(tweet.id)) : dispatch(closeMenu())
+  }
+
+  const replyOpener = async (e) => {
+    // const { openModal, closeMenu } = await import(
+    //   '../../../actions/modalActions'
+    // )
+    //replyHandler(e, dispatch, openModal, removeAllImages, tweet)
+    //dispatch(closeMenu())
+  }
+
+  const outsideClickHandler = async (e) => {
     if (modalState.open) {
       if (e.target !== replyModal.current) {
+        //const { closeModal } = await import('../../../actions/modalActions')
+
         dispatch(removeAllImages())
-        dispatch(closeModal())
+        //dispatch(closeModal())
       }
     }
   }
@@ -140,6 +160,8 @@ const TweetTemplate = ({
   const retweeted = tweet.retweets.includes(userID)
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
+
+  const hashedText = highlightPattern(tweet.text, /#\w+/gi, HashtagLink)
 
   // TODO: properly resize images, reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
   // tweet view determine if tweet is a reply, implement hashtags and @,
@@ -154,56 +176,64 @@ const TweetTemplate = ({
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
-      <ReplyModal
-        dispatch={dispatch}
-        firebase={firebase}
-        button={button}
-        replyModal={replyModal}
-        modalState={modalState}
-        closeModal={closeModal}
-        reply={reply}
-        tweet={tweet}
-        tweetCreator={tweetCreator}
-        profile={profile}
-        userID={userID}
-        formatTime={formatTime}
-        type={type}
-        images={images}
-        previews={previews}
-        addImage={addImage}
-        removeImage={removeImage}
-        removeAllImages={removeAllImages}
-        setPreviewImage={setPreviewImage}
-        toastrActions={toastrActions}
-      />
-      <PositionDiv onClick={redirectClick}>
-        <BorderDiv replyView={replyView}>
-          <div>
+      <Suspense fallback={null}>
+        <ReplyModal
+          dispatch={dispatch}
+          firebase={firebase}
+          button={button}
+          replyModal={replyModal}
+          modalState={modalState}
+          reply={reply}
+          tweet={tweet}
+          tweetCreator={tweetCreator}
+          profile={profile}
+          userID={userID}
+          formatTime={formatTime}
+          type={type}
+          images={images}
+          previews={previews}
+          addImage={addImage}
+          removeImage={removeImage}
+          removeAllImages={removeAllImages}
+          setPreviewImage={setPreviewImage}
+          toastrActions={toastrActions}
+        />
+        <DeleteMenu
+          dispatch={dispatch}
+          firebase={firebase}
+          deleteHandler={deleteHandler}
+          modalState={modalState}
+          profile={profile}
+          tweet={tweet}
+          userID={userID}
+          toastrActions={toastrActions}
+        />
+        <PositionDiv onClick={redirectClick}>
+          <BorderDiv replyView={replyView}>
             <TweetArticle>
               <ColumnDiv>
-                <div>
-                  <RowDiv>
-                    <TweetPaddingTop>
-                      {profileView === 'retweets' &&
-                      tweet.retweets &&
-                      tweet.retweets.includes(userID) ? (
-                        <RetweetedMargin>
-                          <RetweetedIcon>
-                            <FontAwesomeIcon icon={faRetweet} />
-                          </RetweetedIcon>
-                          <RetweetedText>
-                            <RetweetedLink
-                              to={`/${profile.username}`}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              You retweeted
-                            </RetweetedLink>
-                          </RetweetedText>
-                        </RetweetedMargin>
-                      ) : null}
-                    </TweetPaddingTop>
-                  </RowDiv>
-                </div>
+                <RowDiv>
+                  <TweetPaddingTop>
+                    {profileView === 'retweets' &&
+                    tweet.retweets &&
+                    tweet.retweets.includes(userID) ? (
+                      <RetweetedMargin>
+                        <RetweetedIcon>
+                          <FontAwesomeIcon icon={faRetweet} />
+                        </RetweetedIcon>
+                        <RetweetedText>
+                          <RetweetedLink
+                            to={`/${profile.username}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            You retweeted
+                          </RetweetedLink>
+                        </RetweetedText>
+                      </RetweetedMargin>
+                    ) : null}
+                  </TweetPaddingTop>
+                </RowDiv>
+
                 <RowDiv>
                   <ProfileImageContainer>
                     {/* tweet.replyTo && */}
@@ -254,33 +284,7 @@ const TweetTemplate = ({
                             </TimeLink>
                           </UpperLeftContainer>
                           <UpperRightContainer>
-                            <DotIconContainer
-                              onClick={(e) =>
-                                tweet.userID === userID
-                                  ? deleteHandler(
-                                      e,
-                                      dispatch,
-                                      tweet.id,
-                                      userID,
-                                      profile.tweets,
-                                      tweet.replyTo,
-                                      firebase
-                                    )
-                                  : dispatch(
-                                      toastrActions.add({
-                                        type: 'error',
-                                        title: 'Delete Error',
-                                        position: 'top-right',
-                                        message:
-                                          "You're not the author of the tweet",
-                                        options: {
-                                          showCloseButton: true,
-                                          timeOut: 3000,
-                                        },
-                                      })
-                                    )
-                              }
-                            >
+                            <DotIconContainer onClick={menuOpener}>
                               <BackgroundHover>
                                 <FontAwesomeIcon icon={faEllipsisH} size='sm' />
                               </BackgroundHover>
@@ -292,7 +296,9 @@ const TweetTemplate = ({
 
                     <div>
                       <div>
-                        <TweetTextDiv>{tweet.text}</TweetTextDiv>
+                        <TweetTextDiv>
+                          {highlightPattern(hashedText, /@\w+/gi, HashtagLink)}
+                        </TweetTextDiv>
                       </div>
                       <div>
                         <div>
@@ -302,6 +308,7 @@ const TweetTemplate = ({
                                 ? obj.images.map((img, idx) => (
                                     <TweetImageContainer key={idx}>
                                       <img
+                                        loading='lazy'
                                         src={img}
                                         alt='tweet-img'
                                         style={{
@@ -316,17 +323,7 @@ const TweetTemplate = ({
                         </div>
                       </div>
                       <BottomIconsContainer>
-                        <CommentIconContainer
-                          onClick={(e) =>
-                            replyHandler(
-                              e,
-                              dispatch,
-                              openModal,
-                              removeAllImages,
-                              tweet
-                            )
-                          }
-                        >
+                        <CommentIconContainer onClick={replyOpener}>
                           <div>
                             <BackgroundHover>
                               <FontAwesomeIcon icon={faComment} size='1x' />
@@ -395,9 +392,9 @@ const TweetTemplate = ({
                 </RowDiv>
               </ColumnDiv>
             </TweetArticle>
-          </div>
-        </BorderDiv>
-      </PositionDiv>
+          </BorderDiv>
+        </PositionDiv>
+      </Suspense>
     </>
   )
 }

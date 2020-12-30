@@ -9,7 +9,7 @@ const LogIn = lazy(() => import('./pages/LogIn.jsx'))
 const SignUp = lazy(() => import('./pages/SignUp.jsx'))
 const Routes = lazy(() => import('./routes/Routes'))
 
-lazy(() => import('react-redux-toastr/lib/css/react-redux-toastr.min.css'))
+import('react-redux-toastr/lib/css/react-redux-toastr.min.css')
 
 function App() {
   const auth = useSelector((state) => state.firebase.auth)

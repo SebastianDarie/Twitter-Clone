@@ -24,7 +24,7 @@ const ProfileRoutes = () => {
       <MainDiv>
         <GrowDiv>
           <MainContainer>
-            <Suspense fallback={<Loading inner='profileRoutes' />}>
+            <Suspense fallback={<Loading />}>
               <Switch>
                 <PrivateRoute path={`${router.match.path}/following`}>
                   <FollowFeed />

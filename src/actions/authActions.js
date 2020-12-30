@@ -51,6 +51,8 @@ export const signUp = (credentials, { firebase }) => async (dispatch) => {
         name: credentials.name,
         username: credentials.username,
         email: credentials.email,
+        bio: '',
+        headerURL: '',
         photoURL: url,
         followers: [],
         following: [],

@@ -40,18 +40,16 @@ const GlobalStyles = createGlobalStyle`
       font-family: 'Roboto', sans-serif;
     }
 
-    body{
+     body{
         font-family: 'Roboto', sans-serif;
-        height: 100vh;
         width: 100%;
-        overflow: auto;
+        overflow-y: auto;
     }
 `
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  min-height: 767px;
   width: 100%;
   z-index: 0;
 `
@@ -61,14 +59,13 @@ export const MainFlexer = styled.main`
   flex-grow: 1;
   flex-shrink: 1;
   align-items: flex-start;
-  /* height: 100%; */
 `
 
 export const MainDiv = styled.div`
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
-  height: 100%;
+
   max-width: 990px;
   width: 990px;
 `
@@ -76,7 +73,6 @@ export const MainDiv = styled.div`
 export const GrowDiv = styled.div`
   display: flex;
   flex-grow: 1;
-  /* height: 100%; */
 `
 
 export const MainContainer = styled.div`
@@ -86,8 +82,22 @@ export const MainContainer = styled.div`
   flex-grow: 1;
   justify-content: space-between;
   align-items: stretch;
-  min-height: 100%;
   width: 100%;
+`
+
+export const MainTweetContainer = styled.div`
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgb(235, 238, 240);
+  border-style: solid;
+  border-top-width: 0px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  min-height: 767px;
+  max-width: 600px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+  z-index: 1;
 `
 
 export const Button = styled.button`
@@ -421,20 +431,6 @@ export const ReplyFormTextArea = styled.textarea.attrs({
   overflow-wrap: break-word;
   overflow-y: hidden;
   width: 100%;
-`
-
-export const MainTweetContainer = styled.div`
-  background-color: rgba(255, 255, 255, 1);
-  border-color: rgb(235, 238, 240);
-  border-style: solid;
-  border-top-width: 0px;
-  border-left-width: 1px;
-  border-right-width: 1px;
-  max-width: 600px;
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 100%;
-  z-index: 1;
 `
 
 export const MainHeaderContainer = styled.div`

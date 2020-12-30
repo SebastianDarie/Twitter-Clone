@@ -22,20 +22,28 @@ export const createTweet = (
   let tempArr = []
   const imgCount = images.length || 0
 
+  const hashText = text.match(/#\w+/) || []
+  const hash = hashText.map((text) => text.slice(1))
+  const atTags = text.match(/@\w+/) || []
+  const at = atTags.map((tag) => tag.slice(1))
+
   try {
-    const newTweet = await firebase.firestore().collection('tweets').add({
-      name,
-      username,
-      text,
-      userID,
-      timeStamp: new Date(),
-      hashtags: [],
-      userTags: [],
-      replies: [],
-      retweets: [],
-      likes: [],
-      imageNum: imgCount,
-    })
+    const newTweet = await firebase
+      .firestore()
+      .collection('tweets')
+      .add({
+        name,
+        username,
+        text,
+        userID,
+        timeStamp: new Date(),
+        hashtags: hash || [],
+        userTags: at || [],
+        replies: [],
+        retweets: [],
+        likes: [],
+        imageNum: imgCount,
+      })
 
     for (const [idx, img] of images.entries()) {
       const imgRef = firebase

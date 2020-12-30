@@ -8,6 +8,7 @@ import {
   FollowingLink,
   FollowingMargin,
   FollowStats,
+  HeaderImageContainer,
   ImageBox,
   JoinedContainer,
   JoinedDiv,
@@ -78,16 +79,18 @@ const ProfileView = ({
         profileInput={profileInput}
       />
       <ProfileViewContainer>
-        <div style={{ maxHeight: 199, maxWidth: 598, width: '100%' }}>
-          {currProfile?.headerURL ? (
-            <img
-              src={currProfile?.headerURL}
-              alt='header'
-              style={{ maxHeight: '100%', width: '100%' }}
-            />
-          ) : (
-            <DefaultCover />
-          )}
+        <div style={{ width: '100%' }}>
+          <HeaderImageContainer>
+            {currProfile?.headerURL ? (
+              <img
+                src={currProfile?.headerURL}
+                alt='header'
+                style={{ maxHeight: '100%', width: '100%' }}
+              />
+            ) : (
+              <DefaultCover />
+            )}
+          </HeaderImageContainer>
           <ProfileDetailsBox>
             <TopContainer>
               <ImageBox>

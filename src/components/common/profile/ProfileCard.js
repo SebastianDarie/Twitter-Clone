@@ -37,3 +37,17 @@ export const BioContainer = styled.div`
   overflow-wrap: break-word;
   padding-top: 5px;
 `
+
+export const BackgroundDiv = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: rgb(235, 238, 240);
+  border-radius: 4px;
+  color: rgb(91, 112, 131);
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+`

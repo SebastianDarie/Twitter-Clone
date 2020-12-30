@@ -145,6 +145,17 @@ export const TweetTextDiv = styled.div`
   overflow-wrap: break-word;
 `
 
+export const HashtagLink = styled(Link)`
+  color: rgb(27, 149, 224);
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 export const BottomIconsContainer = styled.div`
   display: flex;
   flex-direction: row;

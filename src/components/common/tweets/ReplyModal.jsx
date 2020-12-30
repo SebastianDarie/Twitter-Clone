@@ -52,7 +52,6 @@ const ReplyModal = ({
   button,
   replyModal,
   modalState,
-  closeModal,
   reply,
   tweet,
   tweetCreator,
@@ -97,7 +96,7 @@ const ReplyModal = ({
     let text = textarea.current
 
     return () => (text.value = '')
-  }, [images, type, modalState?.open])
+  }, [images, type, modalState.open])
 
   useEffect(() => {
     if (!modalState.open) {
@@ -113,16 +112,17 @@ const ReplyModal = ({
     button.current.style.pointerEvents = 'all'
   }
 
-  const closeHandler = () => {
+  const closeHandler = async () => {
     button.current.style.opacity = 0.5
     button.current.style.pointerEvents = 'none'
     textarea.current.value = ''
 
-    dispatch(removeAllImages())
-    dispatch(closeModal())
+    // const { closeModal } = await import('../../../actions/modalActions')
+    // dispatch(removeAllImages())
+    // dispatch(closeModal())
   }
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     if (textarea.current.value === '' && images.length === 0) {
       dispatch(
         toastrActions.add({
@@ -137,6 +137,8 @@ const ReplyModal = ({
         })
       )
     } else {
+      //const { closeModal } = await import('../../../actions/modalActions')
+
       dispatch(
         reply(
           tweet.id,
@@ -150,7 +152,7 @@ const ReplyModal = ({
           { firebase }
         )
       )
-      dispatch(closeModal())
+      //dispatch(closeModal())
       textarea.current.value = ''
     }
   }

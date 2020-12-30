@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
-import { closeModal, openModal } from '../../actions/modalActions'
 import {
   addImage,
   removeImage,
@@ -42,60 +41,54 @@ const TweetFeed = () => {
 
   return (
     <MainTweetContainer>
-      <div>
-        <MainHeaderContainer>
-          <PointerHeader>
-            <PointerHeight>
-              <div>
-                <PointerPadding>
-                  <PointerText>Home</PointerText>
-                </PointerPadding>
-              </div>
-            </PointerHeight>
-          </PointerHeader>
-        </MainHeaderContainer>
-        <TweetForm
-          dispatch={dispatch}
-          firebase={firebase}
-          createTweet={createTweet}
-          addImage={addImage}
-          removeImage={removeImage}
-          setPreviewImage={setPreviewImage}
-          images={images}
-          previews={previews}
-          type={type}
-          profile={profile}
-          userID={auth.uid}
-          toastrActions={toastrActions}
-        />
-        <FeedLineBreak />
-        {filteredTweets &&
-          filteredTweets.map((tweet) => (
-            <TweetTemplate
-              key={tweet.id}
-              dispatch={dispatch}
-              firebase={firebase}
-              reply={reply}
-              modalState={modalState}
-              closeModal={closeModal}
-              openModal={openModal}
-              users={users}
-              profile={profile}
-              userID={auth.uid}
-              tweet={tweet}
-              tweetImages={tweetImages}
-              setTweetImage={setTweetImage}
-              type={type}
-              images={images}
-              previews={previews}
-              addImage={addImage}
-              removeImage={removeImage}
-              removeAllImages={removeAllImages}
-              setPreviewImage={setPreviewImage}
-              toastrActions={toastrActions}
-            />
-          ))}
-      </div>
+      <MainHeaderContainer>
+        <PointerHeader>
+          <PointerHeight>
+            <PointerPadding>
+              <PointerText>Home</PointerText>
+            </PointerPadding>
+          </PointerHeight>
+        </PointerHeader>
+      </MainHeaderContainer>
+      <TweetForm
+        dispatch={dispatch}
+        firebase={firebase}
+        createTweet={createTweet}
+        addImage={addImage}
+        removeImage={removeImage}
+        setPreviewImage={setPreviewImage}
+        images={images}
+        previews={previews}
+        type={type}
+        profile={profile}
+        userID={auth.uid}
+        toastrActions={toastrActions}
+      />
+      <FeedLineBreak />
+      {filteredTweets &&
+        filteredTweets.map(async (tweet) => (
+          <TweetTemplate
+            key={tweet.id}
+            dispatch={dispatch}
+            firebase={firebase}
+            reply={reply}
+            modalState={modalState}
+            users={users}
+            profile={profile}
+            userID={auth.uid}
+            tweet={tweet}
+            tweetImages={tweetImages}
+            setTweetImage={setTweetImage}
+            type={type}
+            images={images}
+            previews={previews}
+            addImage={addImage}
+            removeImage={removeImage}
+            removeAllImages={removeAllImages}
+            setPreviewImage={setPreviewImage}
+            toastrActions={toastrActions}
+          />
+        ))}
     </MainTweetContainer>
   )
 }

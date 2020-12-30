@@ -1,4 +1,6 @@
 import {
+  MENU_CLOSE,
+  MENU_OPEN,
   MODAL_CLOSE,
   MODAL_OPEN,
   PROFILE_CLOSE,
@@ -7,12 +9,26 @@ import {
 
 const initialState = {
   el: null,
+  menu: false,
   open: false,
   profile: false,
 }
 
 const modalReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case MENU_OPEN:
+      return {
+        ...state,
+        el: payload,
+        menu: true,
+      }
+
+    case MENU_CLOSE:
+      return {
+        ...state,
+        menu: false,
+      }
+
     case MODAL_OPEN:
       return {
         ...state,
