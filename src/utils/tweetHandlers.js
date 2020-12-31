@@ -20,14 +20,9 @@ export const deleteHandler = (
   dispatch(deleteTweet(tweetID, userID, userTweets, replyTo, { firebase }))
 }
 
-export const replyHandler = (
-  e,
-  dispatch,
-  openModal,
-  removeAllImages,
-  tweet
-) => {
-  e.stopPropagation()
+export const replyHandler = async (dispatch, tweet) => {
+  const { removeAllImages } = await import('../actions/imageActions')
+  const { openModal } = await import('../actions/modalActions')
 
   dispatch(removeAllImages())
   dispatch(openModal(tweet ? tweet.id : 'view'))

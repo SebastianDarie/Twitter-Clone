@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Switch } from 'react-router-dom'
 import { useRouter } from '../../../hooks/useRouter'
 import { Nav, ProfileNavLink } from './ProfileNav'
 import PrivateRoute from '../../containers/auth/PrivateRoute'
-import ProfileFeed from './ProfileFeed'
+
+const ProfileFeed = lazy(() => import('./ProfileFeed'))
 
 const ProfileNav = ({ currProfile }) => {
   const router = useRouter()
@@ -57,20 +58,22 @@ const ProfileNav = ({ currProfile }) => {
         </ProfileNavLink>
       </Nav>
 
-      <Switch>
-        <PrivateRoute exact path={`${router.match.path}/likes`}>
-          <ProfileFeed currProfile={currProfile} profileView='likes' />
-        </PrivateRoute>
-        <PrivateRoute exact path={`${router.match.path}/media`}>
-          <ProfileFeed currProfile={currProfile} profileView='media' />
-        </PrivateRoute>
-        <PrivateRoute exact path={`${router.match.path}/with_replies`}>
-          <ProfileFeed currProfile={currProfile} profileView='replies' />
-        </PrivateRoute>
-        <PrivateRoute exact path={`${router.match.path}`}>
-          <ProfileFeed currProfile={currProfile} profileView='retweets' />
-        </PrivateRoute>
-      </Switch>
+      <Suspense fallback={null}>
+        <Switch>
+          <PrivateRoute exact path={`${router.match.path}/likes`}>
+            <ProfileFeed currProfile={currProfile} profileView='likes' />
+          </PrivateRoute>
+          <PrivateRoute exact path={`${router.match.path}/media`}>
+            <ProfileFeed currProfile={currProfile} profileView='media' />
+          </PrivateRoute>
+          <PrivateRoute exact path={`${router.match.path}/with_replies`}>
+            <ProfileFeed currProfile={currProfile} profileView='replies' />
+          </PrivateRoute>
+          <PrivateRoute exact path={`${router.match.path}`}>
+            <ProfileFeed currProfile={currProfile} profileView='retweets' />
+          </PrivateRoute>
+        </Switch>
+      </Suspense>
     </>
   )
 }

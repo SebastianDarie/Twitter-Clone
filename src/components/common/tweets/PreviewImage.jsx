@@ -8,7 +8,7 @@ import {
   RemoveBtnContainer,
 } from './PreviewImage'
 
-const PreviewImage = ({ image, src, dispatch, removeImage }) => {
+const PreviewImage = ({ image, src, dispatch }) => {
   return (
     <MarginContainer>
       <MarginTop>
@@ -18,7 +18,10 @@ const PreviewImage = ({ image, src, dispatch, removeImage }) => {
           style={{ maxHeight: '100%', maxWidth: '100%' }}
         />
         <RemoveBtnContainer
-          onClick={() => {
+          onClick={async () => {
+            const { removeImage } = await import(
+              '../../../actions/imageActions'
+            )
             dispatch(removeImage(image))
           }}
         >

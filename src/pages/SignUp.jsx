@@ -41,7 +41,7 @@ const SignUp = () => {
 
   const signupClickHandler = async () => {
     const modal = await import('../actions/modalActions')
-    dispatch(modal.openModal(modal.current))
+    dispatch(modal.openModal('signup'))
   }
 
   return (

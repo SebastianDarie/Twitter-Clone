@@ -1,17 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, Suspense, lazy } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from '../../../hooks/useRouter'
 import { Link } from 'react-router-dom'
 import { actions as toastrActions } from 'react-redux-toastr'
-import { closeModal, openModal } from '../../../actions/modalActions'
-import {
-  addImage,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
-  setTweetImage,
-} from '../../../actions/imageActions'
 import { reply } from '../../../actions/tweetActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -30,6 +22,7 @@ import {
   ImageLink,
   InnerDiv,
   GrowDiv,
+  HashtagLink,
   LikeHover,
   LowerName,
   LowerText,
@@ -74,15 +67,19 @@ import {
   TextMargin,
   TextWrapper,
 } from './TweetView'
-import ReplyModal from './ReplyModal.jsx'
 import RightScreen from '../../layout/RightScreen.jsx'
 import TweetTemplate from './TweetTemplate.jsx'
 import formatTime from '../../../utils/formatTime'
+import highlightPattern from '../../../utils/highlightPattern'
 import {
   replyHandler,
   retweetHandler,
   likeHandler,
 } from '../../../utils/tweetHandlers'
+
+const ReplyModal = lazy(() => import('./ReplyModal.jsx'))
+const DeleteMenu = lazy(() => import('../global/DeleteMenu.jsx'))
+//const HoverLink = lazy(() => import('../global/HoverLink'))
 
 const TweetView = () => {
   const [mainTweet, setMainTweet] = useState(null)
@@ -111,6 +108,8 @@ const TweetView = () => {
   const currLiked = currTweet?.likes.includes(auth.uid)
   const currRetweeted = currTweet?.retweets.includes(auth.uid)
 
+  const hashedText = highlightPattern(currTweet?.text, /#\w+/gi, HashtagLink)
+
   useEffect(() => {
     if (currTweet.replyTo) {
       const mainTweet = tweets.find((tweet) => tweet.id === currTweet.replyTo)
@@ -120,40 +119,57 @@ const TweetView = () => {
     return () => setMainTweet(null)
   }, [currTweet.replyTo, tweets])
 
-  const outsideClickHandler = () => {
+  const menuOpener = async (e) => {
+    e.stopPropagation()
+    const { openMenu, closeMenu } = await import(
+      '../../../actions/modalActions'
+    )
+    !modalState.menu ? dispatch(openMenu(currTweet.id)) : dispatch(closeMenu())
+  }
+
+  const outsideClickHandler = async () => {
     if (modalState.open) {
+      const { removeAllImages } = await import('../../../actions/imageActions')
+      const { closeModal } = await import('../../../actions/modalActions')
+
       dispatch(removeAllImages())
       dispatch(closeModal())
     }
   }
   return (
     <>
-      {modalState.el === currTweet.id ? (
-        <BlackOut modalState={modalState} onClick={outsideClickHandler} />
-      ) : null}
-      <div style={{ left: '27%' }}>
-        <ReplyModal
+      <Suspense fallback={null}>
+        {modalState.el === currTweet.id ? (
+          <BlackOut modalState={modalState} onClick={outsideClickHandler} />
+        ) : null}
+        <div style={{ left: '27%' }}>
+          <ReplyModal
+            dispatch={dispatch}
+            firebase={firebase}
+            button={button}
+            modalState={modalState}
+            reply={reply}
+            tweet={currTweet}
+            tweetCreator={tweetCreator}
+            profile={profile}
+            userID={auth.uid}
+            formatTime={formatTime}
+            type={type}
+            images={images}
+            previews={previews}
+            toastrActions={toastrActions}
+          />
+        </div>
+        <DeleteMenu
           dispatch={dispatch}
           firebase={firebase}
-          button={button}
           modalState={modalState}
-          closeModal={closeModal}
-          reply={reply}
-          tweet={currTweet}
-          tweetCreator={tweetCreator}
           profile={profile}
+          tweet={currTweet}
           userID={auth.uid}
-          formatTime={formatTime}
-          type={type}
-          images={images}
-          previews={previews}
-          addImage={addImage}
-          removeImage={removeImage}
-          removeAllImages={removeAllImages}
-          setPreviewImage={setPreviewImage}
           toastrActions={toastrActions}
         />
-      </div>
+      </Suspense>
       <MainFlexer>
         <MainDiv>
           <GrowDiv>
@@ -203,21 +219,14 @@ const TweetView = () => {
                             reply={reply}
                             replyView={true}
                             modalState={modalState}
-                            closeModal={closeModal}
-                            openModal={openModal}
                             users={users}
                             profile={profile}
                             userID={auth.uid}
                             tweet={mainTweet}
                             tweetImages={tweetImages}
-                            setTweetImage={setTweetImage}
                             type={type}
                             images={images}
                             previews={previews}
-                            addImage={addImage}
-                            removeImage={removeImage}
-                            removeAllImages={removeAllImages}
-                            setPreviewImage={setPreviewImage}
                             toastrActions={toastrActions}
                           />
                         )}
@@ -261,6 +270,7 @@ const TweetView = () => {
 
                                 <DotIconContainer
                                   style={{ marginBottom: '10px' }}
+                                  onClick={menuOpener}
                                 >
                                   <BackgroundHover>
                                     <FontAwesomeIcon
@@ -285,7 +295,13 @@ const TweetView = () => {
                               )}
 
                               <TextMargin>
-                                <TextWrapper>{currTweet?.text}</TextWrapper>
+                                <TextWrapper>
+                                  {highlightPattern(
+                                    hashedText,
+                                    /@\w+/gi,
+                                    HashtagLink
+                                  )}
+                                </TextWrapper>
                               </TextMargin>
 
                               {tweetImages &&
@@ -346,14 +362,8 @@ const TweetView = () => {
 
                               <IconsFlexer>
                                 <CommentIconContainer
-                                  onClick={(e) =>
-                                    replyHandler(
-                                      e,
-                                      dispatch,
-                                      openModal,
-                                      removeAllImages,
-                                      currTweet
-                                    )
+                                  onClick={() =>
+                                    replyHandler(dispatch, currTweet)
                                   }
                                 >
                                   <BackgroundHover>
@@ -424,21 +434,14 @@ const TweetView = () => {
                               reply={reply}
                               replyView={false}
                               modalState={modalState}
-                              closeModal={closeModal}
-                              openModal={openModal}
                               users={users}
                               profile={profile}
                               userID={auth.uid}
                               tweet={tweet}
                               tweetImages={tweetImages}
-                              setTweetImage={setTweetImage}
                               type={type}
                               images={images}
                               previews={previews}
-                              addImage={addImage}
-                              removeImage={removeImage}
-                              removeAllImages={removeAllImages}
-                              setPreviewImage={setPreviewImage}
                               toastrActions={toastrActions}
                             />
                           ))}

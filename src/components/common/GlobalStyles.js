@@ -44,6 +44,7 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Roboto', sans-serif;
         width: 100%;
         overflow-y: auto;
+        overflow-x: none;
     }
 `
 
@@ -239,9 +240,7 @@ export const TweetImageDiv = styled.div`
   max-width: 49px;
 `
 
-export const ImageLink = styled(Link).attrs({
-  to: (props) => props.path,
-})`
+export const ImageLink = styled(Link)`
   border-radius: 999px;
   height: 49px;
   width: 100%;
@@ -294,6 +293,12 @@ export const LowerText = styled.div`
   font-weight: 400;
 `
 
+export const Blueish = styled.div`
+  color: rgb(15, 20, 25);
+  font-size: 15px;
+  font-weight: 400;
+`
+
 export const TweetFormInputContainer = styled.div`
   position: relative;
   display: flex;
@@ -304,7 +309,7 @@ export const TweetFormInputContainer = styled.div`
   border-width: 2px;
   min-height: fit-content;
   max-height: 38.0625em;
-  overflow: hidden;
+  /* overflow: hidden; */
 `
 
 export const SinglePreviewWrapper = styled.div`
@@ -675,6 +680,21 @@ export const ProfilePicture = styled.img.attrs((props) => ({
   border-radius: 999px;
   height: 100%;
   width: 100%;
+`
+
+export const HashtagLink = styled(Link)`
+  color: rgb(27, 149, 224);
+  font-size: inherit;
+  font-weight: 400;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+export const NoHoverLink = styled(Link)`
+  text-decoration: none;
 `
 
 export default GlobalStyles

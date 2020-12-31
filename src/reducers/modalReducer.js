@@ -46,6 +46,7 @@ const modalReducer = (state = initialState, { type, payload }) => {
     case PROFILE_OPEN:
       return {
         ...state,
+        el: payload,
         open: false,
         profile: true,
       }
@@ -53,6 +54,7 @@ const modalReducer = (state = initialState, { type, payload }) => {
     case PROFILE_CLOSE:
       return {
         ...state,
+        el: null,
         profile: false,
       }
 

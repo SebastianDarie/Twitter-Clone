@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -11,20 +12,20 @@ import {
 const DeleteMenu = ({
   dispatch,
   firebase,
-  deleteHandler,
   modalState,
   profile,
   tweet,
   userID,
   toastrActions,
 }) => {
+  const router = useRouter()
   const menu = useRef()
 
   useEffect(() => {
     const outsideClick = async (e) => {
       if (menu.current && !menu.current.contains(e.target)) {
-        // const menu = await import('../../../actions/modalActions')
-        // dispatch(menu.closeMenu())
+        const menu = await import('../../../actions/modalActions')
+        dispatch(menu.closeMenu())
       }
     }
 
@@ -33,29 +34,34 @@ const DeleteMenu = ({
     return () => document.removeEventListener('click', outsideClick)
   }, [])
 
-  const deleteClick = (e) => {
-    tweet.userID === userID
-      ? deleteHandler(
-          e,
-          dispatch,
-          tweet.id,
-          userID,
-          profile.tweets,
-          tweet.replyTo,
-          firebase
-        )
-      : dispatch(
-          toastrActions.add({
-            type: 'error',
-            title: 'Delete Error',
-            position: 'top-right',
-            message: "You're not the author of the tweet",
-            options: {
-              showCloseButton: true,
-              timeOut: 3000,
-            },
-          })
-        )
+  const deleteClick = async (e) => {
+    const { deleteHandler } = await import('../../../utils/tweetHandlers')
+
+    if (tweet.userID === userID) {
+      deleteHandler(
+        e,
+        dispatch,
+        tweet.id,
+        userID,
+        profile.tweets,
+        tweet.replyTo,
+        firebase
+      )
+      router.history.push('/')
+    } else {
+      dispatch(
+        toastrActions.add({
+          type: 'error',
+          title: 'Delete Error',
+          position: 'top-right',
+          message: "You're not the author of the tweet",
+          options: {
+            showCloseButton: true,
+            timeOut: 3000,
+          },
+        })
+      )
+    }
   }
 
   return (

@@ -16,6 +16,7 @@ import {
   DotIconContainer,
   //DoublePreviewWrapper,
   ImageLink,
+  HashtagLink,
   LikeHover,
   LowerText,
   ProfileImage,
@@ -33,7 +34,6 @@ import {
   BorderDiv,
   BottomIconsContainer,
   CommentIconContainer,
-  HashtagLink,
   LikesIconContainer,
   NameDiv,
   PositionDiv,
@@ -58,7 +58,6 @@ import {
 import formatTime from '../../../utils/formatTime'
 import highlightPattern from '../../../utils/highlightPattern'
 import {
-  deleteHandler,
   replyHandler,
   retweetHandler,
   likeHandler,
@@ -66,6 +65,7 @@ import {
 
 const ReplyModal = lazy(() => import('./ReplyModal.jsx'))
 const DeleteMenu = lazy(() => import('../global/DeleteMenu.jsx'))
+const HoverLink = lazy(() => import('../global/HoverLink'))
 
 const TweetTemplate = ({
   dispatch,
@@ -75,18 +75,14 @@ const TweetTemplate = ({
   profileView,
   modalState,
   users,
+  auth,
   profile,
   userID,
   tweet,
   tweetImages,
-  setTweetImage,
   type,
   images,
   previews,
-  addImage,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
   toastrActions,
 }) => {
   const replyModal = useRef()
@@ -111,6 +107,9 @@ const TweetTemplate = ({
           tempArray.push(url)
 
           if (download && i === tweet.imageNum - 1) {
+            const { setTweetImage } = await import(
+              '../../../actions/imageActions'
+            )
             dispatch(setTweetImage(tweet.id, tempArray))
           }
         })
@@ -130,28 +129,31 @@ const TweetTemplate = ({
   }
 
   const menuOpener = async (e) => {
-    // e.stopPropagation()
-    // const { openMenu, closeMenu } = await import(
-    //   '../../../actions/modalActions'
-    // )
-    // !modalState.menu ? dispatch(openMenu(tweet.id)) : dispatch(closeMenu())
+    e.stopPropagation()
+    const { openMenu, closeMenu } = await import(
+      '../../../actions/modalActions'
+    )
+    !modalState.menu ? dispatch(openMenu(tweet.id)) : dispatch(closeMenu())
   }
 
   const replyOpener = async (e) => {
-    // const { openModal, closeMenu } = await import(
-    //   '../../../actions/modalActions'
-    // )
-    //replyHandler(e, dispatch, openModal, removeAllImages, tweet)
-    //dispatch(closeMenu())
+    e.stopPropagation()
+
+    const { closeMenu } = await import('../../../actions/modalActions')
+    replyHandler(dispatch, tweet)
+    dispatch(closeMenu())
   }
 
   const outsideClickHandler = async (e) => {
     if (modalState.open) {
       if (e.target !== replyModal.current) {
-        //const { closeModal } = await import('../../../actions/modalActions')
+        const { removeAllImages } = await import(
+          '../../../actions/imageActions'
+        )
+        const { closeModal } = await import('../../../actions/modalActions')
 
         dispatch(removeAllImages())
-        //dispatch(closeModal())
+        dispatch(closeModal())
       }
     }
   }
@@ -192,16 +194,11 @@ const TweetTemplate = ({
           type={type}
           images={images}
           previews={previews}
-          addImage={addImage}
-          removeImage={removeImage}
-          removeAllImages={removeAllImages}
-          setPreviewImage={setPreviewImage}
           toastrActions={toastrActions}
         />
         <DeleteMenu
           dispatch={dispatch}
           firebase={firebase}
-          deleteHandler={deleteHandler}
           modalState={modalState}
           profile={profile}
           tweet={tweet}
@@ -235,23 +232,32 @@ const TweetTemplate = ({
                 </RowDiv>
 
                 <RowDiv>
-                  <ProfileImageContainer>
-                    {/* tweet.replyTo && */}
-                    {replyView ? (
-                      <ReplyImageDiv>
-                        <ReplyImageContainer>
-                          <ProfileImage imageURL={tweetCreator?.photoURL} />
-                          <ReplySmallLine />
-                        </ReplyImageContainer>
-                      </ReplyImageDiv>
-                    ) : (
-                      <TweetImageDiv>
-                        <ImageLink>
-                          <ProfileImage imageURL={tweetCreator?.photoURL} />
-                        </ImageLink>
-                      </TweetImageDiv>
-                    )}
-                  </ProfileImageContainer>
+                  <HoverLink
+                    auth={auth}
+                    currProfile={tweetCreator}
+                    profile={profile}
+                  >
+                    <ProfileImageContainer>
+                      {/* tweet.replyTo && */}
+                      {replyView ? (
+                        <ReplyImageDiv>
+                          <ReplyImageContainer>
+                            <ProfileImage imageURL={tweetCreator?.photoURL} />
+                            <ReplySmallLine />
+                          </ReplyImageContainer>
+                        </ReplyImageDiv>
+                      ) : (
+                        <TweetImageDiv>
+                          <ImageLink
+                            to={`/${tweetCreator?.username}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ProfileImage imageURL={tweetCreator?.photoURL} />
+                          </ImageLink>
+                        </TweetImageDiv>
+                      )}
+                    </ProfileImageContainer>
+                  </HoverLink>
 
                   <SideContent>
                     <div>

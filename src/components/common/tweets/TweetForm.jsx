@@ -38,7 +38,6 @@ const TweetForm = ({
   button,
   textarea,
   createTweet,
-  addImage,
   removeImage,
   setPreviewImage,
   images,
@@ -220,9 +219,7 @@ const TweetForm = ({
                           input='image-input'
                           text='Tweet'
                           button={button}
-                          imageInput={(e) =>
-                            imageInput(e, dispatch, addImage, 'form')
-                          }
+                          imageInput={(e) => imageInput(e, dispatch, 'form')}
                           clearInput={clearInput}
                           clickHandler={clickHandler}
                         />

@@ -12,7 +12,6 @@ const CreateModal = ({
   modalState,
   closeModal,
   createTweet,
-  addImage,
   removeImage,
   removeAllImages,
   setPreviewImage,
@@ -50,7 +49,6 @@ const CreateModal = ({
           textarea={textarea}
           createModal={createModal}
           createTweet={createTweet}
-          addImage={addImage}
           removeImage={removeImage}
           setPreviewImage={setPreviewImage}
           images={images}

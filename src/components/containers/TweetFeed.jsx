@@ -2,13 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
-import {
-  addImage,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
-  setTweetImage,
-} from '../../actions/imageActions'
+import { removeImage, setPreviewImage } from '../../actions/imageActions'
 import { createTweet, reply } from '../../actions/tweetActions'
 import {
   MainHeaderContainer,
@@ -54,7 +48,6 @@ const TweetFeed = () => {
         dispatch={dispatch}
         firebase={firebase}
         createTweet={createTweet}
-        addImage={addImage}
         removeImage={removeImage}
         setPreviewImage={setPreviewImage}
         images={images}
@@ -66,7 +59,7 @@ const TweetFeed = () => {
       />
       <FeedLineBreak />
       {filteredTweets &&
-        filteredTweets.map(async (tweet) => (
+        filteredTweets.map((tweet) => (
           <TweetTemplate
             key={tweet.id}
             dispatch={dispatch}
@@ -74,18 +67,14 @@ const TweetFeed = () => {
             reply={reply}
             modalState={modalState}
             users={users}
+            auth={auth}
             profile={profile}
             userID={auth.uid}
             tweet={tweet}
             tweetImages={tweetImages}
-            setTweetImage={setTweetImage}
             type={type}
             images={images}
             previews={previews}
-            addImage={addImage}
-            removeImage={removeImage}
-            removeAllImages={removeAllImages}
-            setPreviewImage={setPreviewImage}
             toastrActions={toastrActions}
           />
         ))}

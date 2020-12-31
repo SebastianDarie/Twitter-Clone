@@ -4,7 +4,9 @@ import { SmallLogo } from '../common/GlobalStyles'
 export const ModalContainer = styled.form`
   background-color: rgba(255, 255, 255, 1);
   display: ${(props) =>
-    props.modalState.open || props.modalState.profile ? 'flex' : 'none'};
+    props.modalState.el === 'signup' || props.modalState.el === 'profile'
+      ? 'flex'
+      : 'none'};
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;

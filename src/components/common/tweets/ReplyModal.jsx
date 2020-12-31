@@ -61,47 +61,48 @@ const ReplyModal = ({
   type,
   images,
   previews,
-  addImage,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
   toastrActions,
 }) => {
   const textarea = useRef()
 
   useEffect(() => {
-    if (type === 'reply') {
-      if (images.length) {
-        let tempArr = []
-        for (const img of images) {
-          const fileURL = URL.createObjectURL(img)
+    ;(async () => {
+      if (type === 'reply') {
+        if (images.length) {
+          let tempArr = []
+          for (const img of images) {
+            const fileURL = URL.createObjectURL(img)
 
-          const component = (
-            <PreviewImage
-              key={img.name}
-              image={img}
-              src={fileURL}
-              dispatch={dispatch}
-              removeImage={removeImage}
-            />
+            const component = (
+              <PreviewImage
+                key={img.name}
+                image={img}
+                src={fileURL}
+                dispatch={dispatch}
+              />
+            )
+
+            tempArr.push(component)
+          }
+          const { setPreviewImage } = await import(
+            '../../../actions/imageActions'
           )
-
-          tempArr.push(component)
+          dispatch(setPreviewImage(tempArr))
+        } else {
+          const { setPreviewImage } = await import(
+            '../../../actions/imageActions'
+          )
+          dispatch(setPreviewImage([]))
         }
-        dispatch(setPreviewImage(tempArr))
-      } else {
-        dispatch(setPreviewImage([]))
       }
-    }
-    let text = textarea.current
-
-    return () => (text.value = '')
+    })()
   }, [images, type, modalState.open])
 
   useEffect(() => {
     if (!modalState.open) {
       button.current.style.opacity = 0.5
       button.current.style.pointerEvents = 'none'
+      textarea.current.value = ''
     }
   }, [button, modalState.open])
 
@@ -117,9 +118,10 @@ const ReplyModal = ({
     button.current.style.pointerEvents = 'none'
     textarea.current.value = ''
 
-    // const { closeModal } = await import('../../../actions/modalActions')
-    // dispatch(removeAllImages())
-    // dispatch(closeModal())
+    const { removeAllImages } = await import('../../../actions/imageActions')
+    const { closeModal } = await import('../../../actions/modalActions')
+    dispatch(removeAllImages())
+    dispatch(closeModal())
   }
 
   const clickHandler = async () => {
@@ -137,7 +139,7 @@ const ReplyModal = ({
         })
       )
     } else {
-      //const { closeModal } = await import('../../../actions/modalActions')
+      const { closeModal } = await import('../../../actions/modalActions')
 
       dispatch(
         reply(
@@ -152,7 +154,7 @@ const ReplyModal = ({
           { firebase }
         )
       )
-      //dispatch(closeModal())
+      dispatch(closeModal())
       textarea.current.value = ''
     }
   }
@@ -289,9 +291,7 @@ const ReplyModal = ({
                         input='reply-image'
                         text='Reply'
                         button={button}
-                        imageInput={(e) =>
-                          imageInput(e, dispatch, addImage, 'reply')
-                        }
+                        imageInput={(e) => imageInput(e, dispatch, 'reply')}
                         clearInput={clearInput}
                         clickHandler={clickHandler}
                       />

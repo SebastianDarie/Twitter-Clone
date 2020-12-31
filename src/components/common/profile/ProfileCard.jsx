@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import {
@@ -7,6 +6,7 @@ import {
   InnerDiv,
   LowerName,
   LowerText,
+  NoHoverLink,
   ProfileImageDiv,
   ProfileImage,
   ProfileText,
@@ -51,10 +51,7 @@ const ProfileCard = ({ profile, userID }) => {
             <ProfileName>
               <InnerDiv>
                 <ProfileText>
-                  <Link
-                    to={`/${currUser?.username}`}
-                    style={{ textDecoration: 'none' }}
-                  >
+                  <NoHoverLink to={`/${currUser?.username}`}>
                     <UpperName>
                       <UpperText>{currUser?.name}</UpperText>
                     </UpperName>
@@ -66,7 +63,7 @@ const ProfileCard = ({ profile, userID }) => {
                         </BackgroundDiv>
                       )}
                     </LowerName>
-                  </Link>
+                  </NoHoverLink>
                 </ProfileText>
                 <FollowBtnContainer>
                   <FollowBtn

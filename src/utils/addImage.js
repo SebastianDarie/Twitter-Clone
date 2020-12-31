@@ -5,7 +5,7 @@ export const clearInput = (e) => {
   e.target.value = null
 }
 
-export const imageInput = async (e, dispatch, addImage, type) => {
+export const imageInput = async (e, dispatch, type) => {
   if (e.target.files[0]) {
     const file = e.target.files[0]
     const blob = await resizeImage(file, 510, 285)
@@ -14,6 +14,8 @@ export const imageInput = async (e, dispatch, addImage, type) => {
       lastModified: new Date().getTime(),
       type: blob.type,
     })
+
+    const { addImage } = await import('../actions/imageActions')
     dispatch(addImage(image, type))
   } else {
     dispatch(

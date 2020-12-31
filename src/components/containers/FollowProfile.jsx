@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import {
@@ -7,6 +6,7 @@ import {
   InnerDiv,
   LowerName,
   LowerText,
+  NoHoverLink,
   ProfileImageDiv,
   ProfileImage,
   ProfileText,
@@ -20,39 +20,47 @@ import {
   ProfileInfoContainer,
   ProfileName,
 } from './FollowProfile'
+import HoverLink from '../common/global/HoverLink'
 import followHandler from '../../utils/followHandler'
 
-const FollowProfile = ({ imageURL, name, username, followID }) => {
+const FollowProfile = ({ user }) => {
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const auth = useSelector((state) => state.firebase.auth)
   const profile = useSelector((state) => state.firebase.profile)
 
-  const followed = profile.following?.includes(followID)
+  const followed = profile.following?.includes(user.id)
 
   return (
     <ProfileInfoContainer>
       <ProfileInfo>
-        <ProfileImageDiv>
-          <div>
-            <ImageLink>
-              <ProfileImage imageURL={imageURL} />
-            </ImageLink>
-          </div>
-        </ProfileImageDiv>
+        <HoverLink
+          auth={auth}
+          currProfile={user}
+          profile={profile}
+          position='relative'
+        >
+          <ProfileImageDiv>
+            <div>
+              <ImageLink to={`/${user.username}`}>
+                <ProfileImage imageURL={user.photoURL} />
+              </ImageLink>
+            </div>
+          </ProfileImageDiv>
+        </HoverLink>
         <ProfileName>
           <InnerDiv>
             <ProfileText>
-              <Link to={`/${username}`} style={{ textDecoration: 'none' }}>
+              <NoHoverLink to={`/${user.username}`}>
                 <div>
                   <UpperName>
-                    <UpperText>{name}</UpperText>
+                    <UpperText>{user.name}</UpperText>
                   </UpperName>
                   <LowerName>
-                    <LowerText>@{username}</LowerText>
+                    <LowerText>@{user.username}</LowerText>
                   </LowerName>
                 </div>
-              </Link>
+              </NoHoverLink>
             </ProfileText>
             <FollowBtnContainer>
               <FollowBtn
@@ -61,7 +69,7 @@ const FollowProfile = ({ imageURL, name, username, followID }) => {
                   followHandler(
                     followed,
                     dispatch,
-                    followID,
+                    user.id,
                     auth,
                     profile,
                     firebase

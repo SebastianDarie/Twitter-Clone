@@ -28,15 +28,7 @@ const FollowSection = () => {
           {filteredUsers
             ? filteredUsers
                 .slice(0, 3)
-                .map((user) => (
-                  <FollowProfile
-                    key={user.id}
-                    imageURL={user.photoURL}
-                    name={user.name}
-                    username={user.username}
-                    followID={user.id}
-                  />
-                ))
+                .map((user) => <FollowProfile key={user.id} user={user} />)
             : null}
         </div>
         <ShowMore>Show more</ShowMore>
