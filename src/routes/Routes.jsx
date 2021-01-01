@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import { Suspense, lazy } from 'react';
 import { Switch } from 'react-router-dom'
 import { useFirestoreConnect } from 'react-redux-firebase'
 import { Container } from '../components/common/GlobalStyles'

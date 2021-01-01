@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense, lazy } from 'react'
+import { useEffect, useRef, Suspense, lazy } from 'react';
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {

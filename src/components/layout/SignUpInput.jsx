@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { forwardRef, useRef, useState } from 'react';
 import composeRefs from '@seznam/compose-react-refs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +13,7 @@ import {
   UsernameInput,
 } from './SignUpInput'
 
-const SignUpInput = React.forwardRef(({ profile, type }, ref) => {
+const SignUpInput = forwardRef(({ profile, type }, ref) => {
   const [changeIcon, setChangeIcon] = useState(false)
 
   const password = useRef()

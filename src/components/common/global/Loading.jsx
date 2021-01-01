@@ -1,4 +1,3 @@
-import React from 'react'
 import { Circle, CircleSVG, Loader } from './Loading'
 
 const Loading = () => {

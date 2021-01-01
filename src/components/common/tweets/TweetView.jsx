@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Suspense, lazy } from 'react'
+import { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from '../../../hooks/useRouter'

@@ -1,4 +1,3 @@
-import React from 'react'
 import SearchBar from '../common/SearchBar.jsx'
 import FollowSection from '../containers/FollowSection.jsx'
 import { TextContainer } from '../common/GlobalStyles'

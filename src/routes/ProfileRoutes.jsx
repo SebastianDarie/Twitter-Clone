@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import { Suspense, lazy } from 'react';
 import { useRouter } from '../hooks/useRouter'
 import { Switch } from 'react-router-dom'
 import {

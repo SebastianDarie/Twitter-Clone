@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { profileClose } from '../../../actions/modalActions'

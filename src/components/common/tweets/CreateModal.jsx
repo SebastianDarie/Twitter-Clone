@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react';
 import { FlavorDiv, PositionModalDiv } from '../GlobalStyles'
 import TweetForm from './TweetForm.jsx'
 import CloseHeader from '../global/CloseHeader'
