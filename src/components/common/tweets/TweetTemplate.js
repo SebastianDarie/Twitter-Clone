@@ -66,6 +66,7 @@ export const ProfileImageContainer = styled.div`
   flex-grow: 0;
   margin-top: 5px;
   margin-right: 10px;
+  height: 100%;
   width: 49px;
 `
 

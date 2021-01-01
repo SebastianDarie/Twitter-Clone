@@ -1,10 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 import {
   BigLineContainer,
   BreakPoint,
   DoublePreviewWrapper,
   FlavorDiv,
-  ImageLink,
   PositionModalDiv,
   ProfileImage,
   ReplyBigLine,
@@ -52,7 +51,6 @@ const ReplyModal = ({
   button,
   replyModal,
   modalState,
-  reply,
   tweet,
   tweetCreator,
   profile,
@@ -96,7 +94,7 @@ const ReplyModal = ({
         }
       }
     })()
-  }, [images, type, modalState.open])
+  }, [images, type])
 
   useEffect(() => {
     if (!modalState.open) {
@@ -139,6 +137,7 @@ const ReplyModal = ({
         })
       )
     } else {
+      const { reply } = await import('../../../actions/tweetActions')
       const { closeModal } = await import('../../../actions/modalActions')
 
       dispatch(
@@ -167,138 +166,121 @@ const ReplyModal = ({
         <ReplySectionContainer>
           <div style={{ paddingBottom: '5px', width: '100%' }}>
             <DoublePaddingDiv>
-              <div>
-                <div>
-                  <Article>
-                    <ColumnFlexer>
-                      <div>
-                        <div></div>
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                          <ProfileImageContainer>
-                            <ReplyImageDiv>
-                              <ReplyImageContainer>
-                                <ProfileImage
-                                  imageURL={tweetCreator?.photoURL}
-                                />
-                                <ReplySmallLine style={{ maxHeight: '50%' }} />
-                              </ReplyImageContainer>
-                            </ReplyImageDiv>
-                          </ProfileImageContainer>
+              <Article>
+                <ColumnFlexer>
+                  <div>
+                    <div></div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <ProfileImageContainer>
+                        <ReplyImageDiv>
+                          <ReplyImageContainer>
+                            <ProfileImage imageURL={tweetCreator?.photoURL} />
+                            <ReplySmallLine style={{ maxHeight: '50%' }} />
+                          </ReplyImageContainer>
+                        </ReplyImageDiv>
+                      </ProfileImageContainer>
 
-                          <InitialTweetContainer>
-                            <div>
-                              <div style={{ marginBottom: '2px' }}>
-                                <NameFlexer>
-                                  <NameContent>
-                                    <NameUsr>
-                                      <CenteredName>
-                                        <BoldName>{name}</BoldName>
-                                        <GrayName>@{username}</GrayName>
-                                      </CenteredName>
-                                    </NameUsr>
-                                    <BreakPoint>&#8901;</BreakPoint>
-                                    <TimeDiv>
-                                      <time
-                                        dateTime={`${formatTime(
-                                          timeStamp.seconds
-                                        )}`}
-                                      >
-                                        {formatTime(timeStamp.seconds)}
-                                      </time>
-                                    </TimeDiv>
-                                  </NameContent>
-                                </NameFlexer>
-                              </div>
-                            </div>
-
-                            <div>
-                              <div>
-                                <TweetContent>{text}</TweetContent>
-                              </div>
-                            </div>
-                          </InitialTweetContainer>
+                      <InitialTweetContainer>
+                        <div>
+                          <div style={{ marginBottom: '2px' }}>
+                            <NameFlexer>
+                              <NameContent>
+                                <NameUsr>
+                                  <CenteredName>
+                                    <BoldName>{name}</BoldName>
+                                    <GrayName>@{username}</GrayName>
+                                  </CenteredName>
+                                </NameUsr>
+                                <BreakPoint>&#8901;</BreakPoint>
+                                <TimeDiv>
+                                  <time
+                                    dateTime={`${formatTime(
+                                      timeStamp.seconds
+                                    )}`}
+                                  >
+                                    {formatTime(timeStamp.seconds)}
+                                  </time>
+                                </TimeDiv>
+                              </NameContent>
+                            </NameFlexer>
+                          </div>
                         </div>
-                      </div>
-                    </ColumnFlexer>
-                  </Article>
-                </div>
 
-                <ReplyAtDiv>
-                  <ReplyAtFlexer>
-                    <BigLineContainer>
-                      <ReplyBigLine />
-                    </BigLineContainer>
-
-                    <div>
-                      <ReplyingToDiv>
-                        Replying to <AtSpan>@{tweetCreator?.username}</AtSpan>
-                      </ReplyingToDiv>
+                        <div>
+                          <div>
+                            <TweetContent>{text}</TweetContent>
+                          </div>
+                        </div>
+                      </InitialTweetContainer>
                     </div>
-                  </ReplyAtFlexer>
-                </ReplyAtDiv>
-              </div>
+                  </div>
+                </ColumnFlexer>
+              </Article>
 
-              <div>
-                <div>
-                  <SidePaddingDiv>
-                    <TweetImageDiv>
-                      <ImageLink>
-                        <ProfileImage imageURL={profile.photoURL} />
-                      </ImageLink>
-                    </TweetImageDiv>
+              <ReplyAtDiv>
+                <ReplyAtFlexer>
+                  <BigLineContainer>
+                    <ReplyBigLine />
+                  </BigLineContainer>
 
-                    <ReplySectionCreator>
-                      <ReplyTextAreaContainer>
-                        <TweetFormInputText>
-                          <TweetFormInputPadding>
-                            <ReplyFormTextArea
-                              ref={textarea}
-                              onFocus={focusHandler}
-                              // onKeyUp={() =>
-                              //   setHeight(textarea.current)
-                              // }
-                            />
-                          </TweetFormInputPadding>
-                        </TweetFormInputText>
-                      </ReplyTextAreaContainer>
+                  <div>
+                    <ReplyingToDiv>
+                      Replying to <AtSpan>@{tweetCreator?.username}</AtSpan>
+                    </ReplyingToDiv>
+                  </div>
+                </ReplyAtFlexer>
+              </ReplyAtDiv>
 
-                      <TweetFormInputContainer>
-                        {previews.length > 1 ? (
-                          <SinglePreviewWrapper>
-                            <DoublePreviewWrapper>
-                              {previews.slice(
-                                0,
-                                Math.floor(previews.length / 2)
-                              )}
-                            </DoublePreviewWrapper>
-                            <DoublePreviewWrapper style={{ marginLeft: '5px' }}>
-                              {previews.slice(
-                                Math.floor(previews.length / 2),
-                                previews.length
-                              )}
-                            </DoublePreviewWrapper>
-                          </SinglePreviewWrapper>
-                        ) : (
-                          previews.length > 0 && (
-                            <SinglePreviewWrapper>
-                              {previews}
-                            </SinglePreviewWrapper>
-                          )
-                        )}
-                      </TweetFormInputContainer>
+              <SidePaddingDiv>
+                <TweetImageDiv>
+                  <ProfileImage imageURL={profile.photoURL} />
+                </TweetImageDiv>
 
-                      <TweetCreator
-                        input='reply-image'
-                        text='Reply'
-                        button={button}
-                        imageInput={(e) => imageInput(e, dispatch, 'reply')}
-                        clearInput={clearInput}
-                        clickHandler={clickHandler}
-                      />
-                    </ReplySectionCreator>
-                  </SidePaddingDiv>
-                </div>
-              </div>
+                <ReplySectionCreator>
+                  <ReplyTextAreaContainer>
+                    <TweetFormInputText>
+                      <TweetFormInputPadding>
+                        <ReplyFormTextArea
+                          ref={textarea}
+                          onFocus={focusHandler}
+                          // onKeyUp={() =>
+                          //   setHeight(textarea.current)
+                          // }
+                        />
+                      </TweetFormInputPadding>
+                    </TweetFormInputText>
+                  </ReplyTextAreaContainer>
+
+                  <TweetFormInputContainer>
+                    {previews.length > 1 ? (
+                      <SinglePreviewWrapper>
+                        <DoublePreviewWrapper>
+                          {previews.slice(0, Math.floor(previews.length / 2))}
+                        </DoublePreviewWrapper>
+                        <DoublePreviewWrapper style={{ marginLeft: '5px' }}>
+                          {previews.slice(
+                            Math.floor(previews.length / 2),
+                            previews.length
+                          )}
+                        </DoublePreviewWrapper>
+                      </SinglePreviewWrapper>
+                    ) : (
+                      previews.length > 0 && (
+                        <SinglePreviewWrapper>{previews}</SinglePreviewWrapper>
+                      )
+                    )}
+                  </TweetFormInputContainer>
+
+                  <TweetCreator
+                    input={tweet.id}
+                    text='Reply'
+                    button={button}
+                    imageInput={(e) => imageInput(e, dispatch, 'reply')}
+                    clearInput={clearInput}
+                    clickHandler={clickHandler}
+                  />
+                </ReplySectionCreator>
+              </SidePaddingDiv>
             </DoublePaddingDiv>
           </div>
         </ReplySectionContainer>

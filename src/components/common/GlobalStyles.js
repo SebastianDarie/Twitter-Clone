@@ -297,6 +297,10 @@ export const Blueish = styled.div`
   color: rgb(15, 20, 25);
   font-size: 15px;
   font-weight: 400;
+
+  &:hover {
+    text-decoration: ${(props) => (props.hover ? 'underline' : 'none')};
+  }
 `
 
 export const TweetFormInputContainer = styled.div`

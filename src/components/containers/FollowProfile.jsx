@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import {
-  ImageLink,
   InnerDiv,
   LowerName,
   LowerText,
@@ -40,11 +39,12 @@ const FollowProfile = ({ user }) => {
           position='relative'
         >
           <ProfileImageDiv>
-            <div>
-              <ImageLink to={`/${user.username}`}>
-                <ProfileImage imageURL={user.photoURL} />
-              </ImageLink>
-            </div>
+            <ProfileImage
+              height='49px'
+              width='49px'
+              loading='lazy'
+              imageURL={user.photoURL}
+            />
           </ProfileImageDiv>
         </HoverLink>
         <ProfileName>

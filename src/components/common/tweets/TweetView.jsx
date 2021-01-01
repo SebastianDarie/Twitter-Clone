@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState, Suspense, lazy } from 'react';
+import { useEffect, useRef, useState, Suspense, lazy } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from '../../../hooks/useRouter'
 import { Link } from 'react-router-dom'
 import { actions as toastrActions } from 'react-redux-toastr'
-import { reply } from '../../../actions/tweetActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowLeft,
@@ -47,6 +46,7 @@ import {
   UpperName,
   UpperText,
   DotIconContainer,
+  NoHoverLink,
 } from '../GlobalStyles'
 import {
   CommentIconContainer,
@@ -67,8 +67,6 @@ import {
   TextMargin,
   TextWrapper,
 } from './TweetView'
-import RightScreen from '../../layout/RightScreen.jsx'
-import TweetTemplate from './TweetTemplate.jsx'
 import formatTime from '../../../utils/formatTime'
 import highlightPattern from '../../../utils/highlightPattern'
 import {
@@ -77,6 +75,8 @@ import {
   likeHandler,
 } from '../../../utils/tweetHandlers'
 
+const TweetTemplate = lazy(() => import('./TweetTemplate.jsx'))
+const RightScreen = lazy(() => import('../../layout/RightScreen.jsx'))
 const ReplyModal = lazy(() => import('./ReplyModal.jsx'))
 const DeleteMenu = lazy(() => import('../global/DeleteMenu.jsx'))
 //const HoverLink = lazy(() => import('../global/HoverLink'))
@@ -117,7 +117,7 @@ const TweetView = () => {
     }
 
     return () => setMainTweet(null)
-  }, [currTweet.replyTo, tweets])
+  }, [currTweet?.replyTo, tweets])
 
   const menuOpener = async (e) => {
     e.stopPropagation()
@@ -148,7 +148,6 @@ const TweetView = () => {
             firebase={firebase}
             button={button}
             modalState={modalState}
-            reply={reply}
             tweet={currTweet}
             tweetCreator={tweetCreator}
             profile={profile}
@@ -211,25 +210,26 @@ const TweetView = () => {
                   <section>
                     <div style={{ position: 'relative' }}>
                       <InitialTweet>
-                        {mainTweet && (
-                          <TweetTemplate
-                            key={mainTweet.id}
-                            dispatch={dispatch}
-                            firebase={firebase}
-                            reply={reply}
-                            replyView={true}
-                            modalState={modalState}
-                            users={users}
-                            profile={profile}
-                            userID={auth.uid}
-                            tweet={mainTweet}
-                            tweetImages={tweetImages}
-                            type={type}
-                            images={images}
-                            previews={previews}
-                            toastrActions={toastrActions}
-                          />
-                        )}
+                        <Suspense fallback={null}>
+                          {mainTweet && (
+                            <TweetTemplate
+                              key={mainTweet.id}
+                              dispatch={dispatch}
+                              firebase={firebase}
+                              replyView={true}
+                              modalState={modalState}
+                              users={users}
+                              profile={profile}
+                              userID={auth.uid}
+                              tweet={mainTweet}
+                              tweetImages={tweetImages}
+                              type={type}
+                              images={images}
+                              previews={previews}
+                              toastrActions={toastrActions}
+                            />
+                          )}
+                        </Suspense>
                         <PaddingArticle>
                           <ColumnDiv>
                             <RowDiv>
@@ -239,8 +239,11 @@ const TweetView = () => {
                             <RowMargin>
                               <ProfileImageDiv>
                                 <div>
-                                  <ImageLink>
+                                  <ImageLink to={`/${tweetCreator?.username}`}>
                                     <ProfileImage
+                                      height='49px'
+                                      width='49px'
+                                      loading='lazy'
                                       imageURL={tweetCreator?.photoURL}
                                     />
                                   </ImageLink>
@@ -249,9 +252,8 @@ const TweetView = () => {
 
                               <InnerDiv>
                                 <ProfileText>
-                                  <Link
+                                  <NoHoverLink
                                     to={`/${tweetCreator?.username}`}
-                                    style={{ textDecoration: 'none' }}
                                   >
                                     <div>
                                       <UpperName>
@@ -265,7 +267,7 @@ const TweetView = () => {
                                         </LowerText>
                                       </LowerName>
                                     </div>
-                                  </Link>
+                                  </NoHoverLink>
                                 </ProfileText>
 
                                 <DotIconContainer
@@ -310,6 +312,9 @@ const TweetView = () => {
                                     ? obj.images.map((img, idx) => (
                                         <TweetImageContainer key={idx}>
                                           <img
+                                            height='285px'
+                                            width='568px'
+                                            loading='lazy'
                                             src={img}
                                             alt='tweet-img'
                                             style={{
@@ -425,26 +430,27 @@ const TweetView = () => {
                           </ColumnDiv>
                         </PaddingArticle>
 
-                        {fullReplies &&
-                          fullReplies.map((tweet) => (
-                            <TweetTemplate
-                              key={tweet.id}
-                              dispatch={dispatch}
-                              firebase={firebase}
-                              reply={reply}
-                              replyView={false}
-                              modalState={modalState}
-                              users={users}
-                              profile={profile}
-                              userID={auth.uid}
-                              tweet={tweet}
-                              tweetImages={tweetImages}
-                              type={type}
-                              images={images}
-                              previews={previews}
-                              toastrActions={toastrActions}
-                            />
-                          ))}
+                        <Suspense fallback={null}>
+                          {fullReplies &&
+                            fullReplies.map((tweet) => (
+                              <TweetTemplate
+                                key={tweet.id}
+                                dispatch={dispatch}
+                                firebase={firebase}
+                                replyView={false}
+                                modalState={modalState}
+                                users={users}
+                                profile={profile}
+                                userID={auth.uid}
+                                tweet={tweet}
+                                tweetImages={tweetImages}
+                                type={type}
+                                images={images}
+                                previews={previews}
+                                toastrActions={toastrActions}
+                              />
+                            ))}
+                        </Suspense>
                       </InitialTweet>
                     </div>
                   </section>

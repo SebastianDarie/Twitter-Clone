@@ -5,12 +5,7 @@ export const MarginContainer = styled.div`
   display: flex;
   flex-basis: 0;
   flex-grow: 1;
-  margin-top: 5px;
   margin-bottom: 5px;
-`
-
-export const MarginTop = styled.div`
-  margin-top: 5px;
 `
 
 export const RemoveBtnContainer = styled.div`

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -37,9 +37,6 @@ const TweetForm = ({
   firebase,
   button,
   textarea,
-  createTweet,
-  removeImage,
-  setPreviewImage,
   images,
   previews,
   type,
@@ -56,29 +53,36 @@ const TweetForm = ({
   textarea = textarea || fallBacktextarea
 
   useEffect(() => {
-    if (type === 'form') {
-      if (images.length) {
-        let tempArr = []
-        for (const img of images) {
-          const fileURL = URL.createObjectURL(img)
+    ;(async () => {
+      if (type === 'form') {
+        if (images.length) {
+          let tempArr = []
+          for (const img of images) {
+            const fileURL = URL.createObjectURL(img)
 
-          const component = (
-            <PreviewImage
-              key={img.name}
-              image={img}
-              src={fileURL}
-              dispatch={dispatch}
-              removeImage={removeImage}
-            />
+            const component = (
+              <PreviewImage
+                key={img.name}
+                image={img}
+                src={fileURL}
+                dispatch={dispatch}
+              />
+            )
+
+            tempArr.push(component)
+          }
+          const { setPreviewImage } = await import(
+            '../../../actions/imageActions'
           )
-
-          tempArr.push(component)
+          dispatch(setPreviewImage(tempArr))
+        } else {
+          const { setPreviewImage } = await import(
+            '../../../actions/imageActions'
+          )
+          dispatch(setPreviewImage([]))
         }
-        dispatch(setPreviewImage(tempArr))
-      } else {
-        dispatch(setPreviewImage([]))
       }
-    }
+    })()
   }, [images, type])
 
   const focusHandler = () => {
@@ -101,7 +105,7 @@ const TweetForm = ({
     textarea[i].addEventListener('input', setHeight(textarea[i]), false)
   }
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     if (textarea.current.value === '' && images.length === 0) {
       dispatch(
         toastrActions.add({
@@ -116,6 +120,8 @@ const TweetForm = ({
         })
       )
     } else {
+      const { createTweet } = await import('../../../actions/tweetActions')
+
       dispatch(
         createTweet(
           textarea.current.value,
@@ -142,8 +148,13 @@ const TweetForm = ({
                 <TweetFormRow>
                   <TweetFormImageContainer>
                     <TweetImageDiv>
-                      <ImageLink>
-                        <ProfileImage imageURL={profile.photoURL} />
+                      <ImageLink to={`/${profile?.username}`}>
+                        <ProfileImage
+                          height='49px'
+                          width='49px'
+                          loading='lazy'
+                          imageURL={profile.photoURL}
+                        />
                       </ImageLink>
                     </TweetImageDiv>
                   </TweetFormImageContainer>
@@ -216,7 +227,7 @@ const TweetForm = ({
                     <div>
                       <div>
                         <TweetCreator
-                          input='image-input'
+                          input={userID}
                           text='Tweet'
                           button={button}
                           imageInput={(e) => imageInput(e, dispatch, 'form')}

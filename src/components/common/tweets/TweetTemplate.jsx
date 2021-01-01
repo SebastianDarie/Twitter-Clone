@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense, lazy } from 'react';
+import { useEffect, useRef, Suspense, lazy } from 'react'
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -15,7 +15,6 @@ import {
   ColumnDiv,
   DotIconContainer,
   //DoublePreviewWrapper,
-  ImageLink,
   HashtagLink,
   LikeHover,
   LowerText,
@@ -70,7 +69,6 @@ const HoverLink = lazy(() => import('../global/HoverLink'))
 const TweetTemplate = ({
   dispatch,
   firebase,
-  reply,
   replyView,
   profileView,
   modalState,
@@ -165,16 +163,13 @@ const TweetTemplate = ({
 
   const hashedText = highlightPattern(tweet.text, /#\w+/gi, HashtagLink)
 
-  // TODO: properly resize images, reply modal for tweet view, get images for prev tweet view, follow users, filter followed users on the right
-  // tweet view determine if tweet is a reply, implement hashtags and @,
-  // use twitter modal for follow, logout, others (search its use on twitter), delete dropdown & modal
+  // TODO: get images for prev tweet view
+  // use twitter modal for follow, logout, others (search its use on twitter), delete modal
   // tweet letter count svg circle, autoresize textarea
-  // Performance: integrate React lazy and Suspense in code, fetch tweet & profile images only once, memoization, caching, service workers
+  // Performance: integrate React lazy and Suspense in code, memoization, caching, service workers
   // link does not go to user profile, image not rendered on tweet creation, outside click logout
   // Completed(might benefit from refactoring later): tweet side btn modal + form = modalform,
-  // make searchbar work, single tweet view, create and reply tweets
-  // Possible Improvement: dispatch images with redux once on load and then check if the redux images contain the currTweet id then don't fetch
-  // Remove useState: signup input, tweet template(images), tweet view
+  // Remove useState: signup input, tweet view
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
@@ -185,7 +180,6 @@ const TweetTemplate = ({
           button={button}
           replyModal={replyModal}
           modalState={modalState}
-          reply={reply}
           tweet={tweet}
           tweetCreator={tweetCreator}
           profile={profile}
@@ -238,22 +232,26 @@ const TweetTemplate = ({
                     profile={profile}
                   >
                     <ProfileImageContainer>
-                      {/* tweet.replyTo && */}
                       {replyView ? (
                         <ReplyImageDiv>
                           <ReplyImageContainer>
-                            <ProfileImage imageURL={tweetCreator?.photoURL} />
+                            <ProfileImage
+                              height='49px'
+                              width='49px'
+                              loading='lazy'
+                              imageURL={tweetCreator?.photoURL}
+                            />
                             <ReplySmallLine />
                           </ReplyImageContainer>
                         </ReplyImageDiv>
                       ) : (
                         <TweetImageDiv>
-                          <ImageLink
-                            to={`/${tweetCreator?.username}`}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <ProfileImage imageURL={tweetCreator?.photoURL} />
-                          </ImageLink>
+                          <ProfileImage
+                            height='49px'
+                            width='49px'
+                            loading='lazy'
+                            imageURL={tweetCreator?.photoURL}
+                          />
                         </TweetImageDiv>
                       )}
                     </ProfileImageContainer>
@@ -317,6 +315,8 @@ const TweetTemplate = ({
                                         loading='lazy'
                                         src={img}
                                         alt='tweet-img'
+                                        height='285px'
+                                        width='507px'
                                         style={{
                                           height: '100%',
                                           width: '100%',

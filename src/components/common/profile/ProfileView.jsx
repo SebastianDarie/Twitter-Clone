@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, Suspense, lazy } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import { ProfilePicture } from '../GlobalStyles'
@@ -23,11 +23,10 @@ import {
   Username,
 } from './ProfileView'
 import { FollowBtn, FollowBtnContainer } from '../../containers/FollowProfile'
-import ProfileModal from './ProfileModal.jsx'
-import ProfileNav from './ProfileNav.jsx'
 import followHandler from '../../../utils/followHandler'
-import { profileClose, profileOpen } from '../../../actions/modalActions'
-import { removePreviews } from '../../../actions/imageActions'
+
+const ProfileModal = lazy(() => import('./ProfileModal.jsx'))
+const ProfileNav = lazy(() => import('./ProfileNav.jsx'))
 
 const ProfileView = ({
   auth,
@@ -53,12 +52,15 @@ const ProfileView = ({
     })
   }
 
-  const outsideClickHandler = (e) => {
+  const outsideClickHandler = async (e) => {
     if (modalState.profile) {
       if (
         e.target !== profileModal.current &&
         e.target === background.current
       ) {
+        const { profileClose } = await import('../../../actions/modalActions')
+        const { removePreviews } = await import('../../../actions/imageActions')
+
         dispatch(profileClose())
         dispatch(removePreviews())
         headerInput.current.value = null
@@ -70,19 +72,24 @@ const ProfileView = ({
   return (
     <div onClick={outsideClickHandler}>
       <ProfileBlackout modalState={modalState} ref={background} />
-      <ProfileModal
-        currProfile={currProfile}
-        firebase={firebase}
-        modalState={modalState}
-        profileModal={profileModal}
-        headerInput={headerInput}
-        profileInput={profileInput}
-      />
+      <Suspense fallback={null}>
+        <ProfileModal
+          currProfile={currProfile}
+          firebase={firebase}
+          modalState={modalState}
+          profileModal={profileModal}
+          headerInput={headerInput}
+          profileInput={profileInput}
+        />
+      </Suspense>
       <ProfileViewContainer>
         <div style={{ width: '100%' }}>
           <HeaderImageContainer>
             {currProfile?.headerURL ? (
               <img
+                height='199px'
+                width='598px'
+                loading='lazy'
                 src={currProfile?.headerURL}
                 alt='header'
                 style={{ maxHeight: '100%', width: '100%' }}
@@ -94,7 +101,12 @@ const ProfileView = ({
           <ProfileDetailsBox>
             <TopContainer>
               <ImageBox>
-                <ProfilePicture currProfile={currProfile} />
+                <ProfilePicture
+                  height='142px'
+                  width='142px'
+                  loading='lazy'
+                  currProfile={currProfile}
+                />
               </ImageBox>
 
               <FollowBtnContainer style={{ marginBottom: 10 }}>
@@ -113,7 +125,14 @@ const ProfileView = ({
                     }
                   ></FollowBtn>
                 ) : (
-                  <SetupBtn onClick={() => dispatch(profileOpen('profile'))}>
+                  <SetupBtn
+                    onClick={async () => {
+                      const { profileOpen } = await import(
+                        '../../../actions/modalActions'
+                      )
+                      dispatch(profileOpen('profile'))
+                    }}
+                  >
                     Set up profile
                   </SetupBtn>
                 )}
@@ -167,7 +186,9 @@ const ProfileView = ({
             </FollowStats>
           </ProfileDetailsBox>
 
-          <ProfileNav currProfile={currProfile} />
+          <Suspense fallback={null}>
+            <ProfileNav currProfile={currProfile} />
+          </Suspense>
         </div>
       </ProfileViewContainer>
     </div>

@@ -2,14 +2,6 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
-import { closeModal, openModal } from '../../actions/modalActions'
-import {
-  addImage,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
-} from '../../actions/imageActions'
-import { createTweet } from '../../actions/tweetActions'
 import { BlackOut } from '../common/GlobalStyles'
 import {
   ButtonDiv,
@@ -45,9 +37,11 @@ const SideNav = () => {
   const button = useRef()
   const textarea = useRef()
 
-  const outsideClickHandler = (e) => {
+  const outsideClickHandler = async (e) => {
     if (modalState.open) {
       if (e.target !== createModal.current) {
+        const { removeAllImages } = await import('../../actions/imageActions')
+        const { closeModal } = await import('../../actions/modalActions')
         dispatch(removeAllImages())
         dispatch(closeModal())
       }
@@ -66,17 +60,11 @@ const SideNav = () => {
         textarea={textarea}
         createModal={createModal}
         modalState={modalState}
-        closeModal={closeModal}
-        createTweet={createTweet}
         profile={profile}
         userID={auth.uid}
         type={type}
         images={images}
         previews={previews}
-        addImage={addImage}
-        removeImage={removeImage}
-        removeAllImages={removeAllImages}
-        setPreviewImage={setPreviewImage}
         toastrActions={toastrActions}
       />
       <Header>
@@ -102,7 +90,13 @@ const SideNav = () => {
                   <TwitterBtn
                     text='Tweet'
                     type='button'
-                    clickHandler={() => {
+                    clickHandler={async () => {
+                      const { removeAllImages } = await import(
+                        '../../actions/imageActions'
+                      )
+                      const { openModal } = await import(
+                        '../../actions/modalActions'
+                      )
                       dispatch(removeAllImages())
                       dispatch(openModal('create'))
                     }}

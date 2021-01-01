@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
-import ProfileHover from './ProfileHover.jsx'
+
+const ProfileHover = lazy(() => import('./ProfileHover.jsx'))
 
 const HoverLink = (props) => {
   const [appear, setAppear] = useState(false)
@@ -9,7 +10,6 @@ const HoverLink = (props) => {
     <Link
       style={{
         position: props.position === 'relative' ? 'relative' : '',
-        height: 'fit-content',
         textDecoration: 'none',
         zIndex: appear ? 99 : 1,
       }}
@@ -20,11 +20,13 @@ const HoverLink = (props) => {
     >
       {props.children}
       {appear && (
-        <ProfileHover
-          auth={props.auth}
-          currProfile={props.currProfile}
-          profile={props.profile}
-        />
+        <Suspense fallback={null}>
+          <ProfileHover
+            auth={props.auth}
+            currProfile={props.currProfile}
+            profile={props.profile}
+          />
+        </Suspense>
       )}
     </Link>
   )

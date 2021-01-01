@@ -1,18 +1,17 @@
 import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
+import { useRouter } from '../../../hooks/useRouter'
 import {
   Blueish,
-  ImageLink,
   LowerName,
   LowerText,
-  NoHoverLink,
   ProfileImage,
   ProfileImageDiv,
   UpperName,
   UpperText,
 } from '../GlobalStyles'
 import { FollowBtn, FollowBtnContainer } from '../../containers/FollowProfile'
-import { FollowingLink, FollowingMargin } from '../profile/ProfileView'
+import { FollowingMargin } from '../profile/ProfileView'
 import { BackgroundDiv } from '../profile/ProfileCard'
 import {
   Box,
@@ -26,6 +25,7 @@ import {
 const ProfileHover = ({ auth, currProfile, profile }) => {
   const dispatch = useDispatch()
   const firebase = useFirebase()
+  const router = useRouter()
 
   let followed = profile.following?.includes(currProfile?.id)
   let following = profile.followers?.includes(currProfile?.id)
@@ -35,9 +35,7 @@ const ProfileHover = ({ auth, currProfile, profile }) => {
         <DimensionsDiv>
           <TopFlexer>
             <ProfileImageDiv>
-              <ImageLink to={`/${currProfile?.username}`}>
-                <ProfileImage imageURL={currProfile?.photoURL} />
-              </ImageLink>
+              <ProfileImage imageURL={currProfile?.photoURL} />
             </ProfileImageDiv>
             <FollowBtnContainer>
               <FollowBtn
@@ -63,21 +61,17 @@ const ProfileHover = ({ auth, currProfile, profile }) => {
           </TopFlexer>
 
           <NameMargin>
-            <NoHoverLink to={`/${currProfile?.username}`}>
-              <div>
-                <UpperName>
-                  <UpperText>{currProfile?.name}</UpperText>
-                </UpperName>
-                <LowerName>
-                  <LowerText>@{currProfile?.username}</LowerText>
-                  {following && (
-                    <BackgroundDiv>
-                      <span>Follows you</span>
-                    </BackgroundDiv>
-                  )}
-                </LowerName>
-              </div>
-            </NoHoverLink>
+            <UpperName>
+              <UpperText>{currProfile?.name}</UpperText>
+            </UpperName>
+            <LowerName>
+              <LowerText>@{currProfile?.username}</LowerText>
+              {following && (
+                <BackgroundDiv>
+                  <span>Follows you</span>
+                </BackgroundDiv>
+              )}
+            </LowerName>
           </NameMargin>
 
           <ContentMargin>
@@ -85,27 +79,37 @@ const ProfileHover = ({ auth, currProfile, profile }) => {
           </ContentMargin>
           <ContentMargin>
             <FollowingMargin>
-              <FollowingLink to={`${currProfile?.username}/following`}>
-                <span>
+              <Blueish hover='hover'>
+                <span
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    router.history.push(`/${currProfile?.username}/following`)
+                  }}
+                >
                   {currProfile?.following.length}
                   <span style={{ color: 'rgb(91,112,131)', whiteSpace: 'pre' }}>
                     {' '}
                     Following
                   </span>
                 </span>
-              </FollowingLink>
+              </Blueish>
             </FollowingMargin>
-            <div>
-              <FollowingLink to={`${currProfile?.username}/followers`}>
-                <span>
-                  {currProfile?.followers.length}
-                  <span style={{ color: 'rgb(91,112,131)', whiteSpace: 'pre' }}>
-                    {' '}
-                    Followers
-                  </span>
+            <Blueish hover='hover'>
+              <span
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  router.history.push(`/${currProfile?.username}/followers`)
+                }}
+              >
+                {currProfile?.followers.length}
+                <span style={{ color: 'rgb(91,112,131)', whiteSpace: 'pre' }}>
+                  {' '}
+                  Followers
                 </span>
-              </FollowingLink>
-            </div>
+              </span>
+            </Blueish>
           </ContentMargin>
         </DimensionsDiv>
       </Box>

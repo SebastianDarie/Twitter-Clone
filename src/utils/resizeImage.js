@@ -11,8 +11,8 @@ const resizeImage = (image, width, height) =>
       0,
       (uri) => resolve(uri),
       'blob',
-      width,
-      height
+      100,
+      100
     )
   })
 

@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react'
 import { Switch } from 'react-router-dom'
 import { useFirestoreConnect } from 'react-redux-firebase'
 import { Container } from '../components/common/GlobalStyles'
@@ -25,9 +25,6 @@ const Routes = () => {
           <PrivateRoute path='/tweet/:id'>
             <TweetView />
           </PrivateRoute>
-          {/* <PrivateRoute path='/home'>
-          <Home />
-        </PrivateRoute> */}
           <PrivateRoute path='/:profile'>
             <ProfileRoutes />
           </PrivateRoute>

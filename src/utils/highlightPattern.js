@@ -1,19 +1,19 @@
 const highlightPattern = (text, pattern, Component) => {
-  if (text.constructor === Array) {
+  if (text?.constructor === Array) {
     return text.map((word) =>
       typeof word === 'string'
         ? highlightPattern(word, pattern, Component)
         : word
     )
   } else {
-    const splitText = text.split(pattern)
-    const matches = text.match(pattern)
+    const splitText = text?.split(pattern)
+    const matches = text?.match(pattern)
 
-    if (splitText.length <= 1) {
+    if (splitText?.length <= 1) {
       return text
     }
 
-    return splitText.reduce(
+    return splitText?.reduce(
       (arr, el, idx) =>
         matches[idx]
           ? [

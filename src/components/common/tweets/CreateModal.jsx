@@ -10,11 +10,6 @@ const CreateModal = ({
   textarea,
   createModal,
   modalState,
-  closeModal,
-  createTweet,
-  removeImage,
-  removeAllImages,
-  setPreviewImage,
   images,
   previews,
   type,
@@ -30,11 +25,13 @@ const CreateModal = ({
     }
   }, [button, modalState.open, textarea])
 
-  const closeHandler = () => {
+  const closeHandler = async () => {
     button.current.style.opacity = 0.5
     button.current.style.pointerEvents = 'none'
     textarea.current.value = ''
 
+    const { removeAllImages } = await import('../../../actions/imageActions')
+    const { closeModal } = await import('../../../actions/modalActions')
     dispatch(removeAllImages())
     dispatch(closeModal())
   }
@@ -47,10 +44,6 @@ const CreateModal = ({
           firebase={firebase}
           button={button}
           textarea={textarea}
-          createModal={createModal}
-          createTweet={createTweet}
-          removeImage={removeImage}
-          setPreviewImage={setPreviewImage}
           images={images}
           previews={previews}
           type={type}

@@ -1,8 +1,7 @@
+import { Suspense, lazy } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
-import { removeImage, setPreviewImage } from '../../actions/imageActions'
-import { createTweet, reply } from '../../actions/tweetActions'
 import {
   MainHeaderContainer,
   MainTweetContainer,
@@ -11,8 +10,9 @@ import {
   PointerPadding,
 } from '../common/GlobalStyles'
 import { FeedLineBreak, PointerText } from './TweetFeed'
-import TweetForm from '../common/tweets/TweetForm.jsx'
-import TweetTemplate from '../common/tweets/TweetTemplate.jsx'
+
+const TweetForm = lazy(() => import('../common/tweets/TweetForm.jsx'))
+const TweetTemplate = lazy(() => import('../common/tweets/TweetTemplate.jsx'))
 
 const TweetFeed = () => {
   const dispatch = useDispatch()
@@ -43,40 +43,38 @@ const TweetFeed = () => {
           </PointerHeight>
         </PointerHeader>
       </MainHeaderContainer>
-      <TweetForm
-        dispatch={dispatch}
-        firebase={firebase}
-        createTweet={createTweet}
-        removeImage={removeImage}
-        setPreviewImage={setPreviewImage}
-        images={images}
-        previews={previews}
-        type={type}
-        profile={profile}
-        userID={auth.uid}
-        toastrActions={toastrActions}
-      />
-      <FeedLineBreak />
-      {filteredTweets &&
-        filteredTweets.map((tweet) => (
-          <TweetTemplate
-            key={tweet.id}
-            dispatch={dispatch}
-            firebase={firebase}
-            reply={reply}
-            modalState={modalState}
-            users={users}
-            auth={auth}
-            profile={profile}
-            userID={auth.uid}
-            tweet={tweet}
-            tweetImages={tweetImages}
-            type={type}
-            images={images}
-            previews={previews}
-            toastrActions={toastrActions}
-          />
-        ))}
+      <Suspense fallback={null}>
+        <TweetForm
+          dispatch={dispatch}
+          firebase={firebase}
+          images={images}
+          previews={previews}
+          type={type}
+          profile={profile}
+          userID={auth.uid}
+          toastrActions={toastrActions}
+        />
+        <FeedLineBreak />
+        {filteredTweets &&
+          filteredTweets.map((tweet) => (
+            <TweetTemplate
+              key={tweet.id}
+              dispatch={dispatch}
+              firebase={firebase}
+              modalState={modalState}
+              users={users}
+              auth={auth}
+              profile={profile}
+              userID={auth.uid}
+              tweet={tweet}
+              tweetImages={tweetImages}
+              type={type}
+              images={images}
+              previews={previews}
+              toastrActions={toastrActions}
+            />
+          ))}
+      </Suspense>
     </MainTweetContainer>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 import { useRouter } from '../../../hooks/useRouter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -24,8 +24,8 @@ const DeleteMenu = ({
   useEffect(() => {
     const outsideClick = async (e) => {
       if (menu.current && !menu.current.contains(e.target)) {
-        const menu = await import('../../../actions/modalActions')
-        dispatch(menu.closeMenu())
+        const { closeMenu } = await import('../../../actions/modalActions')
+        dispatch(closeMenu())
       }
     }
 
