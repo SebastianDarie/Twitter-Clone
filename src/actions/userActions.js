@@ -1,4 +1,4 @@
-import { FOLLOW, UNFOLLOW, UPDATE_PROFILE } from '../constants/userConstants'
+import { FOLLOW, UNFOLLOW } from '../constants/userConstants'
 import { actions as toastrActions } from 'react-redux-toastr'
 
 export const followUser = (

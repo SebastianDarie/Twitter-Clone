@@ -75,7 +75,6 @@ const TweetTemplate = ({
   users,
   auth,
   profile,
-  userID,
   tweet,
   tweetImages,
   type,
@@ -156,20 +155,13 @@ const TweetTemplate = ({
     }
   }
 
-  const liked = tweet.likes.includes(userID)
-  const retweeted = tweet.retweets.includes(userID)
+  const liked = tweet.likes.includes(auth.uid)
+  const retweeted = tweet.retweets.includes(auth.uid)
 
   const tweetCreator = users?.find((user) => user.id === tweet.userID)
 
   const hashedText = highlightPattern(tweet.text, /#\w+/gi, HashtagLink)
 
-  // TODO: get images for prev tweet view
-  // use twitter modal for follow, logout, others (search its use on twitter), delete modal
-  // tweet letter count svg circle, autoresize textarea
-  // Performance: integrate React lazy and Suspense in code, memoization, caching, service workers
-  // link does not go to user profile, image not rendered on tweet creation, outside click logout
-  // Completed(might benefit from refactoring later): tweet side btn modal + form = modalform,
-  // Remove useState: signup input, tweet view
   return (
     <>
       <BlackOut modalState={modalState} onClick={outsideClickHandler} />
@@ -183,7 +175,7 @@ const TweetTemplate = ({
           tweet={tweet}
           tweetCreator={tweetCreator}
           profile={profile}
-          userID={userID}
+          userID={auth.uid}
           formatTime={formatTime}
           type={type}
           images={images}
@@ -196,7 +188,7 @@ const TweetTemplate = ({
           modalState={modalState}
           profile={profile}
           tweet={tweet}
-          userID={userID}
+          userID={auth.uid}
           toastrActions={toastrActions}
         />
         <PositionDiv onClick={redirectClick}>
@@ -207,7 +199,7 @@ const TweetTemplate = ({
                   <TweetPaddingTop>
                     {profileView === 'retweets' &&
                     tweet.retweets &&
-                    tweet.retweets.includes(userID) ? (
+                    tweet.retweets.includes(auth.uid) ? (
                       <RetweetedMargin>
                         <RetweetedIcon>
                           <FontAwesomeIcon icon={faRetweet} />
@@ -230,6 +222,7 @@ const TweetTemplate = ({
                     auth={auth}
                     currProfile={tweetCreator}
                     profile={profile}
+                    type='template'
                   >
                     <ProfileImageContainer>
                       {replyView ? (
@@ -347,7 +340,7 @@ const TweetTemplate = ({
                               retweeted,
                               dispatch,
                               tweet,
-                              userID,
+                              auth.uid,
                               profile,
                               firebase
                             )
@@ -370,7 +363,7 @@ const TweetTemplate = ({
                               liked,
                               dispatch,
                               tweet,
-                              userID,
+                              auth.uid,
                               profile,
                               firebase
                             )

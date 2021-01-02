@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { useEffect, Suspense, lazy } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actions as toastrActions } from 'react-redux-toastr'
@@ -9,12 +9,12 @@ import {
   PointerHeight,
   PointerPadding,
 } from '../common/GlobalStyles'
-import { FeedLineBreak, PointerText } from './TweetFeed'
 
-const TweetForm = lazy(() => import('../common/tweets/TweetForm.jsx'))
+const SearchBar = lazy(() => import('../common/SearchBar.jsx'))
+const ProfileCard = lazy(() => import('../common/profile/ProfileCard.jsx'))
 const TweetTemplate = lazy(() => import('../common/tweets/TweetTemplate.jsx'))
 
-const TweetFeed = () => {
+const ExploreFeed = () => {
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const tweets = useSelector((state) => state.firestore.ordered.tweets)
@@ -26,11 +26,27 @@ const TweetFeed = () => {
   const previews = useSelector((state) => state.image.previewImgs)
   const tweetImages = useSelector((state) => state.image.tweetImgs)
   const type = useSelector((state) => state.image.type)
-  const searchedText = useSelector((state) => state.search.filteredTweet)
+  const searchedText = useSelector((state) => state.search.filteredUser)
 
   const filteredTweets = tweets
     ?.filter((tweet) => !tweet.replyTo)
-    .filter((filteredTweet) => filteredTweet.text.includes(searchedText))
+    .filter(
+      (filteredTweet) =>
+        filteredTweet.name.toLowerCase().includes(searchedText) ||
+        filteredTweet.username.toLowerCase().includes(searchedText)
+    )
+  const filteredUsers = users?.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchedText) ||
+      user.username.toLowerCase().includes(searchedText)
+  )
+
+  useEffect(() => {
+    return async () => {
+      const { searchUsers } = await import('../../actions/searchActions')
+      dispatch(searchUsers(''))
+    }
+  }, [])
 
   return (
     <MainTweetContainer>
@@ -38,23 +54,19 @@ const TweetFeed = () => {
         <PointerHeader>
           <PointerHeight>
             <PointerPadding>
-              <PointerText>Home</PointerText>
+              <Suspense fallback={null}>
+                <SearchBar page='explore' />
+              </Suspense>
             </PointerPadding>
           </PointerHeight>
         </PointerHeader>
       </MainHeaderContainer>
       <Suspense fallback={null}>
-        <TweetForm
-          dispatch={dispatch}
-          firebase={firebase}
-          images={images}
-          previews={previews}
-          type={type}
-          profile={profile}
-          userID={auth.uid}
-          toastrActions={toastrActions}
-        />
-        <FeedLineBreak />
+        {searchedText
+          ? filteredUsers.map((user) => (
+              <ProfileCard key={user.id} profile={profile} userID={user.id} />
+            ))
+          : null}
         {filteredTweets &&
           filteredTweets.map((tweet) => (
             <TweetTemplate
@@ -78,4 +90,4 @@ const TweetFeed = () => {
   )
 }
 
-export default TweetFeed
+export default ExploreFeed

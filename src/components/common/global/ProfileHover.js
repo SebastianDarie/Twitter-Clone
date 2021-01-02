@@ -2,8 +2,9 @@ import styled from 'styled-components'
 
 export const HoverPosition = styled.div`
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: ${(props) => (props.type === 'template' ? '0px' : 'auto')};
+  left: ${(props) => (props.type === 'template' ? '0px' : 'auto')};
+  z-index: 99;
 `
 
 export const Box = styled.div`

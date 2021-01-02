@@ -11,36 +11,25 @@ import {
   TrendsContainer,
 } from './RightScreen'
 
-const RightScreen = () => {
+const RightScreen = ({ page }) => {
   return (
     <RightScreenContainer>
       <HeightDiv>
-        <div style={{ marginTop: 0 }}></div>
         <ElementContainer>
-          <div>
-            <div>
-              <PaddingDiv>
+          <PaddingDiv>
+            {page !== 'explore' ? (
+              <>
                 <SearchBar />
                 <TransparentDiv />
-                <TrendsContainer>
-                  <div>
-                    <div>
-                      <section>
-                        <div>
-                          <div>
-                            <BottomContainer>
-                              <TextContainer>Trends for you</TextContainer>
-                            </BottomContainer>
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </div>
-                </TrendsContainer>
-                <FollowSection />
-              </PaddingDiv>
-            </div>
-          </div>
+              </>
+            ) : null}
+            <TrendsContainer>
+              <BottomContainer>
+                <TextContainer>Trends for you</TextContainer>
+              </BottomContainer>
+            </TrendsContainer>
+            <FollowSection />
+          </PaddingDiv>
         </ElementContainer>
       </HeightDiv>
     </RightScreenContainer>

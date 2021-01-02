@@ -219,8 +219,8 @@ const TweetView = () => {
                               replyView={true}
                               modalState={modalState}
                               users={users}
+                              auth={auth}
                               profile={profile}
-                              userID={auth.uid}
                               tweet={mainTweet}
                               tweetImages={tweetImages}
                               type={type}
@@ -440,8 +440,8 @@ const TweetView = () => {
                                 replyView={false}
                                 modalState={modalState}
                                 users={users}
+                                auth={auth}
                                 profile={profile}
-                                userID={auth.uid}
                                 tweet={tweet}
                                 tweetImages={tweetImages}
                                 type={type}

@@ -11,7 +11,7 @@ const HoverLink = (props) => {
       style={{
         position: props.position === 'relative' ? 'relative' : '',
         textDecoration: 'none',
-        zIndex: appear ? 99 : 1,
+        zIndex: appear ? 98 : 1,
       }}
       to={`/${props.currProfile?.username}` || '/'}
       onMouseOver={() => setAppear(true)}
@@ -25,6 +25,7 @@ const HoverLink = (props) => {
             auth={props.auth}
             currProfile={props.currProfile}
             profile={props.profile}
+            type={props.type}
           />
         </Suspense>
       )}

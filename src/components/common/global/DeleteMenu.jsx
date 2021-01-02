@@ -21,18 +21,18 @@ const DeleteMenu = ({
   const router = useRouter()
   const menu = useRef()
 
-  useEffect(() => {
-    const outsideClick = async (e) => {
-      if (menu.current && !menu.current.contains(e.target)) {
-        const { closeMenu } = await import('../../../actions/modalActions')
-        dispatch(closeMenu())
-      }
-    }
+  //   useEffect(() => {
+  //     const outsideClick = async (e) => {
+  //       if (menu.current && !menu.current.contains(e.target)) {
+  //         const { closeMenu } = await import('../../../actions/modalActions')
+  //         dispatch(closeMenu())
+  //       }
+  //     }
 
-    document.addEventListener('click', outsideClick)
+  //     document.addEventListener('click', outsideClick)
 
-    return () => document.removeEventListener('click', outsideClick)
-  }, [])
+  //     return () => document.removeEventListener('click', outsideClick)
+  //   }, [])
 
   const deleteClick = async (e) => {
     const { deleteHandler } = await import('../../../utils/tweetHandlers')

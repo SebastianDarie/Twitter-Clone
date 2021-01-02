@@ -54,7 +54,6 @@ const ProfileFeed = ({ currProfile, profileView }) => {
             users={users}
             auth={auth}
             profile={profile}
-            userID={auth.uid}
             tweet={tweet}
             tweetImages={tweetImages}
             type={type}

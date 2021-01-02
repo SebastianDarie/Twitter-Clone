@@ -37,6 +37,7 @@ const FollowProfile = ({ user }) => {
           currProfile={user}
           profile={profile}
           position='relative'
+          type='profile'
         >
           <ProfileImageDiv>
             <ProfileImage

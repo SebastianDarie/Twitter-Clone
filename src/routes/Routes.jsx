@@ -7,6 +7,7 @@ import PrivateRoute from '../components/containers/auth/PrivateRoute'
 
 const SideNav = lazy(() => import('../components/layout/SideNav.jsx'))
 const Home = lazy(() => import('../pages/Home.jsx'))
+const Explore = lazy(() => import('../pages/Explore'))
 const ProfileRoutes = lazy(() => import('./ProfileRoutes'))
 const TweetView = lazy(() =>
   import('../components/common/tweets/TweetView.jsx')
@@ -22,6 +23,9 @@ const Routes = () => {
       <SideNav />
       <Suspense fallback={<Loading />}>
         <Switch>
+          <PrivateRoute exact path='/explore'>
+            <Explore />
+          </PrivateRoute>
           <PrivateRoute path='/tweet/:id'>
             <TweetView />
           </PrivateRoute>

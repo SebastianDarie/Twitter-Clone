@@ -1,16 +1,16 @@
 import styled from 'styled-components'
 
 export const SearchContainer = styled.div`
-  position: fixed;
-  top: 0px;
+  position: ${(props) => (props.page === 'explore' ? '' : 'fixed')};
+  top: ${(props) => (props.page === 'explore' ? '' : '0px')};
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: rgba(255, 255, 255, 1);
   height: 53px;
   min-height: 30px;
-  margin-bottom: 10px;
-  width: 350px;
+  margin-bottom: ${(props) => (props.page === 'explore' ? '' : '10px')};
+  width: ${(props) => (props.page === 'explore' ? '100%' : '350px')};
   z-index: 2;
 `
 

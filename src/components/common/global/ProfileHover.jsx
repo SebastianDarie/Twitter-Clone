@@ -22,7 +22,7 @@ import {
   TopFlexer,
 } from './ProfileHover'
 
-const ProfileHover = ({ auth, currProfile, profile }) => {
+const ProfileHover = ({ auth, currProfile, profile, type }) => {
   const dispatch = useDispatch()
   const firebase = useFirebase()
   const router = useRouter()
@@ -30,7 +30,7 @@ const ProfileHover = ({ auth, currProfile, profile }) => {
   let followed = profile.following?.includes(currProfile?.id)
   let following = profile.followers?.includes(currProfile?.id)
   return (
-    <HoverPosition>
+    <HoverPosition type={type}>
       <Box>
         <DimensionsDiv>
           <TopFlexer>

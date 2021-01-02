@@ -22,7 +22,6 @@ import ProfileCard from './ProfileCard.jsx'
 
 const FollowFeed = () => {
   const router = useRouter()
-  //   const auth = useSelector((state) => state.firebase.auth)
   const profile = useSelector((state) => state.firebase.profile)
   const users = useSelector((state) => state.firestore.ordered.users)
 

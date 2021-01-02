@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import {
-  ImageLink,
   InnerDiv,
   LowerName,
   LowerText,
@@ -25,6 +24,7 @@ import {
   Column,
   PaddingContainer,
 } from './ProfileCard'
+import HoverLink from '../global/HoverLink'
 import followHandler from '../../../utils/followHandler'
 
 const ProfileCard = ({ profile, userID }) => {
@@ -41,11 +41,16 @@ const ProfileCard = ({ profile, userID }) => {
     <BorderContainer>
       <PaddingContainer>
         <ProfileInfo style={{ width: '100%' }}>
-          <ProfileImageDiv>
-            <ImageLink>
+          <HoverLink
+            auth={auth}
+            currProfile={currUser}
+            profile={profile}
+            type='profile'
+          >
+            <ProfileImageDiv>
               <ProfileImage imageURL={currUser?.photoURL} />
-            </ImageLink>
-          </ProfileImageDiv>
+            </ProfileImageDiv>
+          </HoverLink>
           <Column>
             <ProfileName>
               <InnerDiv>

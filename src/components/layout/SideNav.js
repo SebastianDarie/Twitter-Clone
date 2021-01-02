@@ -51,7 +51,7 @@ export const LogoHeader = styled.h1`
 `
 
 export const LogoLink = styled(Link).attrs({
-  to: '/home',
+  to: '/',
 })`
   display: flex;
   align-items: center;
